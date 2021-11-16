@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+using Photon.Pun;
 public class Car_Controller : MonoBehaviour
 {
+    private PhotonView m_PhotonView;
+    [SerializeField] private GameObject m_Canvas;
+
     //Public Variables
     [Header("Wheel Colliders")]
     public WheelCollider FL;
@@ -145,6 +148,18 @@ public class Car_Controller : MonoBehaviour
     [HideInInspector]public float currSpeed;
 
     void Start(){
+        m_PhotonView = GetComponent<PhotonView>();
+
+        if(m_PhotonView.IsMine)
+        {
+            //Destroy(this);
+        }
+        else
+        {
+            Destroy(rb);
+            Destroy(m_Canvas);
+        }
+
         //To Prevent The Car From Toppling When Turning Too Much
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = Center_of_Mass.localPosition;
@@ -203,8 +218,15 @@ public class Car_Controller : MonoBehaviour
     }
 
     public void FixedUpdate(){
+
+        if(!m_PhotonView.IsMine)
+        {
+            return;
+        }
+
         //Changing Gears
-        if(Gears_Speed[Current_Gear_num] < Car_Speed_KPH && Current_Gear_num != Gears_Speed.Count){
+
+        if (Gears_Speed[Current_Gear_num] < Car_Speed_KPH && Current_Gear_num != Gears_Speed.Count){
             Current_Gear_num++;
             Current_Gear = (Current_Gear_num + 1).ToString();
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Camera_Controller : MonoBehaviour
 {
@@ -15,6 +16,14 @@ public class Camera_Controller : MonoBehaviour
 	public float defaultFOV = 60f;
 
 	private Vector3 rotationVector;
+
+	private void Start()
+	{
+		if(!GetComponent<PhotonView>().IsMine)
+		{
+			this.gameObject.SetActive(false);
+		}
+	}
 
 	void LateUpdate(){
 		float wantedAngle = rotationVector.y;

@@ -38,6 +38,11 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RPC_AddDeathToUI
+  - RPC_ChangeVitality
+  - RPC_EquipItem
+  - RPC_ShowFloatingText
+  - RPC_UpdateReadyState
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
