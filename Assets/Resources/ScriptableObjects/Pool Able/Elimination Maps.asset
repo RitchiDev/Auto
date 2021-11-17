@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 551489bdd750d7643a19677a46cdbc8c, type: 3}
-  m_Name: Elemination Maps
+  m_Name: Elimination Maps
   m_EditorClassIdentifier: 
   m_Prefab: {fileID: 7951711596210139002, guid: 8c7f0d1478d811f408ceab6d21641c14,
     type: 3}

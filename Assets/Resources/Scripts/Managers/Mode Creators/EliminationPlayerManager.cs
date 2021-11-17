@@ -2,9 +2,9 @@ using Photon.Pun;
 using System.IO;
 using UnityEngine;
 
-namespace GameMode.Elemination
+namespace GameMode.Elimination
 {
-    public class EleminationPlayerManager : PlayerManager
+    public class EliminationPlayerManager : PlayerManager
     {
         private GameObject m_Player;
         [SerializeField] private GameObject m_PlayerDiedListItemPrefab;

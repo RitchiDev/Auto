@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7373d52c2d68e8142b1823a791596269, type: 3}
-  m_Name: Elemination
+  m_Name: Elimination
   m_EditorClassIdentifier: 
-  m_GameModeName: Elemination
+  m_GameModeName: Elimination
   m_GameModeDescription: 
   m_PhotonPrefabsFolder: PhotonPrefabs
   m_PlayerManagerString: PlayerManager (Elemination)
-  m_PlayerControllerString: EleminationCarController
+  m_PlayerControllerString: EliminationCarController
   m_PlayerListItemString: PlayerListItem InRoom
   m_MinimumPlayers: 2
   m_MaximumPlayers: 10

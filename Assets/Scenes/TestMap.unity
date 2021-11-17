@@ -6548,7 +6548,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh323742
+  m_Name: pb_Mesh34480
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12048,7 +12048,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh323800
+  m_Name: pb_Mesh41756
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22754,6 +22754,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fffa497aeebf40478823c162f357349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!4 &1397358410623215790
 Transform:
   m_ObjectHideFlags: 0
