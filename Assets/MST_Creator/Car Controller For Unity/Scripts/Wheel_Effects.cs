@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Wheel_Effects : MonoBehaviour
 {
+    private PhotonView m_PhotonView;
+
     //Variables
     [Header("Tire Mark Trail Renderers")]
     public TrailRenderer[] Tire_Marks;
@@ -18,41 +21,57 @@ public class Wheel_Effects : MonoBehaviour
     private bool Tire_Marks_Flag;
     private bool is_drifting;
 
-    public void Start(){
-        foreach(TrailRenderer T in Tire_Marks){
+    public void Start()
+    {
+        m_PhotonView = GetComponent<PhotonView>();
+
+        foreach(TrailRenderer T in Tire_Marks)
+        {
             T.emitting = false;
         }
 
         if(Enable_Particle_System){
-            foreach(ParticleSystem P in Skid_Particles){
+            foreach(ParticleSystem P in Skid_Particles)
+            {
                 P.Stop();
             }
         }
     }
 
     //Update function to check the drifting every frame
-    void FixedUpdate(){
+    void FixedUpdate()
+    {
+        if(!m_PhotonView.IsMine)
+        {
+            return;
+        }
+
         Check_Drift();
     }
 
     //Check if drifting or braking
-    public void Check_Drift(){
-        if(Input.GetKey(KeyCode.Space)){
+    public void Check_Drift()
+    {
+        if(Input.GetKey(KeyCode.Space))
+        {
             StartEmitter();
         }
 
-        else if (car_Controller.tempo != 0.5){
+        else if (car_Controller.tempo != 0.5)
+        {
             StartEmitter();
             is_drifting = true;
         }
 
-        else{
+        else
+        {
             StopEmitter();
         }
     }
 
     //Start Renderring Trail
-    public void StartEmitter(){
+    public void StartEmitter()
+    {
         if(Tire_Marks_Flag) return;
 
         foreach (TrailRenderer T in Tire_Marks)
@@ -60,7 +79,8 @@ public class Wheel_Effects : MonoBehaviour
             T.emitting = true;
         }
 
-        if(Enable_Particle_System && is_drifting){
+        if(Enable_Particle_System && is_drifting)
+        {
             foreach (ParticleSystem P in Skid_Particles)
             {
                 P.Play();
@@ -71,7 +91,8 @@ public class Wheel_Effects : MonoBehaviour
     }
 
     //Stop Renderring Trail
-    public void StopEmitter(){
+    public void StopEmitter()
+    {
         if(!Tire_Marks_Flag) return;
 
         foreach (TrailRenderer T in Tire_Marks)
@@ -79,7 +100,8 @@ public class Wheel_Effects : MonoBehaviour
             T.emitting = false;
         }
 
-        if(Enable_Particle_System){
+        if(Enable_Particle_System)
+        {
             foreach (ParticleSystem P in Skid_Particles)
             {
                 P.Stop();

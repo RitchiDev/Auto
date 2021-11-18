@@ -85,10 +85,10 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        //if(!AllPlayersReady() || PhotonNetwork.PlayerList.Count() <= 1)
-        //{
-        //    return;
-        //}
+        if(!AllPlayersReady() || !MinimumPlayersReached())
+        {
+            return;
+        }
 
         if(GameModeManager.Instance.SelectedGameMode.CloseRoomOnStart)
         {
@@ -98,36 +98,32 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(m_GameSceneIndex);
     }
 
-    public void UpdateReadyState(bool ready)
+    private bool AllPlayersReady()
     {
-        //Player[] players = PhotonNetwork.PlayerList;
-
-        //for (int i = 0; i < players.Length; i++)
-        //{
-        //    bool test = (bool)players[i].CustomProperties["ReadyState"];
-        //    int amount = test ? 1 : -1;
-        //    m_ReadyPlayers = Mathf.Clamp(m_ReadyPlayers + amount, 0, PhotonNetwork.PlayerList.Count());
-
-        //    Debug.Log(test);
-        //}
-    }
-
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, PhotonHashtable changedProps)
-    {
-        bool test = (bool)targetPlayer.CustomProperties["ReadyState"];
-        int amount = test ? 1 : -1;
-        m_ReadyPlayers = Mathf.Clamp(m_ReadyPlayers + amount, 0, PhotonNetwork.PlayerList.Count());
-
-        foreach (ReadyToggle toggle in m_TogglesInRoom)
+        int readyPlayers = 0;
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            //toggle.UpdateToggle(targetPlayer);
+            if ((bool)player.CustomProperties[PlayerProperties.PlayerIsReady])
+            {
+                Debug.Log(player.NickName + " is Ready");
+                readyPlayers++;
+            }
+        }
+
+        if (readyPlayers != PhotonNetwork.PlayerList.Length)
+        {
+            Debug.Log("Some players aren't ready");
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
-
-    private bool AllPlayersReady()
+    private bool MinimumPlayersReached()
     {
-        return m_ReadyPlayers == PhotonNetwork.PlayerList.Count();
+        return PhotonNetwork.PlayerList.Length >= GameModeManager.Instance.SelectedGameMode.MinimumPlayers;
     }
 
     public override void OnConnectedToMaster()
@@ -190,7 +186,8 @@ public class Launcher : MonoBehaviourPunCallbacks
             ReadyToggle toggle = item.GetComponentInChildren<ReadyToggle>();
             if(toggle)
             {
-                toggle.Interactable(player == PhotonNetwork.LocalPlayer);
+                toggle.SetUp(player);
+                //toggle.Interactable(player == PhotonNetwork.LocalPlayer);
                 //toggle.UpdateToggle(PhotonNetwork.LocalPlayer);
                 m_TogglesInRoom.Add(toggle);
             }
@@ -200,7 +197,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);
         m_StartGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
-
+    
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);
@@ -268,7 +265,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         ReadyToggle toggle = item.GetComponentInChildren<ReadyToggle>();
         if (toggle)
         {
-            toggle.Interactable(newPlayer == PhotonNetwork.LocalPlayer);
+            toggle.SetUp(newPlayer);
+            //toggle.Interactable(newPlayer == PhotonNetwork.LocalPlayer);
             //toggle.UpdateToggle(newPlayer);
             m_TogglesInRoom.Add(toggle);
         }

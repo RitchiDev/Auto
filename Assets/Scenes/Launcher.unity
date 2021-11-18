@@ -5252,6 +5252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Pools:
   - {fileID: 962444742}
+  - {fileID: 1327237728}
 --- !u!4 &698367930
 Transform:
   m_ObjectHideFlags: 0
@@ -5264,6 +5265,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 962444741}
+  - {fileID: 1327237729}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9873,6 +9875,51 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1327237727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1327237729}
+  - component: {fileID: 1327237728}
+  m_Layer: 0
+  m_Name: Test Maps Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1327237728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327237727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4e12b64c5767a43a19892f3b176ae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PoolObject: {fileID: 11400000, guid: da535aa6b91c5504a94ae57c56ba0a9d, type: 2}
+  m_IncreaseAmount: 1
+--- !u!4 &1327237729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327237727}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 698367930}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1327262831
 GameObject:
   m_ObjectHideFlags: 0
@@ -12978,6 +13025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GameModes:
+  - {fileID: 11400000, guid: 096f9ccbc9ee3dd4eb8afa0d37bf0746, type: 2}
   - {fileID: 11400000, guid: d2730356ddebdcb4d9030e27dfaa88ba, type: 2}
   m_RoomManager: {fileID: 286613777}
   m_GameModeNameText: {fileID: 758796267}

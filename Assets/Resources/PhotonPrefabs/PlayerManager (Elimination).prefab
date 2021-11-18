@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1474071564791067879}
   - component: {fileID: 5179778735624376635}
   m_Layer: 0
-  m_Name: PlayerManager (Elemination)
+  m_Name: PlayerManager (Elimination)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

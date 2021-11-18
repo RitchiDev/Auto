@@ -30,26 +30,4 @@ public abstract class PlayerManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Added death to UI");
     }
-
-    public virtual void ReturnToTitleScreen()
-    {
-        StartCoroutine(LeaveAndLoad());
-    }
-
-    private IEnumerator LeaveAndLoad()
-    {
-        PhotonNetwork.LeaveRoom();
-
-        while (PhotonNetwork.InRoom)
-        {
-            yield return null;
-        }
-        while (!PhotonNetwork.IsConnected)
-        {
-            yield return null;
-        }
-        
-        Destroy(RoomManager.Instance.gameObject);
-        PhotonNetwork.LoadLevel(0); // Titlescreen
-    }
 }

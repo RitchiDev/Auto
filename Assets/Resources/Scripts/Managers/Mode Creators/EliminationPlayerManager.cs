@@ -6,7 +6,8 @@ namespace GameMode.Elimination
 {
     public class EliminationPlayerManager : PlayerManager
     {
-        private GameObject m_Player;
+        private GameObject m_PlayerController;
+        public GameObject PlayerController => m_PlayerController;
         [SerializeField] private GameObject m_PlayerDiedListItemPrefab;
         [SerializeField] private Transform m_DeadPlayerListContent;
         private float m_DeactivateDeadPlayerPopupTimer;
@@ -27,19 +28,18 @@ namespace GameMode.Elimination
             byte group = 0;
             string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
             string path2 = RoomManager.Instance.GameModeSettings.PlayerControllerString;
-            m_Player = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+            m_PlayerController = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+
+            if(InGameUIManager.Instance)
+            {
+                InGameUIManager.Instance.SetCurrentPlayerController(m_PlayerController);
+            }
         }
 
         public override void RespawnPlayer()
         {
-            PhotonNetwork.Destroy(m_Player);
+            PhotonNetwork.Destroy(m_PlayerController);
             CreatePlayer();
-        }
-
-        public override void ReturnToTitleScreen()
-        {
-            PhotonNetwork.Destroy(m_Player);
-            base.ReturnToTitleScreen();
         }
 
         public override void AddDeathToUI(string name)

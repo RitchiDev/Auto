@@ -9,54 +9,49 @@ using UnityEngine.UI;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 public class ReadyToggle : MonoBehaviourPun
 {
+    private PhotonView m_PhotonView;
     [SerializeField] private Toggle m_Toggle;
     [SerializeField] private TMP_Text m_ReadyStateText;
-    private PhotonHashtable m_Hashtable;
-    private PhotonView m_PhotonView;
+    private bool m_PlayerIsReady = false;
+    private Player m_Player;
+    public Player Player => m_Player;
 
-    private void Awake()
+    private void Start()
     {
         m_PhotonView = GetComponent<PhotonView>();
-        m_Hashtable = new PhotonHashtable();
     }
 
-    public void Interactable(bool value)
+    public void SetUp(Player player)
     {
-        m_Toggle.interactable = value;
+        m_Player = player;
+
+        if(PhotonNetwork.LocalPlayer != player)
+        {
+            m_Toggle.gameObject.SetActive(false);
+            //m_Toggle.interactable = false;
+        }
+        else
+        {
+            //m_Toggle.interactable = true;
+            PhotonHashtable initialProperties = new PhotonHashtable() { { PlayerProperties.PlayerIsReady, m_PlayerIsReady } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(initialProperties);
+            m_Toggle.onValueChanged.AddListener(delegate { UpdateToggle(); }) ;
+        }
     }
 
-    public void UpdateReadyState()
+    public void UpdateToggle()
     {
-        m_PhotonView.RPC("RPC_UpdateReadyState", RpcTarget.All, PhotonNetwork.LocalPlayer.NickName);
+        m_PlayerIsReady = !m_PlayerIsReady;
+        m_PhotonView.RPC("RPCUpdateToggle", RpcTarget.All);
 
-        m_Hashtable["ReadyState"] = m_Toggle.isOn;
-        PhotonNetwork.SetPlayerCustomProperties(m_Hashtable);
-        //Launcher.Instance.UpdateReadyState(m_Toggle.isOn);
+        PhotonHashtable newProperties = new PhotonHashtable() { { PlayerProperties.PlayerIsReady, m_PlayerIsReady } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(newProperties);
     }
 
     [PunRPC]
-    private void RPC_UpdateReadyState(string test)
+    private void RPCUpdateToggle()
     {
-        PlayerListItem[] items = FindObjectsOfType<PlayerListItem>();
-        Debug.Log(items.Length);
-        for (int i = 0; i < items.Length; i++)
-        {
-            if(items[i].Player?.NickName == test)
-            {
-                Debug.Log(test + " Toggled");
-                items[i].ToggleReadyState();
-                //m_ReadyStateText.text = m_Toggle.isOn ? "Ready!" : "Not Ready";
-                //m_ReadyStateText.text = m_Toggle.isOn ? "Ready!" : "Not Ready";
-            }
-        }
-    }
-    
-    public void UpdateToggle(Player player)
-    {
-        if(player == PhotonNetwork.LocalPlayer)
-        {
-            Debug.Log(player.NickName + " Edited Toggle");
-            m_ReadyStateText.text = m_Toggle.isOn ? "Ready!" : "Not Ready";
-        }
+        m_ReadyStateText.text = m_PlayerIsReady ? "Ready!" : "Not Ready";
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName + "Ready: " + m_PlayerIsReady);
     }
 }

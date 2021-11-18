@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+
 public class Car_Controller : MonoBehaviour
 {
     private PhotonView m_PhotonView;
@@ -160,13 +161,20 @@ public class Car_Controller : MonoBehaviour
             Destroy(m_Canvas);
         }
 
+        SetupCar();
+    }
+
+    private void SetupCar()
+    {
         //To Prevent The Car From Toppling When Turning Too Much
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = Center_of_Mass.localPosition;
 
         //Play Car Particle System
-        if(Use_Particle_Systems){
-            foreach(ParticleSystem P in Car_Smoke_From_Silencer){
+        if (Use_Particle_Systems)
+        {
+            foreach (ParticleSystem P in Car_Smoke_From_Silencer)
+            {
                 P.Play();
             }
         }
@@ -174,44 +182,56 @@ public class Car_Controller : MonoBehaviour
         //Set the current gear to 0
         Current_Gear = "0";
         Current_Gear_num = 0;
-        
+
         //Here we just set the lights to turn on and off at play.
 
         //We turn the headlights on here
-        if(Enable_Headlights_Lights){
-            foreach(Light H in HeadLights){
+        if (Enable_Headlights_Lights)
+        {
+            foreach (Light H in HeadLights)
+            {
                 H.enabled = true;
             }
         }
 
-        if(Enable_Headlights_MeshRenderers){
-            foreach(MeshRenderer HM in HeadLights_MeshRenderers){
+        if (Enable_Headlights_MeshRenderers)
+        {
+            foreach (MeshRenderer HM in HeadLights_MeshRenderers)
+            {
                 HM.enabled = true;
             }
         }
 
         //Here we turn the reverse light(s) off
-        if(Enable_Reverselights_Lights){
-            foreach(Light R in ReverseLights){
+        if (Enable_Reverselights_Lights)
+        {
+            foreach (Light R in ReverseLights)
+            {
                 R.enabled = false;
             }
         }
 
-        if(Enable_Reverselights_MeshRenderers){
-            foreach(MeshRenderer RM in ReverseLights_MeshRenderers){
+        if (Enable_Reverselights_MeshRenderers)
+        {
+            foreach (MeshRenderer RM in ReverseLights_MeshRenderers)
+            {
                 RM.enabled = false;
             }
         }
 
         //Here we turn off the brakelights
-        if(Enable_Brakelights_Lights){
-            foreach(Light B in BrakeLights){
+        if (Enable_Brakelights_Lights)
+        {
+            foreach (Light B in BrakeLights)
+            {
                 B.enabled = false;
             }
         }
 
-        if(Enable_Brakelights_MeshRenderers){
-            foreach(MeshRenderer BM in BrakeLights_MeshRenderers){
+        if (Enable_Brakelights_MeshRenderers)
+        {
+            foreach (MeshRenderer BM in BrakeLights_MeshRenderers)
+            {
                 BM.enabled = true;
             }
         }
