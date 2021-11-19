@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
+    public static Launcher Instance { get; private set; }
+
     [Header("Online")]
     [SerializeField] private TMP_InputField m_PlayerNameInputField;
 
@@ -17,7 +18,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     [Header("In Room")]
     [SerializeField] private TMP_Text m_RoomNameText;
-    [SerializeField] private int m_GameSceneIndex;
     [SerializeField] private Transform m_PlayerListContent;
     [SerializeField] private GameObject m_StartGameButton;
     [SerializeField] private GameObject m_ChooseMapBlocker;
@@ -31,10 +31,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     [Header("Debug")]
     [SerializeField] private TMP_Text m_ErrorText;
 
-    public static Launcher Instance { get; private set; }
-    public int GameSceneIndex => m_GameSceneIndex;
-
-    private int m_ReadyPlayers;
 
     private void Awake()
     {
@@ -95,7 +91,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
 
-        PhotonNetwork.LoadLevel(m_GameSceneIndex);
+        PhotonNetwork.LoadLevel(GameModeManager.Instance.CurrentSelectedSceneIndex);
     }
 
     private bool AllPlayersReady()
@@ -146,12 +142,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+        m_RoomNameInputField.text = m_RoomNameInputField.text.Replace(" ", "_");
+
         if (string.IsNullOrEmpty(m_RoomNameInputField.text))
         {
-            return;
+            m_RoomNameInputField.text = PhotonNetwork.NickName + "'s Room";
         }
-
-        m_RoomNameInputField.text = m_RoomNameInputField.text.Replace(" ", "_");
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = (byte)GameModeManager.Instance.MaxPlayers;

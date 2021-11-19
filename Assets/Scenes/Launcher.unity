@@ -11199,7 +11199,6 @@ MonoBehaviour:
   m_PlayerNameInputField: {fileID: 291717887}
   m_RoomNameInputField: {fileID: 1185790246}
   m_RoomNameText: {fileID: 679305254}
-  m_GameSceneIndex: 1
   m_PlayerListContent: {fileID: 880639076}
   m_StartGameButton: {fileID: 369195291}
   m_ChooseMapBlocker: {fileID: 1269142514}

@@ -18,7 +18,8 @@ public class GameModeManager : MonoBehaviour
     [SerializeField] private Transform m_MapsItemContent;
     private int m_MaxPlayers;
     public int MaxPlayers => m_MaxPlayers;
-    private int m_GameModeSceneIndex;
+    private int m_SceneIndex;
+    public int CurrentSelectedSceneIndex => m_SceneIndex;
     private void Awake()
     {
         if (Instance)
@@ -64,7 +65,7 @@ public class GameModeManager : MonoBehaviour
 
     public void SelectMap(int scene, int map)
     {
-        m_GameModeSceneIndex = scene;
+        m_SceneIndex = scene;
         m_SelectedMapText.text = "Selected Map: " + map.ToString();
     }
 

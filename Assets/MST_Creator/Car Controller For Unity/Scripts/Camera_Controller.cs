@@ -5,6 +5,8 @@ using Photon.Pun;
 
 public class Camera_Controller : MonoBehaviour
 {
+	[SerializeField] private PhotonView m_PhotonView;
+
     [Header("Settings")]
 
     public Transform car;
@@ -19,7 +21,7 @@ public class Camera_Controller : MonoBehaviour
 
 	private void Start()
 	{
-		if(!GetComponent<PhotonView>().IsMine)
+		if(!m_PhotonView.IsMine)
 		{
 			this.gameObject.SetActive(false);
 		}

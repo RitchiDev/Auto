@@ -9,7 +9,6 @@ using Photon.Pun;
 public class Car_Controller : MonoBehaviour
 {
     private PhotonView m_PhotonView;
-    [SerializeField] private GameObject m_Canvas;
 
     //Public Variables
     [Header("Wheel Colliders")]
@@ -151,14 +150,9 @@ public class Car_Controller : MonoBehaviour
     void Start(){
         m_PhotonView = GetComponent<PhotonView>();
 
-        if(m_PhotonView.IsMine)
-        {
-            //Destroy(this);
-        }
-        else
+        if(!m_PhotonView.IsMine)
         {
             Destroy(rb);
-            Destroy(m_Canvas);
         }
 
         SetupCar();

@@ -7,15 +7,14 @@ public class InGameUIManager : MonoBehaviour
 {
     public static InGameUIManager Instance { get; private set; }
 
+    [SerializeField] private PhotonView m_PhotonView;
+
     [SerializeField] private GameObject m_Scoreboard;
     [SerializeField] private GameObject m_OnScreenStats;
     [SerializeField] private GameObject m_PauseMenu;
-    private PhotonView m_PhotonView;
     private GameObject m_CurrentPlayerController;
     private void Start()
     {
-        m_PhotonView = GetComponent<PhotonView>();
-
         if(!m_PhotonView.IsMine)
         {
             Destroy(m_Scoreboard);
