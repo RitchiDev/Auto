@@ -91,6 +91,8 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
 
+        //Debug.Log("NOW LOADING: " + GameModeManager.Instance.CurrentSelectedSceneIndex);
+
         PhotonNetwork.LoadLevel(GameModeManager.Instance.CurrentSelectedSceneIndex);
     }
 

@@ -57,10 +57,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
 
         //Debug.Log(GameModeSettings.PhotonPrefabsFolder);
+        //Debug.Log(Path.Combine(path1, path2));
+
         string path1 = GameModeSettings.PhotonPrefabsFolder;
         string path2 = GameModeSettings.PlayerManagerString;
-        Debug.Log(Path.Combine(path1, path2));
         PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity);
+
         m_InGame = true;
     }
 }
