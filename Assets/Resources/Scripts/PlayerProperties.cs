@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class PlayerProperties : MonoBehaviour
 {
-    public const string PlayerIsReady = "PlayerIsReady";
+    public const string IsReadyProperty = "PlayerIsReady";
+    public const string ScoreProperty = "PlayerScore";
 }

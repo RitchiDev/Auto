@@ -2,17 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using TMPro;
 public class InGameUIManager : MonoBehaviour
 {
     public static InGameUIManager Instance { get; private set; }
-
     [SerializeField] private PhotonView m_PhotonView;
 
     [SerializeField] private GameObject m_Scoreboard;
     [SerializeField] private GameObject m_OnScreenStats;
     [SerializeField] private GameObject m_PauseMenu;
+
+    [SerializeField] private TMP_Text m_OnScreenScore;
+
     private GameObject m_CurrentPlayerController;
+
+    private void Awake()
+    {
+        if (m_PhotonView.IsMine)
+        {
+            if (Instance)
+            {
+                Debug.LogError("An instance of: " + this.ToString() + " already existed!");
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
+    }
+
     private void Start()
     {
         if(!m_PhotonView.IsMine)
@@ -50,6 +69,11 @@ public class InGameUIManager : MonoBehaviour
 
             m_Scoreboard.SetActive(false);
         }
+    }
+
+    public void SetOnscreenScore(int score)
+    {
+        m_OnScreenScore.text = "Score: " + score.ToString();
     }
 
     public void PauseMenu()

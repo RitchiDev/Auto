@@ -47,7 +47,7 @@ public class GameModeManager : MonoBehaviour
         m_GameModeNameText.text = m_SelectedGameMode.GameModeName;
         m_RoomManager.SetUp(SelectedGameMode);
         
-        ChangeMaxPlayers(0);
+        ChangeMaxPlayers(20);
         SelectMap(m_SelectedGameMode.DefaultSceneIndex, 1);
     }
 

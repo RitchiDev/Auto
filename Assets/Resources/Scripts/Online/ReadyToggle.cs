@@ -33,7 +33,7 @@ public class ReadyToggle : MonoBehaviourPun
         else
         {
             //m_Toggle.interactable = true;
-            PhotonHashtable initialProperties = new PhotonHashtable() { { PlayerProperties.PlayerIsReady, m_PlayerIsReady } };
+            PhotonHashtable initialProperties = new PhotonHashtable() { { PlayerProperties.IsReadyProperty, m_PlayerIsReady } };
             PhotonNetwork.LocalPlayer.SetCustomProperties(initialProperties);
             m_Toggle.onValueChanged.AddListener(delegate { UpdateToggle(); }) ;
         }
@@ -44,7 +44,7 @@ public class ReadyToggle : MonoBehaviourPun
         m_PlayerIsReady = !m_PlayerIsReady;
         m_PhotonView.RPC("RPCUpdateToggle", RpcTarget.All);
 
-        PhotonHashtable newProperties = new PhotonHashtable() { { PlayerProperties.PlayerIsReady, m_PlayerIsReady } };
+        PhotonHashtable newProperties = new PhotonHashtable() { { PlayerProperties.IsReadyProperty, m_PlayerIsReady } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(newProperties);
     }
 
