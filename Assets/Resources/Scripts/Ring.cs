@@ -9,12 +9,7 @@ public class Ring : MonoBehaviour
         Car_Controller carController =  other.GetComponentInParent<Car_Controller>();
         if(carController)
         {
-            ScoreboardManager scoreboard = carController.GetComponentInChildren<ScoreboardManager>();
-            if(scoreboard)
-            {
-                scoreboard.AddScore(carController.Player, 50);
-            }
-            //Debug.Log(ScoreboardManager.Instance);
+            ScoreManager.Instance.AddScore(carController.Player, 50);
         }
     }
 }

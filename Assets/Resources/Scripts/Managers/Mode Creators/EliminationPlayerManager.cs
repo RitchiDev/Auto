@@ -32,8 +32,14 @@ namespace GameMode.Elimination
 
             if(InGameUIManager.Instance)
             {
+                Debug.Log(m_PlayerController);
                 InGameUIManager.Instance.SetCurrentPlayerController(m_PlayerController);
             }
+        }
+
+        public override void OnLeftRoom()
+        {
+            PhotonNetwork.Destroy(m_PlayerController);
         }
 
         public override void RespawnPlayer()
