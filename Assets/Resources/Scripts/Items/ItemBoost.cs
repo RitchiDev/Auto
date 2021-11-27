@@ -3,44 +3,73 @@ using UnityEngine;
 using System.Collections.Generic;
 
 using BoostList = System.Collections.Generic.List<IBoostClass>;
-public class ItemBoost : MonoBehaviour
+public class ItemBoostManager : MonoBehaviour
 {
-    [Tooltip("Creates an Image of this item for UI Purposes")]
-    public GameObject PrefabItem;
-
     [Header("Attributes")]
+    public static ItemBoostManager m_singleton;
     private Car_Controller m_Controller;
-    public BoostList CurrentBoosts = new BoostList();
+    
+    [Header("BoostsAttributes")]
+    [Tooltip("Select based on number. " +
+        "\n 0 = Speed " +
+        "\n 1 = Jump " +
+        "\n 2 = Fire Projectiles?")]
+    public List<BoostList> Boosts = new List<BoostList>();
+    private int m_SelectedBoost;
 
     private void Awake()
     {
+        if (m_singleton == null)
+        {
+            m_singleton = this;
+        }
         //Get Current Controller
         //m_Controller = ?? 
+
     }
     public void OnBoostPressed()
     {
-        foreach (var item in CurrentBoosts)
+        for (int i = 0; i < Boosts[m_SelectedBoost].Count; i++)
         {
-            item.Context(new BoostContext(m_Controller, transform.position));
-            item.OnBoostButtonPressed();
+            Boosts[m_SelectedBoost][i].OnBoostButtonPressed();
         }
     }
 
 }
-public interface IBoostClass
+public class Boost : MonoBehaviour
 {
-    void Start(GameObject Prefab);
+    [Tooltip("Creates an Image of this item for UI Purposes")]
+    public GameObject PrefabItem;
+    [Tooltip("Select based on number. " +
+       "\n 0 = Speed " +
+       "\n 1 = Jump " +
+       "\n 2 = Fire Projectiles?")]
+    [Range(0,2)]
+    public int m_BoostType;
+
+    public int m_AmountBoost;
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (m_BoostType)
+        {
+            case 0:
+                ItemBoostManager.m_singleton.Boosts[m_BoostType].Add(new SpeedBoost(m_AmountBoost));
+                break;
+        }
+
+        gameObject.SetActive(false);
+        //Return To pool here <-- 
+    }
+}
+public interface IBoostClass
+{   
     void OnBoostButtonPressed();
     void Context(BoostContext NewContext);
 }
 public abstract class BoostHeadClass : IBoostClass
 {
-    private Texture m_PrefabTexture;
+   
     public BoostContext m_BoostContext;
-    public virtual void Start(GameObject Prefab)
-    {
-        m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
-    }
     public void Context(BoostContext NewContext)
     {
         m_BoostContext = NewContext;
@@ -61,14 +90,20 @@ public class BoostContext
 public class SpeedBoost : BoostHeadClass
 {
     private float m_Speed;
-    public SpeedBoost(float BoostAmount)
+    private Texture m_PrefabTexture;
+    public SpeedBoost(float BoostAmount, GameObject Prefab)
     {
         m_Speed = BoostAmount;
+        m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
     }
     public override void OnBoostButtonPressed()
     {
         //m_BoostContext.m_Controller.AddSpeed(m_Speed);
         
+    }
+    public Texture ReturnIcon()
+    {
+        return m_PrefabTexture;
     }
 }
 
