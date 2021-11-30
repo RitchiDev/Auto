@@ -53,7 +53,7 @@ public class Boost : MonoBehaviour
         switch (m_BoostType)
         {
             case 0:
-                ItemBoostManager.m_singleton.Boosts[m_BoostType].Add(new SpeedBoost(m_AmountBoost));
+                //ItemBoostManager.m_singleton.Boosts[m_BoostType].Add(new SpeedBoost(m_AmountBoost));
                 break;
         }
 
