@@ -19,6 +19,6 @@ public class Billboard : MonoBehaviour
         }
 
         transform.LookAt(m_Camera.transform);
-        transform.Rotate(Vector3.up * 100);
+        transform.Rotate(Vector3.up * 180);
     }
 }

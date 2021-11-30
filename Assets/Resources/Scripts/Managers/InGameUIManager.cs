@@ -101,24 +101,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void ReturnToTitleScreen()
     {
-        StartCoroutine(LeaveAndLoad());
-    }
-
-    private IEnumerator LeaveAndLoad()
-    {
-        PhotonNetwork.LeaveRoom();
-
-        while (PhotonNetwork.InRoom)
-        {
-            yield return null;
-        }
-        while (!PhotonNetwork.IsConnected)
-        {
-            yield return null;
-        }
-
-        Destroy(RoomManager.Instance.gameObject);
-        PhotonNetwork.LoadLevel(0); // Titlescreen
+        LeaveGameManager.Instance.DestroyPlayerAndLeave(m_CurrentPlayerController);
     }
 
     public void QuitGame()
