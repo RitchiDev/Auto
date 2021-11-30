@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 6030292853206902758}
   - component: {fileID: 4531716264865141297}
   - component: {fileID: 294642698402859099}
+  - component: {fileID: 2220072323299950219}
   m_Layer: 0
   m_Name: rechts_achter (BR)
   m_TagString: Untagged
@@ -108,7 +109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 715386772518999844}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.4509404, y: -1.1131439, z: -2.426667}
   m_LocalScale: {x: 280, y: 280, z: 280}
   m_Children: []
@@ -164,6 +165,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2220072323299950219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715386772518999844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 0
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &1124252430718140716
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +228,7 @@ GameObject:
   - component: {fileID: 2330178207313546153}
   - component: {fileID: 4732708192796217549}
   - component: {fileID: 2473690652179268258}
+  - component: {fileID: 1551158350907411652}
   m_Layer: 0
   m_Name: links_voor (FL)
   m_TagString: Untagged
@@ -225,7 +243,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684460965271376318}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.498553, y: -1.0624943, z: 3.231933}
   m_LocalScale: {x: 280, y: 280, z: 280}
   m_Children: []
@@ -281,6 +299,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1551158350907411652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684460965271376318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 0
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &4502725374151680662
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,16 +491,16 @@ MonoBehaviour:
   - {fileID: 6030292853206902758}
   - {fileID: 7579856593839980088}
   Front_Wheel_Rotation:
-  - {x: 0, y: -90, z: 90}
-  - {x: 0, y: 90, z: 90}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   Back_Wheel_Rotation:
-  - {x: 0, y: -90, z: 90}
-  - {x: 0, y: 90, z: 90}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   Motor_Torque: 900
   Max_Steer_Angle: 30
-  BrakeForce: 2000
+  BrakeForce: 1e+11
   Maximum_Speed: 100
-  handBrakeFrictionMultiplier: 2
+  handBrakeFrictionMultiplier: 3
   tempo: 0
   enable_boost: 1
   Boost_Cooldown: 10
@@ -592,6 +626,7 @@ GameObject:
   - component: {fileID: 404601656286634284}
   - component: {fileID: 2639137324071451040}
   - component: {fileID: 4915242701493452955}
+  - component: {fileID: 7185407630844572000}
   m_Layer: 0
   m_Name: rechts_voor (FR)
   m_TagString: Untagged
@@ -606,7 +641,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6520429493322592419}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.4509406, y: -1.0624943, z: 3.2319295}
   m_LocalScale: {x: 280, y: 280, z: 280}
   m_Children: []
@@ -662,6 +697,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7185407630844572000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6520429493322592419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 0
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &7156571435031101628
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,6 +724,7 @@ GameObject:
   - component: {fileID: 7579856593839980088}
   - component: {fileID: 1726170600634574848}
   - component: {fileID: 5617449474380239493}
+  - component: {fileID: 6795808433139513698}
   m_Layer: 0
   m_Name: links_achter (BL)
   m_TagString: Untagged
@@ -687,7 +739,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7156571435031101628}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.4985528, y: -1.1131439, z: -2.4266634}
   m_LocalScale: {x: 280, y: 280, z: 280}
   m_Children: []
@@ -743,6 +795,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6795808433139513698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7156571435031101628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 0
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &7438468295328591186
 GameObject:
   m_ObjectHideFlags: 0
