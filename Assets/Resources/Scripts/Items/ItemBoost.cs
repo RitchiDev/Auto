@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 using BoostList = System.Collections.Generic.List<IBoostClass>;
+using System.Collections;
+
 public class ItemBoostManager : MonoBehaviour
 {
     [Header("Attributes")]
@@ -23,9 +25,14 @@ public class ItemBoostManager : MonoBehaviour
         {
             m_singleton = this;
         }
+
         //Get Current Controller
         //m_Controller = ?? 
 
+    }
+    public IEnumerable SpawnNewBoost()
+    {
+        yield return new WaitForSeconds(1);
     }
     public void OnBoostPressed()
     {
@@ -33,6 +40,7 @@ public class ItemBoostManager : MonoBehaviour
         {
             Boosts[m_SelectedBoost][i].OnBoostButtonPressed();
         }
+        Boosts[m_SelectedBoost].Clear();
     }
 
 }
@@ -53,7 +61,7 @@ public class Boost : MonoBehaviour
         switch (m_BoostType)
         {
             case 0:
-                //ItemBoostManager.m_singleton.Boosts[m_BoostType].Add(new SpeedBoost(m_AmountBoost));
+                ItemBoostManager.m_singleton.Boosts[m_BoostType].Add(new SpeedBoost(m_AmountBoost,PrefabItem));
                 break;
         }
 
@@ -94,7 +102,7 @@ public class SpeedBoost : BoostHeadClass
     public SpeedBoost(float BoostAmount, GameObject Prefab)
     {
         m_Speed = BoostAmount;
-        //m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
+        m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
     }
     public override void OnBoostButtonPressed()
     {
@@ -106,11 +114,43 @@ public class SpeedBoost : BoostHeadClass
         return m_PrefabTexture;
     }
 }
+public class JumpBoost : BoostHeadClass
+{
+    private float m_BoostAmount;
+    private Texture m_PrefabTexture;
+    public JumpBoost(float BoostAmount, GameObject Prefab)
+    {
+        m_BoostAmount = BoostAmount;
+        m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
+    }
+    public override void OnBoostButtonPressed()
+    {
+        //m_BoostContext.m_Controller.AddJumpBoost(m_Speed);
+
+    }
+    public Texture ReturnIcon()
+    {
+        return m_PrefabTexture;
+    }
+}
+public class ProjectileBoost : BoostHeadClass
+{
+    public override void OnBoostButtonPressed()
+    {
+        
+    }
+}
 
 #region AddtoController
 //public void AddSpeed(float amount)
 //{
 //    rb.AddForce(amount * transform.forward, ForceMode.VelocityChange);
+
+//}
+
+//public void AddJumpBoost(float amount)
+//{
+//    rb.AddForce(amount * transform.up, ForceMode.VelocityChange);
 
 //}
 #endregion
