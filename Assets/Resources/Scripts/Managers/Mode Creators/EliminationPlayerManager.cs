@@ -40,7 +40,7 @@ namespace GameMode.Elimination
 
             if(EliminateManager.Instance)
             {
-                EliminateManager.Instance.AddAlivePlayer(m_PlayerController);
+                //EliminateManager.Instance.AddAlivePlayer(m_PlayerController);
             }
         }
 

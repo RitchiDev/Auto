@@ -40,7 +40,6 @@ namespace Photon.Pun.UtilityScripts
         public static void AddScore(this Player player, int scoreToAddToCurrent)
         {
             int current = player.GetScore();
-            //int current = GetScore(player);
             current = current + scoreToAddToCurrent;
 
             Hashtable score = new Hashtable();  // using PUN's implementation of Hashtable

@@ -9,7 +9,7 @@ public class EliminateManager : MonoBehaviour
 
     private List<GameObject> m_AlivePlayers = new List<GameObject>();
 
-    private float m_MaxEliminationTime = 20f;
+    private float m_MaxEliminationTime = 11f;
     private float m_TimeUntillElimination;
 
     private void Awake()
@@ -35,6 +35,7 @@ public class EliminateManager : MonoBehaviour
         if (m_AlivePlayers.Count > 0)
         {
             EliminationTimer();
+
         }
     }
     public void AddAlivePlayer(GameObject playerController)
@@ -52,24 +53,35 @@ public class EliminateManager : MonoBehaviour
         else if (m_TimeUntillElimination < 0)
         {
             m_TimeUntillElimination = m_MaxEliminationTime;
-            EliminationPlayerController playerWithLowestScore = m_AlivePlayers[0].GetComponent<EliminationPlayerController>();
-            int playerWithLowestScoreIndex = 0;
 
-            for (int i = 0; i < m_AlivePlayers.Count; i++)
+            EliminatePlayer();
+        }
+    }
+
+    private void EliminatePlayer()
+    {
+        EliminationPlayerController playerWithLowestScore = m_AlivePlayers[0].GetComponent<EliminationPlayerController>();
+        int playerWithLowestScoreIndex = 0;
+
+
+        for (int i = 0; i < m_AlivePlayers.Count; i++)
+        {
+            EliminationPlayerController currentCheckedPlayer = m_AlivePlayers[i].GetComponent<EliminationPlayerController>();
+
+            if (currentCheckedPlayer.Player.GetScore() < playerWithLowestScore.Player.GetScore())
             {
-                EliminationPlayerController currentCheckedPlayer = m_AlivePlayers[i].GetComponent<EliminationPlayerController>();
 
-                if (currentCheckedPlayer.Player.GetScore() < playerWithLowestScore.Player.GetScore())
-                {
-                    playerWithLowestScore = currentCheckedPlayer;
-                    playerWithLowestScoreIndex = i;
-                }
 
-                if (i >= m_AlivePlayers.Count)
-                {
-                    m_AlivePlayers.RemoveAt(playerWithLowestScoreIndex);
-                    playerWithLowestScore.Eliminate();
-                }
+                playerWithLowestScore = currentCheckedPlayer;
+                playerWithLowestScoreIndex = i;
+            }
+
+            if (i >= m_AlivePlayers.Count)
+            {
+                Debug.Log("hoi");
+
+                m_AlivePlayers.RemoveAt(playerWithLowestScoreIndex);
+                playerWithLowestScore.Eliminate();
             }
         }
     }
