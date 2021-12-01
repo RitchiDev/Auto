@@ -28,6 +28,8 @@ namespace GameMode.Elimination
             {
                 CreatePlayer();
             }
+
+            m_AlivePlayers.Add(m_PlayerController);
         }
 
         private void Update()
@@ -86,7 +88,7 @@ namespace GameMode.Elimination
                 InGameUIManager.Instance.SetCurrentPlayerController(m_PlayerController);
             }
 
-            PhotonView.RPC("RPC_AddAlivePlayer", RpcTarget.AllBuffered, m_PlayerController);
+            //PhotonView.RPC("RPC_AddAlivePlayer", RpcTarget.All, m_PlayerController);
         }
 
         public override void OnLeftRoom()

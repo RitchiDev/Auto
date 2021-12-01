@@ -6,7 +6,7 @@ public class Ring : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        EliminationPlayerController playerController =  GetComponentInParent<EliminationPlayerController>();
+        EliminationPlayerController playerController =  other.GetComponentInParent<EliminationPlayerController>();
         if(playerController)
         {
             ScoreManager.Instance.AddScore(playerController.Player, 50);
