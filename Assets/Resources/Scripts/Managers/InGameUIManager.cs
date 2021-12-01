@@ -74,7 +74,6 @@ public class InGameUIManager : MonoBehaviour
     public void SetOnscreenScore(int score)
     {
         m_OnScreenScore.text = "Score: " + score.ToString();
-
     }
 
     public void PauseMenu()
