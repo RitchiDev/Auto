@@ -35,7 +35,6 @@ public class EliminateManager : MonoBehaviour
         if (m_AlivePlayers.Count > 0)
         {
             EliminationTimer();
-
         }
     }
     public void AddAlivePlayer(GameObject playerController)
@@ -63,25 +62,25 @@ public class EliminateManager : MonoBehaviour
         EliminationPlayerController playerWithLowestScore = m_AlivePlayers[0].GetComponent<EliminationPlayerController>();
         int playerWithLowestScoreIndex = 0;
 
-
         for (int i = 0; i < m_AlivePlayers.Count; i++)
         {
             EliminationPlayerController currentCheckedPlayer = m_AlivePlayers[i].GetComponent<EliminationPlayerController>();
 
+            //Debug.Log(currentCheckedPlayer.Player);
+            //Debug.Log(playerWithLowestScore.Player);
+
             if (currentCheckedPlayer.Player.GetScore() < playerWithLowestScore.Player.GetScore())
             {
-
-
                 playerWithLowestScore = currentCheckedPlayer;
                 playerWithLowestScoreIndex = i;
             }
 
-            if (i >= m_AlivePlayers.Count)
+            if (i >= m_AlivePlayers.Count - 1)
             {
-                Debug.Log("hoi");
+                Debug.Log(playerWithLowestScore.Player + ": Eliminated");
 
-                m_AlivePlayers.RemoveAt(playerWithLowestScoreIndex);
-                playerWithLowestScore.Eliminate();
+                //playerWithLowestScore.Eliminate();
+                //m_AlivePlayers.RemoveAt(playerWithLowestScoreIndex);
             }
         }
     }

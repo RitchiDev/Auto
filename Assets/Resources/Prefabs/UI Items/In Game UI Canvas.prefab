@@ -498,7 +498,6 @@ GameObject:
   - component: {fileID: 4969723597960542058}
   - component: {fileID: 4836056961550436398}
   - component: {fileID: 8011241270653263765}
-  - component: {fileID: 4289667838059128547}
   m_Layer: 5
   m_Name: ScoreboardManager
   m_TagString: Untagged
@@ -539,7 +538,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PhotonView: {fileID: 0}
-  m_PunPlayerScores: {fileID: 4289667838059128547}
   m_Container: {fileID: 37176617755182593}
   m_ScoreboardItemPrefab: {fileID: 7390446772686557830, guid: a81e0ef226a31604c8060c8d4c5a0119,
     type: 3}
@@ -565,18 +563,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4289667838059128547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350653687629235296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b4df3943860f1d45bfe232053a58d80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2348528378604395321
 GameObject:
   m_ObjectHideFlags: 0

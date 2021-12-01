@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-
+using Photon.Pun.UtilityScripts;
 public class EliminationPlayerController : MonoBehaviour
 {
     [SerializeField] private PhotonView m_PhotonView;
@@ -13,10 +13,12 @@ public class EliminationPlayerController : MonoBehaviour
     public Player Player => m_Player;
     private void Awake()
     {
+        PhotonNetwork.LocalPlayer.SetScore(0);
+        m_Player = PhotonNetwork.LocalPlayer;
+
         if (m_PhotonView.IsMine)
         {
-            m_Player = PhotonNetwork.LocalPlayer;
-
+            PhotonNetwork.LocalPlayer.AddScore(0);
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All);
         }
     }
@@ -24,7 +26,9 @@ public class EliminationPlayerController : MonoBehaviour
     
     public void Eliminate()
     {
-        m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
+        m_CarBody.SetActive(false);
+
+        //m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
         //m_CarBody.SetActive(false);
     }
 
@@ -36,7 +40,7 @@ public class EliminationPlayerController : MonoBehaviour
             return;
         }
 
-        m_CarBody.SetActive(false);
+        //m_CarBody.SetActive(false);
     }
 
     [PunRPC]

@@ -50,6 +50,8 @@ namespace Photon.Pun.UtilityScripts
 
         public static int GetScore(this Player player)
         {
+            //Debug.Log(player);
+            
             object score;
             if (player.CustomProperties.TryGetValue(PunPlayerScores.PlayerScoreProp, out score))
             {

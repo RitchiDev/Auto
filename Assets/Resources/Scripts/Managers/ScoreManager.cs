@@ -27,7 +27,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(Player player, int scoreToAdd)
     {
-        m_PhotonView.RPC("RPCAddScore", RpcTarget.AllBuffered, player, scoreToAdd);
+        m_PhotonView.RPC("RPC_AddScore", RpcTarget.All, player, scoreToAdd);
     }
 
     [PunRPC]
