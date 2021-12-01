@@ -11,41 +11,68 @@ public class EliminationPlayerController : MonoBehaviour
 
     private Player m_Player;
     public Player Player => m_Player;
+    private bool m_IsEliminated;
+
     private void Awake()
     {
         PhotonNetwork.LocalPlayer.SetScore(0);
-        m_Player = PhotonNetwork.LocalPlayer;
-
+        
         if (m_PhotonView.IsMine)
         {
-            PhotonNetwork.LocalPlayer.AddScore(0);
+            //m_Player = PhotonNetwork.LocalPlayer;
+            PhotonNetwork.LocalPlayer.SetEliminated(false);
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All);
         }
     }
 
-    
     public void Eliminate()
     {
-        m_CarBody.SetActive(false);
-
-        //m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
-        //m_CarBody.SetActive(false);
+        m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
     }
 
     [PunRPC]
     private void RPC_Eliminate()
     {
-        if(!m_PhotonView.IsMine)
+        //if (!m_PhotonView.IsMine)
+        //{
+        //    return;
+        //}
+
+        if (PhotonNetwork.LocalPlayer.GetIfEliminated())
         {
             return;
         }
 
-        //m_CarBody.SetActive(false);
+        Player[] otherPlayers = PhotonNetwork.PlayerListOthers;
+
+        bool eliminate = false;
+
+        foreach (Player otherPlayer in otherPlayers)
+        {
+            if(!otherPlayer.GetIfEliminated())
+            {
+                if (PhotonNetwork.LocalPlayer.GetScore() < otherPlayer.GetScore())
+                {
+                    Debug.Log("Eliminated");
+                    PhotonNetwork.LocalPlayer.SetEliminated(true);
+                    eliminate = true;
+                }
+            }
+        }
+
+        if (eliminate)
+        {
+            //Debug.Log(PhotonNetwork.LocalPlayer + ": Eliminated");
+            Destroy(GetComponent<Wheel_Effects>());
+            Destroy(GetComponent<Car_Controller>());
+            Destroy(m_CarBody);
+        }
     }
 
     [PunRPC]
     private void RPC_AddPlayerToAliveList()
     {
-        EliminateManager.Instance.AddAlivePlayer(gameObject);
+        m_Player = PhotonNetwork.LocalPlayer;
+        EliminateManager.Instance.AddAlivePlayer(this);
     }
 }

@@ -7,7 +7,7 @@ public class EliminateManager : MonoBehaviour
 {
     public static EliminateManager Instance { get; private set; }
 
-    private List<GameObject> m_AlivePlayers = new List<GameObject>();
+    [SerializeField] private List<EliminationPlayerController> m_AlivePlayers = new List<EliminationPlayerController>();
 
     private float m_MaxEliminationTime = 11f;
     private float m_TimeUntillElimination;
@@ -37,7 +37,8 @@ public class EliminateManager : MonoBehaviour
             EliminationTimer();
         }
     }
-    public void AddAlivePlayer(GameObject playerController)
+
+    public void AddAlivePlayer(EliminationPlayerController playerController)
     {
         m_AlivePlayers.Add(playerController);
     }
@@ -59,29 +60,34 @@ public class EliminateManager : MonoBehaviour
 
     private void EliminatePlayer()
     {
-        EliminationPlayerController playerWithLowestScore = m_AlivePlayers[0].GetComponent<EliminationPlayerController>();
-        int playerWithLowestScoreIndex = 0;
-
-        for (int i = 0; i < m_AlivePlayers.Count; i++)
+        foreach (EliminationPlayerController playerController in m_AlivePlayers)
         {
-            EliminationPlayerController currentCheckedPlayer = m_AlivePlayers[i].GetComponent<EliminationPlayerController>();
-
-            //Debug.Log(currentCheckedPlayer.Player);
-            //Debug.Log(playerWithLowestScore.Player);
-
-            if (currentCheckedPlayer.Player.GetScore() < playerWithLowestScore.Player.GetScore())
-            {
-                playerWithLowestScore = currentCheckedPlayer;
-                playerWithLowestScoreIndex = i;
-            }
-
-            if (i >= m_AlivePlayers.Count - 1)
-            {
-                Debug.Log(playerWithLowestScore.Player + ": Eliminated");
-
-                //playerWithLowestScore.Eliminate();
-                //m_AlivePlayers.RemoveAt(playerWithLowestScoreIndex);
-            }
+            playerController.Eliminate();
         }
+
+        //EliminationPlayerController playerWithLowestScore = m_AlivePlayers[0].GetComponent<EliminationPlayerController>();
+        //int playerWithLowestScoreIndex = 0;
+
+        //for (int i = 0; i < m_AlivePlayers.Count; i++)
+        //{
+        //    EliminationPlayerController currentCheckedPlayer = m_AlivePlayers[i].GetComponent<EliminationPlayerController>();
+
+        //    //Debug.Log(currentCheckedPlayer.Player + ": i: " + i);
+        //    //Debug.Log(playerWithLowestScore.Player);
+
+        //    if (currentCheckedPlayer.Player.GetScore() < playerWithLowestScore.Player.GetScore())
+        //    {
+        //        playerWithLowestScore = currentCheckedPlayer;
+        //        playerWithLowestScoreIndex = i;
+        //    }
+
+        //    if (i >= m_AlivePlayers.Count - 1)
+        //    {
+        //        //Debug.Log(playerWithLowestScore.Player + ": Eliminated");
+
+        //        //playerWithLowestScore.Eliminate();
+        //        //m_AlivePlayers.RemoveAt(playerWithLowestScoreIndex);
+        //    }
+        //}
     }
 }

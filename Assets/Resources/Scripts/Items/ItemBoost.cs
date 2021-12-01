@@ -102,7 +102,7 @@ public class SpeedBoost : BoostHeadClass
     public SpeedBoost(float BoostAmount, GameObject Prefab)
     {
         m_Speed = BoostAmount;
-        m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
+        //m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
     }
     public override void OnBoostButtonPressed()
     {
@@ -121,7 +121,7 @@ public class JumpBoost : BoostHeadClass
     public JumpBoost(float BoostAmount, GameObject Prefab)
     {
         m_BoostAmount = BoostAmount;
-        m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
+        //m_PrefabTexture = AssetPreview.GetAssetPreview(Prefab);
     }
     public override void OnBoostButtonPressed()
     {

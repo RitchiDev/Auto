@@ -22120,8 +22120,7 @@ PrefabInstance:
       propertyPath: m_PhotonView
       value: 
       objectReference: {fileID: 5085091912870233124}
-    m_RemovedComponents:
-    - {fileID: 4289667838059128547, guid: 59288e842f7beed4fb4baa952f1fa324, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59288e842f7beed4fb4baa952f1fa324, type: 3}
 --- !u!224 &5820636486620483242 stripped
 RectTransform:

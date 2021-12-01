@@ -156,16 +156,24 @@ public class Car_Controller : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < Front_Wheels.Count; i++)
-            {
-                Destroy(Front_Wheels[i].gameObject);
-            }
+            DestroyCar();
+        }
+    }
 
-            for (int i = 0; i < Back_Wheels.Count; i++)
-            {
-                Destroy(Back_Wheels[i].gameObject);
-            }
+    private void DestroyCar()
+    {
+        for (int i = 0; i < Front_Wheels.Count; i++)
+        {
+            Destroy(Front_Wheels[i].gameObject);
+        }
 
+        for (int i = 0; i < Back_Wheels.Count; i++)
+        {
+            Destroy(Back_Wheels[i].gameObject);
+        }
+
+        if(rb)
+        {
             Destroy(rb);
         }
     }

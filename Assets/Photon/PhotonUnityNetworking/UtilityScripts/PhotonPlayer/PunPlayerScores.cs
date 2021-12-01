@@ -25,6 +25,7 @@ namespace Photon.Pun.UtilityScripts
     public class PunPlayerScores : MonoBehaviour
     {
         public const string PlayerScoreProp = "score";
+        public const string PlayerEliminatedProp = "eliminated";
     }
 
     public static class ScoreExtensions
@@ -59,6 +60,25 @@ namespace Photon.Pun.UtilityScripts
             }
 
             return 0;
+        }
+
+        public static void SetEliminated(this Player player, bool eliminated)
+        {
+            Hashtable eliminatedState = new Hashtable();  // using PUN's implementation of Hashtable
+            eliminatedState[PunPlayerScores.PlayerEliminatedProp] = eliminated;
+
+            player.SetCustomProperties(eliminatedState);  // this locally sets the eliminated (state) and will sync it in-game asap.
+        }
+
+        public static bool GetIfEliminated(this Player player)
+        {
+            object eliminated;
+            if (player.CustomProperties.TryGetValue(PunPlayerScores.PlayerEliminatedProp, out eliminated))
+            {
+                return (bool)eliminated;
+            }
+
+            return false;
         }
     }
 }
