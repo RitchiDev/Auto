@@ -19,6 +19,8 @@ public class ScoreboardItem : MonoBehaviour
     {
         m_Player = player;
         m_Username.text = player.NickName;
+        ScoreManager.Instance.AddScore(player, 0);
+        ScoreManager.Instance.AddScore(player, 0);
     }
 
     public void SetScore(int score)

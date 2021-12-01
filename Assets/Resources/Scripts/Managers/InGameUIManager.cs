@@ -95,30 +95,12 @@ public class InGameUIManager : MonoBehaviour
     public void SetCurrentPlayerController(GameObject controller)
     {
         m_CurrentPlayerController = controller;
+        Debug.Log(m_CurrentPlayerController);
     }
 
     public void ReturnToTitleScreen()
     {
-        PhotonNetwork.Destroy(m_CurrentPlayerController);
-
-        StartCoroutine(LeaveAndLoad());
-    }
-
-    private IEnumerator LeaveAndLoad()
-    {
-        PhotonNetwork.LeaveRoom();
-
-        while (PhotonNetwork.InRoom)
-        {
-            yield return null;
-        }
-        while (!PhotonNetwork.IsConnected)
-        {
-            yield return null;
-        }
-
-        Destroy(RoomManager.Instance.gameObject);
-        PhotonNetwork.LoadLevel(0); // Titlescreen
+        LeaveGameManager.Instance.DestroyPlayerAndLeave(m_CurrentPlayerController);
     }
 
     public void QuitGame()

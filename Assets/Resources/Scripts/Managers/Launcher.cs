@@ -185,11 +185,8 @@ public class Launcher : MonoBehaviourPunCallbacks
             if(toggle)
             {
                 toggle.SetUp(player);
-                //toggle.Interactable(player == PhotonNetwork.LocalPlayer);
-                //toggle.UpdateToggle(PhotonNetwork.LocalPlayer);
                 m_TogglesInRoom.Add(toggle);
             }
-            //Instantiate(m_PlayerListItemPrefab, m_PlayerListContent).GetComponent<PlayerListItem>().SetUp(player, player.NickName);
         }
 
         m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);

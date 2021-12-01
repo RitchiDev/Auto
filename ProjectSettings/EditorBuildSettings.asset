@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Launcher.unity
     guid: bcac1e2e2a6e550489e29182f1c8e83d
   - enabled: 1
-    path: Assets/Scenes/Test Map 1.unity
+    path: Assets/Scenes/Test Map Andrich.unity
     guid: 1f5d2c015e8db8c4792680c419bc4766
   - enabled: 1
-    path: Assets/Scenes/Test Map 2.unity
+    path: Assets/Scenes/Test Map TOmmy.unity
     guid: 3a90904604ad9444cabf0c68448b3b42
   m_configObjects: {}
