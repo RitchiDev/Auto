@@ -11,8 +11,7 @@ using Photon.Realtime;
 public class Car_Controller : MonoBehaviour
 {
     [SerializeField] private PhotonView m_PhotonView;
-    private Player m_Player;
-    public Player Player => m_Player;
+
     //Public Variables
     [Header("Wheel Colliders")]
     public List<WheelCollider> Front_Wheels; //The front wheels
@@ -153,7 +152,6 @@ public class Car_Controller : MonoBehaviour
         rb.centerOfMass = Center_of_Mass.localPosition; //Set the centre of mass of the rigid body to the centre of mass transform
         if(m_PhotonView.IsMine)
         {
-            m_Player = PhotonNetwork.LocalPlayer;
             SetUpCar();
         }
         else

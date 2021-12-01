@@ -6,10 +6,10 @@ public class Ring : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Car_Controller carController =  other.GetComponentInParent<Car_Controller>();
-        if(carController)
+        EliminationPlayerController playerController =  GetComponentInParent<EliminationPlayerController>();
+        if(playerController)
         {
-            ScoreManager.Instance.AddScore(carController.Player, 50);
+            ScoreManager.Instance.AddScore(playerController.Player, 50);
         }
     }
 }

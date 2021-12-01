@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Test Map Andrich.unity
     guid: 1f5d2c015e8db8c4792680c419bc4766
   - enabled: 1
-    path: Assets/Scenes/Test Map TOmmy.unity
+    path: Assets/Scenes/Test Map Tommy.unity
     guid: 3a90904604ad9444cabf0c68448b3b42
+  - enabled: 1
+    path: Assets/Scenes/Elimination Map 1.unity
+    guid: b5b20bc5b8e9ff244b7bed760f04227c
   m_configObjects: {}
