@@ -95,7 +95,7 @@ public class InGameUIManager : MonoBehaviour
     public void SetCurrentPlayerController(GameObject controller)
     {
         m_CurrentPlayerController = controller;
-        Debug.Log(m_CurrentPlayerController);
+        //Debug.Log(m_CurrentPlayerController);
     }
 
     public void ReturnToTitleScreen()

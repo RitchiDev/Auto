@@ -20,6 +20,6 @@ MonoBehaviour:
   m_PlayerListItemString: PlayerListItem InRoom
   m_MinimumPlayers: 1
   m_MaximumPlayers: 10
-  m_DefaultSceneIndex: 0
+  m_DefaultSceneIndex: 1
   m_MapsItem: {fileID: 11400000, guid: da535aa6b91c5504a94ae57c56ba0a9d, type: 2}
   m_CloseRoomOnStart: 0
