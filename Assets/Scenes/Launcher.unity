@@ -465,6 +465,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33919226}
   m_CullTransparentMesh: 1
+--- !u!1 &36577157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 36577158}
+  - component: {fileID: 36577159}
+  m_Layer: 0
+  m_Name: Test Maps Tommy Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &36577158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36577157}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 698367930}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &36577159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36577157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4e12b64c5767a43a19892f3b176ae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PoolObject: {fileID: 11400000, guid: 62941d89a5914b24082eccf28eb67a1d, type: 2}
+  m_IncreaseAmount: 1
 --- !u!1 &50284488
 GameObject:
   m_ObjectHideFlags: 0
@@ -5253,6 +5298,7 @@ MonoBehaviour:
   m_Pools:
   - {fileID: 962444742}
   - {fileID: 1327237728}
+  - {fileID: 36577159}
 --- !u!4 &698367930
 Transform:
   m_ObjectHideFlags: 0
@@ -5266,6 +5312,7 @@ Transform:
   m_Children:
   - {fileID: 962444741}
   - {fileID: 1327237729}
+  - {fileID: 36577158}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9886,7 +9933,7 @@ GameObject:
   - component: {fileID: 1327237729}
   - component: {fileID: 1327237728}
   m_Layer: 0
-  m_Name: Test Maps Pool
+  m_Name: Test Maps Andrich Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13025,6 +13072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameModes:
   - {fileID: 11400000, guid: 096f9ccbc9ee3dd4eb8afa0d37bf0746, type: 2}
+  - {fileID: 11400000, guid: 28f73346882fa254d990e61e0ab72760, type: 2}
   - {fileID: 11400000, guid: d2730356ddebdcb4d9030e27dfaa88ba, type: 2}
   m_RoomManager: {fileID: 286613777}
   m_GameModeNameText: {fileID: 758796267}
