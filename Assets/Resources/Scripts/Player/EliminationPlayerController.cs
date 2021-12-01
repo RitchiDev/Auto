@@ -16,11 +16,32 @@ public class EliminationPlayerController : MonoBehaviour
         if (m_PhotonView.IsMine)
         {
             m_Player = PhotonNetwork.LocalPlayer;
+
+            m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All);
         }
     }
 
+    
     public void Eliminate()
     {
+        m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
+        //m_CarBody.SetActive(false);
+    }
+
+    [PunRPC]
+    private void RPC_Eliminate()
+    {
+        if(!m_PhotonView.IsMine)
+        {
+            return;
+        }
+
         m_CarBody.SetActive(false);
+    }
+
+    [PunRPC]
+    private void RPC_AddPlayerToAliveList()
+    {
+        EliminateManager.Instance.AddAlivePlayer(gameObject);
     }
 }

@@ -31,7 +31,7 @@ public class ScoreManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPCAddScore(Player player, int scoreToAdd)
+    private void RPC_AddScore(Player player, int scoreToAdd)
     {
         player.AddScore(scoreToAdd);
         if(ScoreboardManager.Instance)

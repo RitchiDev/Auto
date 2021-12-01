@@ -48,6 +48,8 @@ MonoBehaviour:
   - RPCAddScore
   - RPCUpdateScoreboardItemText
   - RPC_AddAlivePlayer
+  - RPC_Eliminate
+  - RPC_AddPlayerToAliveList
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
