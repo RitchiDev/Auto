@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Art/Andrich (Placeholder).meta
 guid: 46ef22a8ac2982349ae7c3cb68339acd
+=======
+guid: 2e94c1f7d68aece4591e5babd9fe938e
+>>>>>>> e058d5c11e4dd160255f58333202e11f9b62fc92:Assets/Resources/Photon Prefabs/Unused.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
