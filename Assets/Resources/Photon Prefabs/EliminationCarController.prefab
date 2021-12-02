@@ -449,11 +449,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5961124019767292831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ae52cbafa107a747836b406624555b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c070484efc6ae74c9c97cd13b05685d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_PhotonView: {fileID: 5085091912870233124}
-  m_CarBody: {fileID: 1124252430718140716}
+  m_Car: {fileID: 1124252430718140716}
 --- !u!114 &5961124019767292824
 MonoBehaviour:
   m_ObjectHideFlags: 0

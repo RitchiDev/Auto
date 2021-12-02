@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameModeName: Test Tommy
   m_GameModeDescription: 
-  m_PhotonPrefabsFolder: PhotonPrefabs
+  m_PhotonPrefabsFolder: Photon Prefabs
   m_PlayerManagerString: PlayerManager (Elimination)
   m_PlayerControllerString: TommyCar
   m_PlayerListItemString: PlayerListItem InRoom

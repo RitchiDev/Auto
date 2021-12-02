@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameModeName: Elimination
   m_GameModeDescription: 
-  m_PhotonPrefabsFolder: PhotonPrefabs
+  m_PhotonPrefabsFolder: Photon Prefabs
   m_PlayerManagerString: PlayerManager (Elimination)
   m_PlayerControllerString: EliminationCarController
   m_PlayerListItemString: PlayerListItem InRoom

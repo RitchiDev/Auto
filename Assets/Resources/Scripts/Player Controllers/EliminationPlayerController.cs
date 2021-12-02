@@ -7,7 +7,7 @@ using Photon.Pun.UtilityScripts;
 public class EliminationPlayerController : MonoBehaviour
 {
     [SerializeField] private PhotonView m_PhotonView;
-    [SerializeField] private GameObject m_CarBody;
+    [SerializeField] private GameObject m_Car;
 
     private Player m_Player;
     public Player Player => m_Player;
@@ -65,7 +65,7 @@ public class EliminationPlayerController : MonoBehaviour
             //Debug.Log(PhotonNetwork.LocalPlayer + ": Eliminated");
             Destroy(GetComponent<Wheel_Effects>());
             Destroy(GetComponent<Car_Controller>());
-            Destroy(m_CarBody);
+            Destroy(m_Car);
         }
     }
 
