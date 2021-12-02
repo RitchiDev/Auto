@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun.UtilityScripts;
+using UnityEngine.UI;
+using TMPro;
 
 public class EliminateManager : MonoBehaviour
 {
@@ -9,8 +11,9 @@ public class EliminateManager : MonoBehaviour
 
     [SerializeField] private List<EliminationPlayerController> m_AlivePlayers = new List<EliminationPlayerController>();
 
-    private float m_MaxEliminationTime = 11f;
-    private float m_TimeUntillElimination;
+    [SerializeField] private Image m_CountDownImage;
+    [SerializeField] private TMP_Text m_CountDownText;
+    [SerializeField] private float m_MaxEliminationTime = 60f;
 
     private void Awake()
     {
@@ -27,35 +30,27 @@ public class EliminateManager : MonoBehaviour
 
     private void Start()
     {
-        m_TimeUntillElimination = m_MaxEliminationTime;
+        StartCoroutine(EliminateCountdown());
     }
 
-    private void Update()
+    private IEnumerator EliminateCountdown()
     {
-        if (m_AlivePlayers.Count > 0)
+        float totalTime = m_MaxEliminationTime;
+        while (totalTime >= 0)
         {
-            EliminationTimer();
+            m_CountDownImage.fillAmount = totalTime / m_MaxEliminationTime;
+            totalTime -= Time.deltaTime;
+            m_CountDownText.text = totalTime.ToString("0");
+            yield return null;
         }
+
+        EliminatePlayer();
+        StartCoroutine(EliminateCountdown());
     }
 
     public void AddAlivePlayer(EliminationPlayerController playerController)
     {
         m_AlivePlayers.Add(playerController);
-    }
-
-    private void EliminationTimer()
-    {
-        if (m_TimeUntillElimination > 0)
-        {
-            m_TimeUntillElimination -= Time.deltaTime;
-        }
-
-        else if (m_TimeUntillElimination < 0)
-        {
-            m_TimeUntillElimination = m_MaxEliminationTime;
-
-            EliminatePlayer();
-        }
     }
 
     private void EliminatePlayer()
@@ -64,30 +59,5 @@ public class EliminateManager : MonoBehaviour
         {
             playerController.Eliminate();
         }
-
-        //EliminationPlayerController playerWithLowestScore = m_AlivePlayers[0].GetComponent<EliminationPlayerController>();
-        //int playerWithLowestScoreIndex = 0;
-
-        //for (int i = 0; i < m_AlivePlayers.Count; i++)
-        //{
-        //    EliminationPlayerController currentCheckedPlayer = m_AlivePlayers[i].GetComponent<EliminationPlayerController>();
-
-        //    //Debug.Log(currentCheckedPlayer.Player + ": i: " + i);
-        //    //Debug.Log(playerWithLowestScore.Player);
-
-        //    if (currentCheckedPlayer.Player.GetScore() < playerWithLowestScore.Player.GetScore())
-        //    {
-        //        playerWithLowestScore = currentCheckedPlayer;
-        //        playerWithLowestScoreIndex = i;
-        //    }
-
-        //    if (i >= m_AlivePlayers.Count - 1)
-        //    {
-        //        //Debug.Log(playerWithLowestScore.Player + ": Eliminated");
-
-        //        //playerWithLowestScore.Eliminate();
-        //        //m_AlivePlayers.RemoveAt(playerWithLowestScoreIndex);
-        //    }
-        //}
     }
 }
