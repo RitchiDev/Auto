@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerListItem : MonoBehaviourPunCallbacks
+public class PlayerInRoomItem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_Text m_PlayerNameText;
     [SerializeField] private Toggle m_Toggle;
@@ -15,7 +15,6 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
     {
         m_Player = player;
         m_PlayerNameText.text = name;
-        //m_PlayerNameText.text = "<noparse>" + itemText + "</noparse>";
     }
 
     public void SetUp(string name)

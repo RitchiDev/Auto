@@ -9,11 +9,9 @@ namespace GameMode.Elimination
 {
     public class EliminationPlayerManager : PlayerManager
     {
-        private GameObject m_PlayerController;
-        public GameObject PlayerController => m_PlayerController;
-        [SerializeField] private GameObject m_PlayerDiedListItemPrefab;
-        [SerializeField] private Transform m_DeadPlayerListContent;
-        private float m_DeactivateDeadPlayerPopupTimer;
+        private GameObject m_PlayerGameObject;
+        [SerializeField] private GameObject m_PlayerDiedItemPrefab;
+        [SerializeField] private Transform m_DeadPlayerListContainer;
         private PhotonView m_PhotonView;
 
         private void Awake()
@@ -31,9 +29,30 @@ namespace GameMode.Elimination
 
         public override void OnLeftRoom()
         {
+            if (m_PhotonView.IsMine)
+            {
+                if (m_PlayerGameObject)
+                {
+                    PhotonNetwork.Destroy(m_PlayerGameObject);
+                }
+            }
+
             PhotonNetwork.LoadLevel(0); // Titlescreen
 
             base.OnLeftRoom();
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            if (m_PhotonView.IsMine)
+            {
+                if (m_PlayerGameObject)
+                {
+                    PhotonNetwork.Destroy(m_PlayerGameObject);
+                }
+            }
+
+            base.OnDisconnected(cause);
         }
 
         public override void CreatePlayerController()
@@ -44,16 +63,22 @@ namespace GameMode.Elimination
             byte group = 0;
             string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
             string path2 = RoomManager.Instance.GameModeSettings.PlayerControllerString;
-            m_PlayerController = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+            m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
         }
 
         public override void CreatePlayerSpectator()
         {
+            AddDeathToUI(PhotonNetwork.LocalPlayer.NickName);
+
+            Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+
             object[] data = new object[] { m_PhotonView.ViewID };
             byte group = 0;
             string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
-            string path2 = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
-            m_PlayerController = PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity, group, data);
+            string path2 = RoomManager.Instance.GameModeSettings.PlayerControllerString;
+            //string path2 = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
+            m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+            //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity, group, data);
         }
 
         public override void ReturnToTitlescreen(GameObject gameObjectToDestroy)
@@ -86,16 +111,14 @@ namespace GameMode.Elimination
         [PunRPC]
         private void RPC_AddDeathToUI(string name)
         {
-            Debug.Log("Added player death UI");
-            m_DeactivateDeadPlayerPopupTimer = Mathf.Clamp(m_DeactivateDeadPlayerPopupTimer + 5f, 0.0f, 6f);
-            //Object.Instantiate<GameObject>(this.m_PlayerDiedListItemPrefab, this.m_DeadPlayerListContent).GetComponent<PlayerListItem>().SetUp(name);
+            Instantiate(m_PlayerDiedItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name);
         }
 
         public override void RespawnPlayer()
         {
-            if(m_PhotonView.IsMine)
+            if (m_PhotonView.IsMine)
             {
-                PhotonNetwork.Destroy(m_PlayerController);
+                PhotonNetwork.Destroy(m_PlayerGameObject);
 
                 CreatePlayerController();
             }
@@ -103,12 +126,12 @@ namespace GameMode.Elimination
 
         public override void RespawnPlayerAsSpectator()
         {
-            //if(m_PlayerController)
-            //{
-            //    PhotonNetwork.Destroy(m_PlayerController);
-            //}
+            if (m_PhotonView.IsMine)
+            {
+                PhotonNetwork.Destroy(m_PlayerGameObject);
 
-            //CreatePlayerSpectator();
+                CreatePlayerSpectator();
+            }
         }
     }
 }

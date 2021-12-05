@@ -18,19 +18,18 @@ public class EliminationPlayerController : MonoBehaviour
     private void Awake()
     {
         m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
-        PhotonNetwork.LocalPlayer.SetScore(0);
+        //PhotonNetwork.LocalPlayer.SetScore(0);
         
         if (m_PhotonView.IsMine)
         {
-            //m_Player = PhotonNetwork.LocalPlayer;
             PhotonNetwork.LocalPlayer.SetEliminated(false);
-            m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.AllBuffered);
+            m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All);
         }
     }
 
     public void Eliminate()
     {
-        m_PhotonView.RPC("RPC_Eliminate", RpcTarget.AllBuffered);
+        m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
     }
 
     [PunRPC]
@@ -67,7 +66,8 @@ public class EliminationPlayerController : MonoBehaviour
 
         if (eliminate)
         {
-            m_PlayerManager.RespawnPlayer();
+            EliminateManager.Instance.RemoveAlivePlayer(this);
+            m_PlayerManager.RespawnPlayerAsSpectator();
         }
     }
 }

@@ -179,7 +179,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
             item.transform.SetParent(m_PlayerListContent, false);
-            item.GetComponent<PlayerListItem>().SetUp(player, player.NickName);
+            item.GetComponent<PlayerInRoomItem>().SetUp(player, player.NickName);
 
             ReadyToggle toggle = item.GetComponentInChildren<ReadyToggle>();
             if(toggle)
@@ -255,7 +255,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
         item.transform.SetParent(m_PlayerListContent, false);
-        item.GetComponent<PlayerListItem>().SetUp(newPlayer, newPlayer.NickName);
+        item.GetComponent<PlayerInRoomItem>().SetUp(newPlayer, newPlayer.NickName);
 
         ReadyToggle toggle = item.GetComponentInChildren<ReadyToggle>();
         if (toggle)
