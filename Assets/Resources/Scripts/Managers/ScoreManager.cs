@@ -8,6 +8,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
+    [SerializeField] private List<Scoreboard> m_Scoreboards = new List<Scoreboard>();
     private PhotonView m_PhotonView;
 
     private void Awake()
@@ -27,25 +28,32 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(Player player, int scoreToAdd)
     {
-        m_PhotonView.RPC("RPC_AddScore", RpcTarget.All, player, scoreToAdd);
+        m_PhotonView.RPC("RPC_AddScore", RpcTarget.AllBuffered, player, scoreToAdd);
     }
 
     [PunRPC]
     private void RPC_AddScore(Player player, int scoreToAdd)
     {
-        player.AddScore(scoreToAdd);
-        if(ScoreboardManager.Instance)
+        if(player.GetScore() <= 0)
         {
-            ScoreboardManager.Instance.UpdateScoreboardItemText(player, player.GetScore());
+            player.AddScore(scoreToAdd);
+        }
+
+        player.AddScore(scoreToAdd);
+
+        foreach (Scoreboard scoreboard in m_Scoreboards)
+        {
+            scoreboard.UpdateScoreboardItemText(player, player.GetScore());
         }
     }
 
-    public void AddScoreboard(Player player)
+    public void AddScoreboard(Scoreboard scoreboard)
     {
-        //ScoreboardItem item = Instantiate(m_ScoreboardItemPrefab, m_Container).GetComponent<ScoreboardItem>();
-        //m_ScoreboardItems.Add(item);
+        m_Scoreboards.Add(scoreboard);
+    }
 
-        //ScoreExtensions.SetScore(player, 0);
-        //item.SetUp(player);
+    public void RemoveScoreboard(Scoreboard scoreboard)
+    {
+        m_Scoreboards.Remove(scoreboard);
     }
 }

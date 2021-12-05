@@ -38,7 +38,7 @@ public class ReadyToggle : MonoBehaviourPun
             m_Toggle.onValueChanged.AddListener(delegate { UpdateToggle(); }) ;
         }
     }
-
+    
     public void UpdateToggle()
     {
         m_PlayerIsReady = !m_PlayerIsReady;
@@ -52,6 +52,6 @@ public class ReadyToggle : MonoBehaviourPun
     private void RPCUpdateToggle()
     {
         m_ReadyStateText.text = m_PlayerIsReady ? "Ready!" : "Not Ready";
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName + "Ready: " + m_PlayerIsReady);
+        //Debug.Log(PhotonNetwork.LocalPlayer.NickName + "Ready: " + m_PlayerIsReady);
     }
 }

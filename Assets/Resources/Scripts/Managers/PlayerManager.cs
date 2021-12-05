@@ -6,25 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(PhotonView))]
 public abstract class PlayerManager : MonoBehaviourPunCallbacks
 {
-    private PhotonView m_PhotonView;
-    public PhotonView PhotonView => m_PhotonView;
-
-    private void Awake()
-    {
-        m_PhotonView = GetComponent<PhotonView>();
-    }
-
-    private void Start()
-    {
-        if (m_PhotonView.IsMine)
-        {
-            CreatePlayer();
-        }
-    }
-
-    public abstract void CreatePlayer();
+    public abstract void CreatePlayerController();
+    public abstract void CreatePlayerSpectator();
 
     public abstract void RespawnPlayer();
+    public abstract void RespawnPlayerAsSpectator();
+
+    public abstract void ReturnToTitlescreen(GameObject gameObjectToDestory);
 
     public virtual void AddDeathToUI(string name)
     {

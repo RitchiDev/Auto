@@ -5,39 +5,25 @@ using Photon.Realtime;
 using Photon.Pun;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
-public class ScoreboardManager : MonoBehaviourPunCallbacks
+public class Scoreboard : MonoBehaviourPunCallbacks
 {
-    public static ScoreboardManager Instance { get; private set; }
-    [SerializeField] private PhotonView m_PhotonView;
-
     [SerializeField] private Transform m_Container;
     [SerializeField] private GameObject m_ScoreboardItemPrefab;
     private List<ScoreboardItem> m_ScoreboardItems = new List<ScoreboardItem>();
 
-    private bool m_Test;
-
-    private void Awake()
-    {
-        if(m_PhotonView.IsMine)
-        {
-            if (Instance)
-            {
-                Debug.LogError("An instance of: " + this.ToString() + " already existed!");
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
-    }
-
     private void Start()
     {
+        ScoreManager.Instance.AddScoreboard(this);
+
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             AddScoreboard(player);
         }
+    }
+
+    private void OnDestroy()
+    {
+        ScoreManager.Instance.RemoveScoreboard(this);
     }
 
     private void AddScoreboard(Player player)
@@ -64,11 +50,6 @@ public class ScoreboardManager : MonoBehaviourPunCallbacks
         {
             if (player == item.Player())
             {
-                if (m_PhotonView.IsMine)
-                {
-                    InGameUIManager.Instance.SetOnscreenScore(score);
-                }
-
                 item.SetScore(score);
             }
         }

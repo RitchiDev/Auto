@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
-public class InGameUIManager : MonoBehaviour
+public class InGameUI : MonoBehaviour
 {
-    public static InGameUIManager Instance { get; private set; }
     [SerializeField] private PhotonView m_PhotonView;
 
     [SerializeField] private GameObject m_Scoreboard;
@@ -15,26 +14,16 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private TMP_Text m_OnScreenScore;
 
     private GameObject m_CurrentPlayerController;
-
-    private void Awake()
-    {
-        if (m_PhotonView.IsMine)
-        {
-            if (Instance)
-            {
-                Debug.LogError("An instance of: " + this.ToString() + " already existed!");
-                Destroy(this);
-            }
-            else
-            {
-                Instance = this;
-            }
-        }
-    }
+    private PlayerManager m_PlayerManager;
 
     private void Start()
     {
-        if(!m_PhotonView.IsMine)
+        if(m_PhotonView.IsMine)
+        {
+            m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
+            m_CurrentPlayerController = GetComponentInParent<EliminationPlayerController>().gameObject;
+        }
+        else
         {
             Destroy(m_Scoreboard);
             Destroy(m_OnScreenStats);
@@ -92,15 +81,9 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    public void SetCurrentPlayerController(GameObject controller)
-    {
-        m_CurrentPlayerController = controller;
-        //Debug.Log(m_CurrentPlayerController);
-    }
-
     public void ReturnToTitleScreen()
     {
-        LeaveGameManager.Instance.DestroyPlayerAndLeave(m_CurrentPlayerController);
+        m_PlayerManager.ReturnToTitlescreen(m_CurrentPlayerController);
     }
 
     public void QuitGame()

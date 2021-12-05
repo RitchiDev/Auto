@@ -20,6 +20,9 @@ public class GameModeSettings : ScriptableObject
     [SerializeField] private string m_PlayerControllerString = "PlayerController";
     public string PlayerControllerString => m_PlayerControllerString;
 
+    [SerializeField] private string m_PlayerSpectatorString = "PlayerSpectator";
+    public string PlayerSpectatorString => m_PlayerSpectatorString;
+
     [SerializeField] private string m_PlayerListItemString = "PlayerListItem";
     public string PlayerListItemString => m_PlayerListItemString;
 

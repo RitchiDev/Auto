@@ -8,6 +8,8 @@ namespace EditedCarController
 	public class Camera_Controller : MonoBehaviour
 	{
 		[SerializeField] private PhotonView m_PhotonView;
+		private Rigidbody m_Rigidbody;
+		private Camera m_Camera;
 
 		[Header("Settings")]
 		public Transform car;
@@ -26,7 +28,12 @@ namespace EditedCarController
 
 		private void Start()
 		{
-			if(!m_PhotonView.IsMine)
+			if(m_PhotonView.IsMine)
+			{
+				m_Rigidbody = car.GetComponent<Rigidbody>();
+				m_Camera = GetComponent<Camera>();
+			}
+			else
 			{
 				gameObject.SetActive(false);
 			}
@@ -53,7 +60,13 @@ namespace EditedCarController
 		}
 
 		void FixedUpdate(){
-			Vector3 localVelocity = car.InverseTransformDirection(car.GetComponent<Rigidbody>().velocity);
+
+			if(!m_Rigidbody)
+			{
+				return;
+			}
+
+			Vector3 localVelocity = car.InverseTransformDirection(m_Rigidbody.velocity);
 			if (localVelocity.z < -0.1f){
 				Vector3 temp = rotationVector; //because temporary variables seem to be removed after a closing bracket "}" we can use the same variable name multiple times.
 				temp.y = car.eulerAngles.y + 180;
@@ -67,8 +80,8 @@ namespace EditedCarController
 			}
 
 			//Setting the field of view of the camera:
-			float acc = car.GetComponent<Rigidbody>().velocity.magnitude;
-			GetComponent<Camera>().fieldOfView = FOV + acc * Zoom_Ratio * Time.deltaTime;  //he removed * Time.deltaTime but it works better if you leave it like this.
+			float acc = m_Rigidbody.velocity.magnitude;
+			m_Camera.fieldOfView = FOV + acc * Zoom_Ratio * Time.deltaTime;  //he removed * Time.deltaTime but it works better if you leave it like this.
 		}
 	}
 
