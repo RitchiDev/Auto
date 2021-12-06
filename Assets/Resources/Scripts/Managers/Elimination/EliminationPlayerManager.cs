@@ -1,10 +1,8 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace GameMode.Elimination
 {
@@ -28,16 +26,6 @@ namespace GameMode.Elimination
             }
         }
 
-
-        public override void OnLeftRoom()
-        {
-            Debug.Log("Left Room");
-
-            PhotonNetwork.LoadLevel(0); // Titlescreen
-
-            base.OnLeftRoom();
-        }
-
         public override void CreatePlayerController()
         {
             Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
@@ -47,6 +35,8 @@ namespace GameMode.Elimination
             string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
             string path2 = RoomManager.Instance.GameModeSettings.PlayerControllerString;
             m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+
+            DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
         }
 
         public override void CreatePlayerSpectator()
@@ -62,35 +52,9 @@ namespace GameMode.Elimination
             //string path2 = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
             m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
             //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity, group, data);
-        }
 
-        public override void ReturnToTitlescreen()
-        {
-            StartCoroutine(LeaveAndLoad());
-        }
+            DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
 
-        private IEnumerator LeaveAndLoad()
-        {
-            PhotonNetwork.Destroy(m_PlayerGameObject);
-
-            PhotonNetwork.LeaveRoom();
-
-            while (PhotonNetwork.InRoom)
-            {
-                Debug.Log("In Room");
-
-                yield return null;
-            }
-            while (!PhotonNetwork.IsConnected)
-            {
-                Debug.Log("Still Connected");
-
-                yield return null;
-            }
-
-            Destroy(RoomManager.Instance.gameObject);
-
-            Debug.Log("Leaving");
         }
 
         public override void AddDeathToUI(string name)
@@ -122,6 +86,40 @@ namespace GameMode.Elimination
 
                 CreatePlayerSpectator();
             }
+        }
+
+        public void ReturnToTitlescreen()
+        {
+            StartCoroutine(LeaveAndLoad());
+        }
+
+        private IEnumerator LeaveAndLoad()
+        {
+            if (m_PlayerGameObject)
+            {
+                PhotonNetwork.Destroy(m_PlayerGameObject);
+            }
+
+            PhotonNetwork.LeaveRoom();
+
+            while (PhotonNetwork.InRoom)
+            {
+                Debug.Log("In Room");
+
+                yield return null;
+            }
+            while (!PhotonNetwork.IsConnected)
+            {
+                Debug.Log("Still Connected");
+
+                yield return null;
+            }
+
+            Destroy(RoomManager.Instance.gameObject);
+
+            PhotonNetwork.Disconnect();
+
+            Debug.Log("Leaving");
         }
     }
 }

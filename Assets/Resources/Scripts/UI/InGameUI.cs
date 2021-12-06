@@ -13,13 +13,13 @@ public class InGameUI : MonoBehaviour
 
     [SerializeField] private TMP_Text m_OnScreenScore;
 
-    private PlayerManager m_PlayerManager;
+    private GameMode.Elimination.EliminationPlayerManager m_PlayerManager;
 
     private void Start()
     {
         if(m_PhotonView.IsMine)
         {
-            m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
+            m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<GameMode.Elimination.EliminationPlayerManager>();
         }
         else
         {

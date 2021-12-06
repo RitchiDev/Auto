@@ -221,6 +221,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        Debug.Log("Left Room");
         MenuManager.Instance.OpenMenu(MenuName.onlineMenu);
     }
 
