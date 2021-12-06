@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 using Andrich.UtilityScripts;
 
-public class ReadyToggle : MonoBehaviourPun
+public class ReadyToggle : MonoBehaviourPunCallbacks
 {
     private PhotonView m_PhotonView;
     [SerializeField] private Toggle m_Toggle;
@@ -21,6 +21,13 @@ public class ReadyToggle : MonoBehaviourPun
     private void Start()
     {
         m_PhotonView = GetComponent<PhotonView>();
+
+        if(m_PhotonView.IsMine)
+        {
+            m_PlayerIsReady = false;
+            PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
+            m_Toggle.onValueChanged.AddListener(delegate { ReadyUp(); });
+        }
     }
 
     public void SetUp(Player player)
@@ -29,29 +36,24 @@ public class ReadyToggle : MonoBehaviourPun
 
         if(PhotonNetwork.LocalPlayer != player)
         {
-            m_Toggle.gameObject.SetActive(false);
-            //m_Toggle.interactable = false;
-        }
-        else
-        {
-            //m_Toggle.interactable = true;
-            PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
-            m_Toggle.onValueChanged.AddListener(delegate { UpdateToggle(); }) ;
+            m_Toggle.interactable = false;
         }
     }
-    
-    public void UpdateToggle()
+
+    public void ReadyUp()
     {
+        Debug.Log("Readied Up");
         m_PlayerIsReady = !m_PlayerIsReady;
-        m_PhotonView.RPC("RPCUpdateToggle", RpcTarget.All);
+        Debug.Log(m_PlayerIsReady);
 
         PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
+        Debug.Log(PhotonNetwork.LocalPlayer.GetIfReady());
     }
 
-    [PunRPC]
-    private void RPCUpdateToggle()
+    public void UpdateToggleState(Player player)
     {
-        m_ReadyStateText.text = m_PlayerIsReady ? "Ready!" : "Not Ready";
-        //Debug.Log(PhotonNetwork.LocalPlayer.NickName + "Ready: " + m_PlayerIsReady);
+        //m_Toggle.isOn = !m_Toggle.isOn;
+        Debug.Log(player.NickName + " is Ready");
+        m_ReadyStateText.text = player.GetIfReady() ? "Ready!" : "Not Ready";
     }
 }

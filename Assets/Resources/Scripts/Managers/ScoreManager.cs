@@ -39,8 +39,9 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        foreach (Scoreboard scoreboard in m_Scoreboards)
+        for (int i = 0; i < m_Scoreboards.Count; i++)
         {
+            Scoreboard scoreboard = m_Scoreboards[i];
             scoreboard.UpdateScoreboardItemText(targetPlayer, targetPlayer.GetScore());
 
             InGameUI inGameUI = scoreboard.GetComponentInParent<InGameUI>();
