@@ -81,9 +81,9 @@ public class EliminateManager : MonoBehaviour
 
     private void EliminatePlayer()
     {
-        foreach (EliminationPlayerController playerController in m_AlivePlayers)
+        for (int i = 0; i < m_AlivePlayers.Count; i++)
         {
-            playerController.Eliminate();
+            m_AlivePlayers[i].Eliminate();
         }
     }
 }

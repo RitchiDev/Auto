@@ -57,9 +57,11 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     private void RemoveScoreboardItem(Player player)
     {
-        foreach (ScoreboardItem item in m_ScoreboardItems)
+        for (int i = 0; i < m_ScoreboardItems.Count; i++)
         {
-            if(player == item.Player())
+            ScoreboardItem item = m_ScoreboardItems[i];
+
+            if (player == item.Player())
             {
                 Destroy(item.gameObject);
                 m_ScoreboardItems.Remove(item);

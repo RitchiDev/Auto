@@ -1992,6 +1992,7 @@ namespace Photon.Pun
         /// <param name="becomeInactive">If this client becomes inactive in a room with playerTTL &lt; 0. Defaults to true.</param>
         public static bool LeaveRoom(bool becomeInactive = true)
         {
+
             if (OfflineMode)
             {
                 offlineModeRoom = null;
@@ -2000,6 +2001,8 @@ namespace Photon.Pun
             }
             else
             {
+                Debug.Log("Geroepen");
+
                 if (CurrentRoom == null)
                 {
                     Debug.LogWarning("PhotonNetwork.CurrentRoom is null. You don't have to call LeaveRoom() when you're not in one. State: " + PhotonNetwork.NetworkClientState);

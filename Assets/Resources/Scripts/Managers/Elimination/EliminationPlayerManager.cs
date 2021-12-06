@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GameMode.Elimination
 {
@@ -27,32 +28,12 @@ namespace GameMode.Elimination
             }
         }
 
+
         public override void OnLeftRoom()
         {
-            if (m_PhotonView.IsMine)
-            {
-                if (m_PlayerGameObject)
-                {
-                    PhotonNetwork.Destroy(m_PlayerGameObject);
-                }
-            }
+            Debug.Log("Left Room");
 
             PhotonNetwork.LoadLevel(0); // Titlescreen
-
-            base.OnLeftRoom();
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            if (m_PhotonView.IsMine)
-            {
-                if (m_PlayerGameObject)
-                {
-                    PhotonNetwork.Destroy(m_PlayerGameObject);
-                }
-            }
-
-            base.OnDisconnected(cause);
         }
 
         public override void CreatePlayerController()
@@ -81,26 +62,33 @@ namespace GameMode.Elimination
             //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity, group, data);
         }
 
-        public override void ReturnToTitlescreen(GameObject gameObjectToDestroy)
+        public override void ReturnToTitlescreen()
         {
-            PhotonNetwork.Destroy(gameObjectToDestroy);
             StartCoroutine(LeaveAndLoad());
         }
 
         private IEnumerator LeaveAndLoad()
         {
+            PhotonNetwork.Destroy(m_PlayerGameObject);
+
             PhotonNetwork.LeaveRoom();
 
             while (PhotonNetwork.InRoom)
             {
+                Debug.Log("In Room");
+
                 yield return null;
             }
             while (!PhotonNetwork.IsConnected)
             {
+                Debug.Log("Still Connected");
+
                 yield return null;
             }
 
             Destroy(RoomManager.Instance.gameObject);
+
+            Debug.Log("Leaving");
         }
 
         public override void AddDeathToUI(string name)

@@ -12,12 +12,6 @@ public class Ring : MonoBehaviour
         if(playerController)
         {
             ScoreManager.Instance.AddScore(playerController.Player, m_ScoreToAdd);
-
-            InGameUI inGameUI = playerController.GetComponentInChildren<InGameUI>();
-            if(inGameUI)
-            {
-                inGameUI.SetOnscreenScore(playerController.Player.GetScore());
-            }
         }
     }
 }
