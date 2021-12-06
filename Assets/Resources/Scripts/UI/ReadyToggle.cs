@@ -7,6 +7,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
+using Andrich.UtilityScripts;
+
 public class ReadyToggle : MonoBehaviourPun
 {
     private PhotonView m_PhotonView;
@@ -33,8 +35,7 @@ public class ReadyToggle : MonoBehaviourPun
         else
         {
             //m_Toggle.interactable = true;
-            PhotonHashtable initialProperties = new PhotonHashtable() { { PlayerProperties.IsReadyProperty, m_PlayerIsReady } };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(initialProperties);
+            PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
             m_Toggle.onValueChanged.AddListener(delegate { UpdateToggle(); }) ;
         }
     }
@@ -44,8 +45,7 @@ public class ReadyToggle : MonoBehaviourPun
         m_PlayerIsReady = !m_PlayerIsReady;
         m_PhotonView.RPC("RPCUpdateToggle", RpcTarget.All);
 
-        PhotonHashtable newProperties = new PhotonHashtable() { { PlayerProperties.IsReadyProperty, m_PlayerIsReady } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(newProperties);
+        PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
     }
 
     [PunRPC]

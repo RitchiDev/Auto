@@ -34,6 +34,8 @@ namespace GameMode.Elimination
             Debug.Log("Left Room");
 
             PhotonNetwork.LoadLevel(0); // Titlescreen
+
+            base.OnLeftRoom();
         }
 
         public override void CreatePlayerController()

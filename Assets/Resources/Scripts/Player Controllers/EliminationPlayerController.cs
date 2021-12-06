@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.UtilityScripts;
+using Andrich.UtilityScripts;
+
 public class EliminationPlayerController : MonoBehaviour
 {
     [SerializeField] private PhotonView m_PhotonView;

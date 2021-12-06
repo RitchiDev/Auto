@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using Andrich.UtilityScripts;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -101,7 +102,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         int readyPlayers = 0;
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if ((bool)player.CustomProperties[PlayerProperties.IsReadyProperty])
+            if(player.GetIfReady())
             {
                 Debug.Log(player.NickName + " is Ready");
                 readyPlayers++;
