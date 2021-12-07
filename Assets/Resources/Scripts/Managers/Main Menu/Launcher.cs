@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using Andrich.UtilityScripts;
+using ExitGames.Client.Photon;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -19,6 +21,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [Header("In Room")]
     [SerializeField] private TMP_Text m_RoomNameText;
     [SerializeField] private Transform m_PlayerListContent;
+    [SerializeField] private GameObject m_PlayerListItemPrefab;
     [SerializeField] private GameObject m_StartGameButton;
     [SerializeField] private GameObject m_ChooseMapBlocker;
     private List<ReadyToggle> m_TogglesInRoom;
@@ -83,6 +86,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if(!AllPlayersReady() || !MinimumPlayersReached())
         {
+            if(!MinimumPlayersReached())
+            {
+                Debug.Log("Minimim Players hasn't been reached!");
+            }
             return;
         }
 
@@ -101,7 +108,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         int readyPlayers = 0;
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if ((bool)player.CustomProperties[PlayerProperties.IsReadyProperty])
+            if(player.GetIfReady())
             {
                 Debug.Log(player.NickName + " is Ready");
                 readyPlayers++;
@@ -172,12 +179,11 @@ public class Launcher : MonoBehaviourPunCallbacks
             Destroy(transform.gameObject);
         }
 
-        string path1 = GameModeManager.Instance.SelectedGameMode.PhotonPrefabsFolder;
-        string path2 = GameModeManager.Instance.SelectedGameMode.PlayerListItemString;
-        string combinedPath = Path.Combine(path1, path2);
         foreach (Player player in playerList)
         {
-            GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
+            Debug.Log("Created Item");
+
+            GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
             item.transform.SetParent(m_PlayerListContent, false);
             item.GetComponent<PlayerInRoomItem>().SetUp(player, player.NickName);
 
@@ -192,7 +198,19 @@ public class Launcher : MonoBehaviourPunCallbacks
         m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);
         m_StartGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
-    
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        for (int i = 0; i < m_TogglesInRoom.Count; i++)
+        {
+            ReadyToggle readyToggle = m_TogglesInRoom[i];
+
+            readyToggle.UpdateToggleState(targetPlayer);
+        }
+
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
+
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);
@@ -220,6 +238,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        Debug.Log("Left Room");
         MenuManager.Instance.OpenMenu(MenuName.onlineMenu);
     }
 
@@ -253,7 +272,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         string path2 = GameModeManager.Instance.SelectedGameMode.PlayerListItemString;
         string combinedPath = Path.Combine(path1, path2);
 
-        GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
+        GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
+        //GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
         item.transform.SetParent(m_PlayerListContent, false);
         item.GetComponent<PlayerInRoomItem>().SetUp(newPlayer, newPlayer.NickName);
 

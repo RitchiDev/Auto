@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : MonoBehaviourPunCallbacks
 {
     public static ScoreManager Instance { get; private set; }
     [SerializeField] private List<Scoreboard> m_Scoreboards = new List<Scoreboard>();
@@ -34,16 +34,21 @@ public class ScoreManager : MonoBehaviour
     [PunRPC]
     private void RPC_AddScore(Player player, int scoreToAdd)
     {
-        if(player.GetScore() <= 0)
-        {
-            player.AddScore(scoreToAdd);
-        }
-
         player.AddScore(scoreToAdd);
+    }
 
-        foreach (Scoreboard scoreboard in m_Scoreboards)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        for (int i = 0; i < m_Scoreboards.Count; i++)
         {
-            scoreboard.UpdateScoreboardItemText(player, player.GetScore());
+            Scoreboard scoreboard = m_Scoreboards[i];
+            scoreboard.UpdateScoreboardItemText(targetPlayer, targetPlayer.GetScore());
+
+            InGameUI inGameUI = scoreboard.GetComponentInParent<InGameUI>();
+            if (inGameUI)
+            {
+                inGameUI.SetOnscreenScore(targetPlayer.GetScore());
+            }
         }
     }
 

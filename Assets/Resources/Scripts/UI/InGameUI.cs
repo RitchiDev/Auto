@@ -13,15 +13,13 @@ public class InGameUI : MonoBehaviour
 
     [SerializeField] private TMP_Text m_OnScreenScore;
 
-    private GameObject m_CurrentPlayerController;
-    private PlayerManager m_PlayerManager;
+    private GameMode.Elimination.EliminationPlayerManager m_PlayerManager;
 
     private void Start()
     {
         if(m_PhotonView.IsMine)
         {
-            m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
-            m_CurrentPlayerController = GetComponentInParent<EliminationPlayerController>().gameObject;
+            m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<GameMode.Elimination.EliminationPlayerManager>();
         }
         else
         {
@@ -83,7 +81,7 @@ public class InGameUI : MonoBehaviour
 
     public void ReturnToTitleScreen()
     {
-        m_PlayerManager.ReturnToTitlescreen(m_CurrentPlayerController);
+        m_PlayerManager.ReturnToTitlescreen();
     }
 
     public void QuitGame()

@@ -5,7 +5,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private LayerMask m_LayerMask;
     private Vector3 m_PlayerDetectionSize = new Vector3(16f, 10f, 16f);
     private List<Spawnpoint> m_Spawnpoints  = new List<Spawnpoint>();
-    private List<Spawnpoint> m_AvailibleSpawnPoints = new List<Spawnpoint>();
+    private List<Spawnpoint> m_AvailebleSpawnPoints = new List<Spawnpoint>();
     private int m_PreviousIndex;
     public static SpawnManager Instance { get; private set; }
 
@@ -20,13 +20,14 @@ public class SpawnManager : MonoBehaviour
         {
             Instance = this;
             
-            Spawnpoint[] spawns= GetComponentsInChildren<Spawnpoint>();
+            Spawnpoint[] spawnpoints = GetComponentsInChildren<Spawnpoint>();
 
-            foreach (var item in spawns)
+            foreach (Spawnpoint spawnpoint in spawnpoints)
             {
-                m_Spawnpoints.Add(item);
+                m_Spawnpoints.Add(spawnpoint);
             }
-            m_AvailibleSpawnPoints = m_Spawnpoints;
+
+            m_AvailebleSpawnPoints = m_Spawnpoints;
         }
     }
 
@@ -42,16 +43,18 @@ public class SpawnManager : MonoBehaviour
         m_PreviousIndex = index;
         return m_Spawnpoints[index].transform;
     }
+
     public Transform GetUntakenSpawnpoints()
     {
-        if (m_AvailibleSpawnPoints.Count == 0)
-            m_AvailibleSpawnPoints = m_Spawnpoints;
+        if (m_AvailebleSpawnPoints.Count == 0)
+            m_AvailebleSpawnPoints = m_Spawnpoints;
 
-        int index = Random.Range(0, m_AvailibleSpawnPoints.Count - 1);
-        Transform Location = m_AvailibleSpawnPoints[index].transform;
-        m_AvailibleSpawnPoints.RemoveAt(index);
+        int index = Random.Range(0, m_AvailebleSpawnPoints.Count - 1);
+        Transform Location = m_AvailebleSpawnPoints[index].transform;
+        m_AvailebleSpawnPoints.RemoveAt(index);
         return Location;
     }
+
     public Transform GetRandomSpawnPoint()
     {
         int index = Random.Range(0, m_Spawnpoints.Count - 1);
@@ -60,6 +63,8 @@ public class SpawnManager : MonoBehaviour
 
         while (!placed)
         {
+            index = Random.Range(0, m_Spawnpoints.Count - 1);
+
             if (stopCount++ > 1000)
             {
                 Debug.Log("Reached Stop Count");
@@ -67,7 +72,6 @@ public class SpawnManager : MonoBehaviour
                 break;
             }
 
-            //if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
             if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
             {
                 Debug.Log("Placed Succesfully!");
@@ -75,7 +79,6 @@ public class SpawnManager : MonoBehaviour
                 placed = true;
             }
         }
-
         return m_Spawnpoints[index].transform;
     }
 }

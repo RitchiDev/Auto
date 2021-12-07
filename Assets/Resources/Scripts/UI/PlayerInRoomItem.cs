@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class PlayerInRoomItem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_Text m_PlayerNameText;
-    [SerializeField] private Toggle m_Toggle;
     private Player m_Player;
     public Player Player => m_Player;
 
@@ -30,11 +29,6 @@ public class PlayerInRoomItem : MonoBehaviourPunCallbacks
         }
 
         Destroy(gameObject);
-    }
-
-    public void ToggleReadyState()
-    {
-        m_Toggle.isOn = !m_Toggle.isOn;
     }
 
     public override void OnLeftRoom()

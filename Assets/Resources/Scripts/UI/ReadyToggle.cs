@@ -7,10 +7,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
-public class ReadyToggle : MonoBehaviourPun
+using Andrich.UtilityScripts;
+
+public class ReadyToggle : MonoBehaviourPunCallbacks
 {
     private PhotonView m_PhotonView;
-    [SerializeField] private Toggle m_Toggle;
+    [SerializeField] private Button m_Button;
+    [SerializeField] private Image m_Image;
+    [SerializeField] private GameObject m_BlockImage;
     [SerializeField] private TMP_Text m_ReadyStateText;
     private bool m_PlayerIsReady = false;
     private Player m_Player;
@@ -19,6 +23,13 @@ public class ReadyToggle : MonoBehaviourPun
     private void Start()
     {
         m_PhotonView = GetComponent<PhotonView>();
+
+        if(m_PhotonView.IsMine)
+        {
+            m_PlayerIsReady = false;
+            PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
+            //m_Toggle.onValueChanged.AddListener(delegate { ReadyUp(); });
+        }
     }
 
     public void SetUp(Player player)
@@ -27,31 +38,35 @@ public class ReadyToggle : MonoBehaviourPun
 
         if(PhotonNetwork.LocalPlayer != player)
         {
-            m_Toggle.gameObject.SetActive(false);
-            //m_Toggle.interactable = false;
+            m_BlockImage.SetActive(true);
+            m_Button.interactable = false;
         }
         else
         {
-            //m_Toggle.interactable = true;
-            PhotonHashtable initialProperties = new PhotonHashtable() { { PlayerProperties.IsReadyProperty, m_PlayerIsReady } };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(initialProperties);
-            m_Toggle.onValueChanged.AddListener(delegate { UpdateToggle(); }) ;
+            m_BlockImage.SetActive(false);
         }
+
+        UpdateToggleState(player);
     }
-    
-    public void UpdateToggle()
+
+    public void ReadyUp()
     {
+        Debug.Log("Readied Up");
         m_PlayerIsReady = !m_PlayerIsReady;
-        m_PhotonView.RPC("RPCUpdateToggle", RpcTarget.All);
+        Debug.Log(m_PlayerIsReady);
 
-        PhotonHashtable newProperties = new PhotonHashtable() { { PlayerProperties.IsReadyProperty, m_PlayerIsReady } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(newProperties);
+        PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
+        Debug.Log(PhotonNetwork.LocalPlayer.GetIfReady());
     }
 
-    [PunRPC]
-    private void RPCUpdateToggle()
+    public void UpdateToggleState(Player player)
     {
-        m_ReadyStateText.text = m_PlayerIsReady ? "Ready!" : "Not Ready";
-        //Debug.Log(PhotonNetwork.LocalPlayer.NickName + "Ready: " + m_PlayerIsReady);
+        if(player == m_Player)
+        {
+            Debug.Log(player.NickName + " is Ready");
+            m_ReadyStateText.text = player.GetIfReady() ? "Ready!" : "Not Ready";
+            m_Image.color = player.GetIfReady() ? Color.green : Color.red;
+        }
+        //m_Toggle.isOn = !m_Toggle.isOn;
     }
 }
