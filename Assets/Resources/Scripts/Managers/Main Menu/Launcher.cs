@@ -268,10 +268,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Player Entered Room");
 
-        string path1 = GameModeManager.Instance.SelectedGameMode.PhotonPrefabsFolder;
-        string path2 = GameModeManager.Instance.SelectedGameMode.PlayerListItemString;
-        string combinedPath = Path.Combine(path1, path2);
-
         GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
         //GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
         item.transform.SetParent(m_PlayerListContent, false);

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 960726408258058752}
   - component: {fileID: 2861047152599901851}
   - component: {fileID: 3330795559746768893}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4531716264865141297}
   - component: {fileID: 294642698402859099}
   - component: {fileID: 2220072323299950219}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: rechts_achter (BR)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7976266791539024454}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ Transform:
   - {fileID: 7438468295569362094}
   - {fileID: 7438468295759920208}
   m_Father: {fileID: 6481236332482357541}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1684460965271376318
 GameObject:
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 4732708192796217549}
   - component: {fileID: 2473690652179268258}
   - component: {fileID: 1551158350907411652}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: links_voor (FL)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 7498194065763745732}
   - component: {fileID: 7656454346394094962}
   - component: {fileID: 8355146347463388112}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,13 +407,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6481236332482357541}
-  - component: {fileID: 706421716052606082}
-  - component: {fileID: 5961124019767292824}
-  - component: {fileID: 5961124019767292830}
-  - component: {fileID: 5961124019767292825}
   - component: {fileID: 5085091912870233124}
   - component: {fileID: 3907069252559278722}
-  m_Layer: 9
+  - component: {fileID: 706421716052606082}
+  - component: {fileID: 5961124019767292830}
+  - component: {fileID: 5961124019767292824}
+  - component: {fileID: 5961124019767292825}
+  m_Layer: 3
   m_Name: EliminationCarController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,11 +434,53 @@ Transform:
   - {fileID: 5820636486620483242}
   - {fileID: 4223315746439661503}
   - {fileID: 4450053151876101640}
-  - {fileID: 8387258449283027772}
   - {fileID: 7976266791539024454}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5085091912870233124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961124019767292831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 3907069252559278722}
+  - {fileID: 7185407630844572000}
+  - {fileID: 1551158350907411652}
+  - {fileID: 2220072323299950219}
+  - {fileID: 6795808433139513698}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &3907069252559278722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961124019767292831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &706421716052606082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,33 +495,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PhotonView: {fileID: 5085091912870233124}
   m_Car: {fileID: 1124252430718140716}
---- !u!114 &5961124019767292824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5961124019767292831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e0583cf74c79ff48aa4e88fd21f350a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PhotonView: {fileID: 5085091912870233124}
-  Tire_Marks:
-  - {fileID: 7438468297277338209}
-  - {fileID: 7438468295946298918}
-  - {fileID: 7438468297033205390}
-  - {fileID: 7438468295389862077}
-  Enable_Particle_System: 1
-  Skid_Particles:
-  - {fileID: 7438468295946298912}
-  - {fileID: 7438468297277338211}
-  - {fileID: 7438468297033205384}
-  - {fileID: 7438468295389862076}
-  Enable_Audio: 0
-  Drift_Audio: {fileID: 0}
-  car_Controller: {fileID: 5961124019767292830}
 --- !u!114 &5961124019767292830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,6 +590,33 @@ MonoBehaviour:
   Car_Speed_In_KPH: 0
   Car_Speed_In_MPH: 0
   currSpeed: 0
+--- !u!114 &5961124019767292824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961124019767292831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0583cf74c79ff48aa4e88fd21f350a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PhotonView: {fileID: 5085091912870233124}
+  Tire_Marks:
+  - {fileID: 7438468297277338209}
+  - {fileID: 7438468295946298918}
+  - {fileID: 7438468297033205390}
+  - {fileID: 7438468295389862077}
+  Enable_Particle_System: 1
+  Skid_Particles:
+  - {fileID: 7438468295946298912}
+  - {fileID: 7438468297277338211}
+  - {fileID: 7438468297033205384}
+  - {fileID: 7438468295389862076}
+  Enable_Audio: 0
+  Drift_Audio: {fileID: 0}
+  car_Controller: {fileID: 5961124019767292830}
 --- !u!54 &5961124019767292825
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -591,49 +633,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5085091912870233124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5961124019767292831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 3907069252559278722}
-  - {fileID: 7185407630844572000}
-  - {fileID: 1551158350907411652}
-  - {fileID: 2220072323299950219}
-  - {fileID: 6795808433139513698}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &3907069252559278722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5961124019767292831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &6520429493322592419
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,7 +645,7 @@ GameObject:
   - component: {fileID: 2639137324071451040}
   - component: {fileID: 4915242701493452955}
   - component: {fileID: 7185407630844572000}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: rechts_voor (FR)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -744,7 +743,7 @@ GameObject:
   - component: {fileID: 1726170600634574848}
   - component: {fileID: 5617449474380239493}
   - component: {fileID: 6795808433139513698}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: links_achter (BL)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -840,7 +839,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468295328591197}
   - component: {fileID: 7438468295328591196}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: HeadLights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -932,7 +931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7438468295384527584}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Wheel Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -969,7 +968,7 @@ GameObject:
   - component: {fileID: 7438468295389862077}
   - component: {fileID: 7438468295389862079}
   - component: {fileID: 7438468295389862076}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: FL (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5881,7 +5880,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7438468295569362094}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Centre_of_mass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5912,7 +5911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468295665695463}
   - component: {fileID: 7438468295665695462}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Reverse_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6004,7 +6003,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7438468295759920208}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6041,7 +6040,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468295942397325}
   - component: {fileID: 7438468295942397324}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BrakeLights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6136,7 +6135,7 @@ GameObject:
   - component: {fileID: 7438468295946298918}
   - component: {fileID: 7438468295946298912}
   - component: {fileID: 7438468295946298913}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BR (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11049,7 +11048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468296023660098}
   - component: {fileID: 7438468296023660109}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: HeadLights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11142,7 +11141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468296130107225}
   - component: {fileID: 7438468296130107230}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Reverse_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11234,7 +11233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7438468296149340097}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Wheel_Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11269,7 +11268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468296237528800}
   - component: {fileID: 7438468296237528803}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11330,7 +11329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468296771177437}
   - component: {fileID: 7438468296771177426}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11390,7 +11389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7438468296901490432}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Wheels Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11431,7 +11430,7 @@ GameObject:
   - component: {fileID: 7438468297033205390}
   - component: {fileID: 7438468297033205385}
   - component: {fileID: 7438468297033205384}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BL (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16346,7 +16345,7 @@ GameObject:
   - component: {fileID: 7438468297277338209}
   - component: {fileID: 7438468297277338208}
   - component: {fileID: 7438468297277338211}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: FR (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21259,7 +21258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468297434602830}
   - component: {fileID: 7438468297434602825}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21320,7 +21319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468297438834840}
   - component: {fileID: 7438468297438834843}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21381,7 +21380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7438468297440416692}
   - component: {fileID: 7438468297440416695}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BrakeLights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21475,7 +21474,7 @@ GameObject:
   - component: {fileID: 222096625377242287}
   - component: {fileID: 63343527664134190}
   - component: {fileID: 5063769675619132063}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21558,7 +21557,7 @@ GameObject:
   - component: {fileID: 147142764477551378}
   - component: {fileID: 7072853642355306062}
   - component: {fileID: 4729908030834896353}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pijp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21639,7 +21638,7 @@ GameObject:
   - component: {fileID: 528073261392768722}
   - component: {fileID: 6456040480568403296}
   - component: {fileID: 6988853807281378514}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21723,7 +21722,7 @@ GameObject:
   - component: {fileID: 5319845003983959529}
   - component: {fileID: 7941840182562079011}
   - component: {fileID: 8053668790793362190}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: VictorCarBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21895,91 +21894,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2391661751066280889}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2530501876762188769
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 6481236332482357541}
-    m_Modifications:
-    - target: {fileID: 378615793177209631, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: Target
-      value: 
-      objectReference: {fileID: 6481236332482357541}
-    - target: {fileID: 378615793177209631, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_PhotonView
-      value: 
-      objectReference: {fileID: 5085091912870233124}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 406
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 108.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -45.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6303809208680057123, guid: 4c2484999cae7a1409f704a69d8ba47a,
-        type: 3}
-      propertyPath: m_Name
-      value: Minimap Camera
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4c2484999cae7a1409f704a69d8ba47a, type: 3}
---- !u!4 &8387258449283027772 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6303809208680057053, guid: 4c2484999cae7a1409f704a69d8ba47a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2530501876762188769}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5783499212302723811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22097,26 +22011,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 37176617755182592, guid: 59288e842f7beed4fb4baa952f1fa324,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2470072680908462945, guid: 59288e842f7beed4fb4baa952f1fa324,
-        type: 3}
-      propertyPath: m_Name
-      value: OnscreenStats
-      objectReference: {fileID: 0}
     - target: {fileID: 6293105210292697050, guid: 59288e842f7beed4fb4baa952f1fa324,
         type: 3}
       propertyPath: m_PhotonView
       value: 
       objectReference: {fileID: 5085091912870233124}
-    - target: {fileID: 8556780748942536436, guid: 59288e842f7beed4fb4baa952f1fa324,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59288e842f7beed4fb4baa952f1fa324, type: 3}
 --- !u!224 &5820636486620483242 stripped

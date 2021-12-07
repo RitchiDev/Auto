@@ -30,7 +30,13 @@ public class EliminationPlayerController : MonoBehaviour
 
     public void Eliminate()
     {
-        m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
+        EliminateManager.Instance.RemoveAlivePlayer(this);
+        Debug.Log("Eliminate Called");
+        if(!m_Player.GetIfEliminated())
+        {
+            Debug.Log("Hier");
+            m_PlayerManager.RespawnPlayerAsSpectator();
+        }
     }
 
     [PunRPC]
@@ -38,38 +44,5 @@ public class EliminationPlayerController : MonoBehaviour
     {
         m_Player = PhotonNetwork.LocalPlayer;
         EliminateManager.Instance.AddAlivePlayer(this);
-    }
-
-    [PunRPC]
-    private void RPC_Eliminate()
-    {
-        Debug.Log("Check If Eliminated");
-
-        if (PhotonNetwork.LocalPlayer.GetIfEliminated()) // If the player is already eliminated
-        {
-            return;
-        }
-
-        Player[] otherPlayers = PhotonNetwork.PlayerListOthers;
-
-        bool eliminate = false;
-
-        foreach (Player otherPlayer in otherPlayers)
-        {
-            Debug.Log(otherPlayer.NickName + ": Check If Score Is Higher");
-            Debug.Log(PhotonNetwork.LocalPlayer.GetScore() + " - " + otherPlayer.GetScore());
-            if (PhotonNetwork.LocalPlayer.GetScore() < otherPlayer.GetScore())
-            {
-                Debug.Log("Eliminated");
-                PhotonNetwork.LocalPlayer.SetEliminated(true);
-                eliminate = true;
-            }
-        }
-
-        if (eliminate)
-        {
-            EliminateManager.Instance.RemoveAlivePlayer(this);
-            m_PlayerManager.RespawnPlayerAsSpectator();
-        }
     }
 }
