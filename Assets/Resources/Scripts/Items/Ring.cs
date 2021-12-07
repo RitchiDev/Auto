@@ -5,6 +5,7 @@ using Photon.Pun.UtilityScripts;
 public class Ring : MonoBehaviour
 {
     [SerializeField] private int m_ScoreToAdd = 50;
+    public int Worth => m_ScoreToAdd;
 
     private void OnTriggerEnter(Collider other)
     {
