@@ -13,6 +13,7 @@ public class Ring : MonoBehaviour
         if(playerController)
         {
             ScoreManager.Instance.AddScore(playerController.Player, m_ScoreToAdd);
+            transform.parent.gameObject.SetActive(false);
         }
     }
 }
