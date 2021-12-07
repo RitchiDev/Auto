@@ -20,26 +20,53 @@ public class RingManager : MonoBehaviour
         {
             Instance = this;
 
-            RingCollision[] rings = GetComponentsInChildren<RingCollision>();
+            RingCollision[] ringCollisions = GetComponentsInChildren<RingCollision>();
 
-            foreach (RingCollision ring in rings)
+            foreach (RingCollision ringCollision in ringCollisions)
             {
-                if(ring.Worth >= 500)
+                if(ringCollision.Worth >= 500)
                 {
-                    m_RingsWorth500.Add(ring);
+                    m_RingsWorth500.Add(ringCollision);
                 }
                 else
                 {
-                    m_Rings.Add(ring);
-                    ring.transform.parent.gameObject.SetActive(false);
-                    SetNew500RingActive();
+                    m_Rings.Add(ringCollision);
                 }
             }
         }
     }
 
+    public void ActivateAllRings()
+    {
+        for (int i = 0; i < m_Rings.Count; i++)
+        {
+            m_Rings[i].Ring.Activate();
+        }
+
+        SetNew500RingActive();
+    }
+
+    public void DeactiveAllRings()
+    {
+        for (int i = 0; i < m_Rings.Count; i++)
+        {
+            m_Rings[i].Ring.Deactivate(false);
+        }
+
+        for (int i = 0; i < m_RingsWorth500.Count; i++)
+        {
+            m_RingsWorth500[i].Ring.Deactivate(false);
+        }
+    }
+
     public void SetNew500RingActive()
     {
+        if(m_RingsWorth500.Count <= 0)
+        {
+            Debug.Log("There are no rings worth 500 in the scene!");
+            return;
+        }
+
         int index = Random.Range(0, m_RingsWorth500.Count - 1);
         bool newRingHasBeenActivated = false;
         int stopCount = 0;
@@ -63,6 +90,6 @@ public class RingManager : MonoBehaviour
             }
         }
 
-        m_RingsWorth500[index].transform.parent.gameObject.SetActive(true);
+        m_RingsWorth500[index].Ring.Activate();
     }
 }

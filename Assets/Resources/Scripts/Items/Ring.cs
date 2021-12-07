@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class Ring : MonoBehaviour
 {
-    [SerializeField] private float m_TimeBeforeReActivation = 3f;
+    [SerializeField] private float m_TimeBeforeReActivation = 20f;
     [SerializeField] private RingCollision m_RingCollision;
     private MeshRenderer m_MeshRenderer;
 
     private void Awake()
     {
         m_MeshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    public void Activate()
+    {
+        m_MeshRenderer.enabled = true;
+        m_RingCollision.enabled = true;
     }
 
     public void Deactivate(bool reActivate = true)

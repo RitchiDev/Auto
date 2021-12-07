@@ -513,13 +513,13 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   Motor_Torque: 900
   Max_Steer_Angle: 30
-  BrakeForce: 1e+11
+  BrakeForce: 1000000
   Maximum_Speed: 100
-  handBrakeFrictionMultiplier: 3
+  handBrakeFrictionMultiplier: 30
   tempo: 0
   enable_boost: 1
-  Boost_Cooldown: 10
-  Boost_Amount: 10
+  Boost_Cooldown: 60
+  Boost_Amount: 5
   Boost_KeyCode: 304
   Enable_Boost_particles: 0
   Boost_particles: []
@@ -583,7 +583,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5961124019767292831}
   serializedVersion: 2
-  m_Mass: 500
+  m_Mass: 400
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -21572,8 +21572,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7765282192018274364}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00007436536, y: -0.0033778036, z: -0.016152946}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.016152948, y: -0.0033778038, z: 0.00007436787}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9114222749514381900}
@@ -21737,14 +21737,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8446476781789569270}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 280, y: 280, z: 280}
   m_Children:
   - {fileID: 147142764477551378}
   m_Father: {fileID: 7976266791539024454}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &5319845003983959529
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -21752,7 +21752,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8446476781789569270}
-  m_Mesh: {fileID: 5448168216404634060, guid: 41693d3b87df28f4ca0eeebfb4d02571, type: 3}
+  m_Mesh: {fileID: 5448168216404634060, guid: cdcd00f92244baa449b13605ea4ee187, type: 3}
 --- !u!23 &7941840182562079011
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21809,7 +21809,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 5448168216404634060, guid: 41693d3b87df28f4ca0eeebfb4d02571, type: 3}
+  m_Mesh: {fileID: 5448168216404634060, guid: cdcd00f92244baa449b13605ea4ee187, type: 3}
 --- !u!1001 &2391661751066280889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22096,6 +22096,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37176617755182592, guid: 59288e842f7beed4fb4baa952f1fa324,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2470072680908462945, guid: 59288e842f7beed4fb4baa952f1fa324,
+        type: 3}
+      propertyPath: m_Name
+      value: OnscreenStats
       objectReference: {fileID: 0}
     - target: {fileID: 6293105210292697050, guid: 59288e842f7beed4fb4baa952f1fa324,
         type: 3}

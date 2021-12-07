@@ -458,6 +458,7 @@ MonoBehaviour:
   m_Username: {fileID: 7390446771037968840}
   m_InTabScore: {fileID: 7390446772121577038}
   m_KOs: {fileID: 7390446772546461491}
+  m_Deaths: {fileID: 636863125263554925}
 --- !u!1 &7390446772728630651
 GameObject:
   m_ObjectHideFlags: 0

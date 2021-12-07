@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using Andrich.UtilityScripts;
 
 namespace GameMode.Elimination
 {
@@ -41,6 +42,7 @@ namespace GameMode.Elimination
 
         public override void CreatePlayerSpectator()
         {
+            PhotonNetwork.LocalPlayer.AddDeath(1);
             AddDeathToUI(PhotonNetwork.LocalPlayer.NickName);
 
             Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();

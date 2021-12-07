@@ -11,9 +11,8 @@ public class ScoreboardItem : MonoBehaviour
     [SerializeField] private TMP_Text m_Username;
     [SerializeField] private TMP_Text m_InTabScore;
     [SerializeField] private TMP_Text m_KOs;
+    [SerializeField] private TMP_Text m_Deaths;
     private Player m_Player;
-    private int m_CurrentScore;
-    public int CurrentScore => m_CurrentScore;
 
     public void SetUp(Player player)
     {
@@ -24,9 +23,12 @@ public class ScoreboardItem : MonoBehaviour
 
     public void SetScore(int score)
     {
-        m_CurrentScore = score;
-        m_InTabScore.text = "Score: " + m_CurrentScore.ToString();
-        Debug.Log(m_InTabScore.text);
+        m_InTabScore.text = "Score: " + score.ToString();
+    }
+
+    public void SetDeaths(int deaths)
+    {
+        m_Deaths.text = "Deaths: " + deaths.ToString();
     }
 
     public Player Player()
