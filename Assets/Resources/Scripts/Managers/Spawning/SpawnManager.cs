@@ -70,7 +70,7 @@ public class SpawnManager : MonoBehaviour
                 break;
             }
 
-            //if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
+            index = Random.Range(0, m_Spawnpoints.Count - 1);
             if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
             {
                 Debug.Log("Placed Succesfully!");
@@ -78,7 +78,6 @@ public class SpawnManager : MonoBehaviour
                 placed = true;
             }
         }
-
         return m_Spawnpoints[index].transform;
     }
 }
