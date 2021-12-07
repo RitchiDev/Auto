@@ -6,8 +6,9 @@ namespace Andrich.UtilityScripts
 {
     public class PlayerProperties : MonoBehaviour
     {
-        public const string IsReadyProperty = "PlayerIsReady";
         public const string ScoreProperty = "PlayerScore";
+        public const string DeathsProperty = "PlayerDeaths";
+        public const string IsReadyProperty = "PlayerIsReady";
         public const string IsEliminatedProperty = "PlayerIsEliminated";
     }
 
@@ -44,25 +45,36 @@ namespace Andrich.UtilityScripts
         }
     }
 
-    public static class EliminatedExtensions
+    public static class DeathsExtensions
     {
-        public static void SetEliminated(this Player player, bool isEliminated)
+        public static void SetDeaths(this Player player, int newDeaths)
         {
-            PhotonHashtable eliminated = new PhotonHashtable();  // using PUN's implementation of Hashtable
-            eliminated[PlayerProperties.IsEliminatedProperty] = isEliminated;
+            PhotonHashtable deaths = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            deaths[PlayerProperties.DeathsProperty] = newDeaths;
 
-            player.SetCustomProperties(eliminated);  // this locally sets the eliminated state and will sync it in-game asap.
+            player.SetCustomProperties(deaths);  // this locally sets the score and will sync it in-game asap.
         }
 
-        public static bool GetIfEliminated(this Player player)
+        public static void AddDeath(this Player player, int deathsToAdd)
         {
-            object eliminated;
-            if (player.CustomProperties.TryGetValue(PlayerProperties.IsEliminatedProperty, out eliminated))
+            int current = player.GetScore();
+            current = current + deathsToAdd;
+
+            PhotonHashtable deaths = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            deaths[PlayerProperties.DeathsProperty] = current;
+
+            player.SetCustomProperties(deaths);  // this locally sets the score and will sync it in-game asap.
+        }
+
+        public static int GetDeaths(this Player player)
+        {
+            object deaths;
+            if (player.CustomProperties.TryGetValue(PlayerProperties.DeathsProperty, out deaths))
             {
-                return (bool)eliminated;
+                return (int)deaths;
             }
 
-            return false;
+            return 0;
         }
     }
 
@@ -82,6 +94,28 @@ namespace Andrich.UtilityScripts
             if (player.CustomProperties.TryGetValue(PlayerProperties.IsReadyProperty, out ready))
             {
                 return (bool)ready;
+            }
+
+            return false;
+        }
+    }
+
+    public static class EliminatedExtensions
+    {
+        public static void SetEliminated(this Player player, bool isEliminated)
+        {
+            PhotonHashtable eliminated = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            eliminated[PlayerProperties.IsEliminatedProperty] = isEliminated;
+
+            player.SetCustomProperties(eliminated);  // this locally sets the eliminated state and will sync it in-game asap.
+        }
+
+        public static bool GetIfEliminated(this Player player)
+        {
+            object eliminated;
+            if (player.CustomProperties.TryGetValue(PlayerProperties.IsEliminatedProperty, out eliminated))
+            {
+                return (bool)eliminated;
             }
 
             return false;

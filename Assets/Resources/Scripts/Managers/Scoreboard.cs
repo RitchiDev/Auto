@@ -3,30 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
-using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
-using Photon.Pun.UtilityScripts;
+using Andrich.UtilityScripts;
 public class Scoreboard : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Transform m_Container;
     [SerializeField] private GameObject m_ScoreboardItemPrefab;
     private List<ScoreboardItem> m_ScoreboardItems = new List<ScoreboardItem>();
+    private Player m_Player;
+    public Player Player => m_Player;
+
+    private void Awake()
+    {
+        m_Player = PhotonNetwork.LocalPlayer;
+    }
 
     private void Start()
     {
-        ScoreManager.Instance.AddScoreboard(this);
+        InGameStatsManager.Instance.AddScoreboard(this);
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            AddScoreboard(player);
+            AddScoreboardItem(player);
         }
     }
 
     private void OnDestroy()
     {
-        ScoreManager.Instance.RemoveScoreboard(this);
+        InGameStatsManager.Instance.RemoveScoreboard(this);
     }
 
-    private void AddScoreboard(Player player)
+    private void AddScoreboardItem(Player player)
     {
         ScoreboardItem item = Instantiate(m_ScoreboardItemPrefab, m_Container).GetComponent<ScoreboardItem>();
         m_ScoreboardItems.Add(item);
@@ -36,7 +42,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        AddScoreboard(newPlayer);
+        AddScoreboardItem(newPlayer);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -44,13 +50,14 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         RemoveScoreboardItem(otherPlayer);
     }
 
-    public void UpdateScoreboardItemText(Player player, int score)
+    public void UpdateScoreboardItemText(Player player)
     {
         foreach (ScoreboardItem item in m_ScoreboardItems)
         {
             if (player == item.Player())
             {
-                item.SetScore(score);
+                item.SetScore(player.GetScore());
+                item.SetDeaths(player.GetDeaths());
             }
         }
     }

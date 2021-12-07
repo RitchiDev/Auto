@@ -43,6 +43,8 @@ public class EliminationPlayerController : MonoBehaviour
     [PunRPC]
     private void RPC_Eliminate()
     {
+        Debug.Log("Check If Eliminated");
+
         if (PhotonNetwork.LocalPlayer.GetIfEliminated()) // If the player is already eliminated
         {
             return;
@@ -54,14 +56,13 @@ public class EliminationPlayerController : MonoBehaviour
 
         foreach (Player otherPlayer in otherPlayers)
         {
-            if(!otherPlayer.GetIfEliminated())
+            Debug.Log(otherPlayer.NickName + ": Check If Score Is Higher");
+            Debug.Log(PhotonNetwork.LocalPlayer.GetScore() + " - " + otherPlayer.GetScore());
+            if (PhotonNetwork.LocalPlayer.GetScore() < otherPlayer.GetScore())
             {
-                if (PhotonNetwork.LocalPlayer.GetScore() < otherPlayer.GetScore())
-                {
-                    Debug.Log("Eliminated");
-                    PhotonNetwork.LocalPlayer.SetEliminated(true);
-                    eliminate = true;
-                }
+                Debug.Log("Eliminated");
+                PhotonNetwork.LocalPlayer.SetEliminated(true);
+                eliminate = true;
             }
         }
 

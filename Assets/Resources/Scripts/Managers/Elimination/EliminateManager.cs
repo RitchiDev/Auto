@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun.UtilityScripts;
 using UnityEngine.UI;
 using TMPro;
 
@@ -36,6 +35,8 @@ public class EliminateManager : MonoBehaviour
 
     private IEnumerator TimeBeforeEliminateStartsCountdown()
     {
+        RingManager.Instance.DeactiveAllRings();
+
         m_CountDownText.color = Color.white;
 
         float totalTime = m_TimeBeforeNextElimination;
@@ -53,6 +54,9 @@ public class EliminateManager : MonoBehaviour
 
     private IEnumerator EliminateCountdown()
     {
+        RingManager.Instance.ActivateAllRings();
+        RingManager.Instance.SetNew500RingActive();
+
         m_CountDownText.color = Color.red;
 
         float totalTime = m_MaxEliminationTime;
