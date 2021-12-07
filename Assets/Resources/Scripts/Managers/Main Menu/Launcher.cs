@@ -272,7 +272,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         string path2 = GameModeManager.Instance.SelectedGameMode.PlayerListItemString;
         string combinedPath = Path.Combine(path1, path2);
 
-        GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
+        GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
+        //GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
         item.transform.SetParent(m_PlayerListContent, false);
         item.GetComponent<PlayerInRoomItem>().SetUp(newPlayer, newPlayer.NickName);
 

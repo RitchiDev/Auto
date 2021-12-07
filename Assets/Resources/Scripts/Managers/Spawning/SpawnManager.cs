@@ -63,6 +63,8 @@ public class SpawnManager : MonoBehaviour
 
         while (!placed)
         {
+            index = Random.Range(0, m_Spawnpoints.Count - 1);
+
             if (stopCount++ > 1000)
             {
                 Debug.Log("Reached Stop Count");
@@ -70,7 +72,6 @@ public class SpawnManager : MonoBehaviour
                 break;
             }
 
-            index = Random.Range(0, m_Spawnpoints.Count - 1);
             if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
             {
                 Debug.Log("Placed Succesfully!");

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour
 {
-    private List<Ring> m_Rings = new List<Ring>();
-    private List<Ring> m_RingsWorth500 = new List<Ring>();
+    private List<RingCollision> m_Rings = new List<RingCollision>();
+    private List<RingCollision> m_RingsWorth500 = new List<RingCollision>();
     public static RingManager Instance { get; private set; }
-    private Ring m_PreviousRing;
+    private RingCollision m_PreviousRing;
 
     private void Awake()
     {
@@ -20,9 +20,9 @@ public class RingManager : MonoBehaviour
         {
             Instance = this;
 
-            Ring[] rings = GetComponentsInChildren<Ring>();
+            RingCollision[] rings = GetComponentsInChildren<RingCollision>();
 
-            foreach (Ring ring in rings)
+            foreach (RingCollision ring in rings)
             {
                 if(ring.Worth >= 500)
                 {
@@ -40,13 +40,29 @@ public class RingManager : MonoBehaviour
 
     public void SetNew500RingActive()
     {
-        for (int i = 0; i < m_RingsWorth500.Count; i++)
-        {
-            Ring ring = m_RingsWorth500[i];
-            if(!ring.transform.parent.gameObject.activeInHierarchy)
-            {
+        int index = Random.Range(0, m_RingsWorth500.Count - 1);
+        bool newRingHasBeenActivated = false;
+        int stopCount = 0;
 
+        while (!newRingHasBeenActivated)
+        {
+            index = Random.Range(0, m_RingsWorth500.Count - 1);
+
+            if (stopCount++ > 1000)
+            {
+                Debug.Log("Reached Stop Count");
+                index = 0;
+                break;
+            }
+
+            if (m_RingsWorth500[index] != m_PreviousRing && !m_RingsWorth500[index].transform.parent.gameObject.activeInHierarchy)
+            {
+                Debug.Log("New Ring Activated Succesfully!");
+
+                newRingHasBeenActivated = true;
             }
         }
+
+        m_RingsWorth500[index].transform.parent.gameObject.SetActive(true);
     }
 }

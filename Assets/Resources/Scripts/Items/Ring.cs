@@ -1,19 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun.UtilityScripts;
+
 public class Ring : MonoBehaviour
 {
-    [SerializeField] private int m_ScoreToAdd = 50;
-    public int Worth => m_ScoreToAdd;
+    [SerializeField] private float m_TimeBeforeReActivation = 3f;
+    [SerializeField] private RingCollision m_RingCollision;
+    private MeshRenderer m_MeshRenderer;
 
-    private void OnTriggerEnter(Collider other)
+    private void Awake()
     {
-        EliminationPlayerController playerController =  other.GetComponentInParent<EliminationPlayerController>();
-        if(playerController)
+        m_MeshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    public void Deactivate(bool reActivate = true)
+    {
+        m_MeshRenderer.enabled = false;
+        m_RingCollision.enabled = false;
+
+        if(reActivate)
         {
-            ScoreManager.Instance.AddScore(playerController.Player, m_ScoreToAdd);
-            transform.parent.gameObject.SetActive(false);
+            StartCoroutine(ReActivate());
         }
+    }
+
+    private IEnumerator ReActivate()
+    {
+        float totalTime = m_TimeBeforeReActivation;
+        while (totalTime >= 0)
+        {
+            totalTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        m_MeshRenderer.enabled = true;
+        m_RingCollision.enabled = true;
     }
 }

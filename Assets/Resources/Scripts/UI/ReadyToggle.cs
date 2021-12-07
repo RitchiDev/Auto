@@ -12,7 +12,9 @@ using Andrich.UtilityScripts;
 public class ReadyToggle : MonoBehaviourPunCallbacks
 {
     private PhotonView m_PhotonView;
-    [SerializeField] private Toggle m_Toggle;
+    [SerializeField] private Button m_Button;
+    [SerializeField] private Image m_Image;
+    [SerializeField] private GameObject m_BlockImage;
     [SerializeField] private TMP_Text m_ReadyStateText;
     private bool m_PlayerIsReady = false;
     private Player m_Player;
@@ -26,7 +28,7 @@ public class ReadyToggle : MonoBehaviourPunCallbacks
         {
             m_PlayerIsReady = false;
             PhotonNetwork.LocalPlayer.SetReadyState(m_PlayerIsReady);
-            m_Toggle.onValueChanged.AddListener(delegate { ReadyUp(); });
+            //m_Toggle.onValueChanged.AddListener(delegate { ReadyUp(); });
         }
     }
 
@@ -36,8 +38,15 @@ public class ReadyToggle : MonoBehaviourPunCallbacks
 
         if(PhotonNetwork.LocalPlayer != player)
         {
-            m_Toggle.interactable = false;
+            m_BlockImage.SetActive(true);
+            m_Button.interactable = false;
         }
+        else
+        {
+            m_BlockImage.SetActive(false);
+        }
+
+        UpdateToggleState(player);
     }
 
     public void ReadyUp()
@@ -52,8 +61,12 @@ public class ReadyToggle : MonoBehaviourPunCallbacks
 
     public void UpdateToggleState(Player player)
     {
+        if(player == m_Player)
+        {
+            Debug.Log(player.NickName + " is Ready");
+            m_ReadyStateText.text = player.GetIfReady() ? "Ready!" : "Not Ready";
+            m_Image.color = player.GetIfReady() ? Color.green : Color.red;
+        }
         //m_Toggle.isOn = !m_Toggle.isOn;
-        Debug.Log(player.NickName + " is Ready");
-        m_ReadyStateText.text = player.GetIfReady() ? "Ready!" : "Not Ready";
     }
 }
