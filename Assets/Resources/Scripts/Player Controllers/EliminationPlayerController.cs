@@ -8,7 +8,6 @@ using Andrich.UtilityScripts;
 public class EliminationPlayerController : MonoBehaviour
 {
     [SerializeField] private PhotonView m_PhotonView;
-    [SerializeField] private GameObject m_Car;
 
     PlayerManager m_PlayerManager;
 
