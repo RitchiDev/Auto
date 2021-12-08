@@ -16,10 +16,9 @@ MonoBehaviour:
   m_GameModeDescription: 
   m_PhotonPrefabsFolder: Photon Prefabs
   m_PlayerManagerString: PlayerManager (Elimination)
-  m_PlayerControllerString: EliminationCarController
-  m_PlayerSpectatorString: PlayerSpectator
-  m_PlayerListItemString: PlayerListItem InRoom
-  m_MinimumPlayers: 2
+  m_PlayerControllerString: EliminationCarController (ACC)
+  m_PlayerSpectatorString: SpectateCameraController
+  m_MinimumPlayers: 1
   m_MaximumPlayers: 5
   m_DefaultSceneIndex: 3
   m_MapsItem: {fileID: 11400000, guid: 14037c901e43618449c0f495cf1441f4, type: 2}

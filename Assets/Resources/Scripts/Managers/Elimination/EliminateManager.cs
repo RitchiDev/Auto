@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Realtime;
+using Photon.Pun;
+using Andrich.UtilityScripts;
 
 public class EliminateManager : MonoBehaviour
 {
@@ -85,9 +88,27 @@ public class EliminateManager : MonoBehaviour
 
     private void EliminatePlayer()
     {
+        if(m_AlivePlayers.Count <= 1)
+        {
+            return;
+        }
+
+        Debug.Log("Check for elimination");
+
+        EliminationPlayerController playerControllerToEliminate = m_AlivePlayers[0];
+
         for (int i = 0; i < m_AlivePlayers.Count; i++)
         {
-            m_AlivePlayers[i].Eliminate();
+            EliminationPlayerController currentPlayerController = m_AlivePlayers[i];
+
+            if (currentPlayerController.Player.GetScore() < playerControllerToEliminate.Player.GetScore())
+            {
+                playerControllerToEliminate = currentPlayerController;
+            }
         }
+
+        Debug.Log(playerControllerToEliminate.Player.NickName + ": Eliminated");
+        playerControllerToEliminate.Player.SetEliminated(true);
+        playerControllerToEliminate.Eliminate();
     }
 }

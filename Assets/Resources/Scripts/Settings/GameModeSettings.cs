@@ -23,9 +23,6 @@ public class GameModeSettings : ScriptableObject
     [SerializeField] private string m_PlayerSpectatorString = "PlayerSpectator";
     public string PlayerSpectatorString => m_PlayerSpectatorString;
 
-    [SerializeField] private string m_PlayerListItemString = "PlayerListItem";
-    public string PlayerListItemString => m_PlayerListItemString;
-
     [SerializeField] private int m_MinimumPlayers = 2;
     public int MinimumPlayers => m_MinimumPlayers;
 

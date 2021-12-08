@@ -23,6 +23,8 @@ namespace GameMode.Elimination
         {
             if (m_PhotonView.IsMine)
             {
+                PhotonNetwork.LocalPlayer.SetScore(0);
+                PhotonNetwork.LocalPlayer.SetDeaths(0);
                 CreatePlayerController();
             }
         }
@@ -50,7 +52,7 @@ namespace GameMode.Elimination
             object[] data = new object[] { m_PhotonView.ViewID };
             byte group = 0;
             string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
-            string path2 = RoomManager.Instance.GameModeSettings.PlayerControllerString;
+            string path2 = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
             //string path2 = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
             m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
             //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity, group, data);
@@ -84,6 +86,8 @@ namespace GameMode.Elimination
         {
             if (m_PhotonView.IsMine)
             {
+                Debug.Log("Nieuwe speler");
+
                 PhotonNetwork.Destroy(m_PlayerGameObject);
 
                 CreatePlayerSpectator();
