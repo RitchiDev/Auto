@@ -23,11 +23,20 @@ public class BodyTilt : MonoBehaviour
 
 	private void Awake ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
+
 		Car = GetComponent<CarController> ();
 	}
 
 	private void Update ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
 
 		if (Car.CarDirection == 1)
 			Angle = -Car.VelocityAngle * AngleVelocityMultiplayer;

@@ -96,9 +96,9 @@ public class CarController :MonoBehaviour
 
 	private void Awake ()
 	{
-		if (m_PhotonView.IsMine)
+		if (!m_PhotonView.IsMine)
 		{
-
+			return;
 		}
 
 		RB.centerOfMass = COM.localPosition;

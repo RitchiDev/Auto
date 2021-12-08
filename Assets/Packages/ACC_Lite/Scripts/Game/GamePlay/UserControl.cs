@@ -20,6 +20,10 @@ public class UserControl : MonoBehaviour
 
 	private void Awake ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
 
 		ControlledCar = GetComponent<CarController> ();
 		CurrentUIControl = FindObjectOfType<MobileControlUI> ();
@@ -27,6 +31,11 @@ public class UserControl : MonoBehaviour
 
 	void Update ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
+
 		if (CurrentUIControl != null && CurrentUIControl.ControlInUse)
 		{
 			//Mobile control.
