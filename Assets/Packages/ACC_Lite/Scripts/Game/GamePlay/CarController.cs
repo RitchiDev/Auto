@@ -153,6 +153,7 @@ public class CarController :MonoBehaviour
 	/// <param name="horizontal">Turn direction</param>
 	/// <param name="vertical">Acceleration</param>
 	/// <param name="brake">Brake</param>
+
 	public void UpdateControls (float horizontal, float vertical, bool handBrake)
 	{
 		if(!m_PhotonView.IsMine)
@@ -451,6 +452,7 @@ public class CarController :MonoBehaviour
 
 		//TODO manual gearbox logic.
 	}
+
 	void PlayBackfireWithProbability ()
 	{
 		PlayBackfireWithProbability (GetCarConfig.ProbabilityBackfire);
@@ -536,7 +538,7 @@ public class CarConfig
 
 	public float SteerAngleChangeSpeed;                     //Wheel turn speed.
 	public float MinSpeedForSteerHelp;                      //Min speed at which helpers are enabled.
-	[Range(0f, 1f)] public float HelpSteerPower;            //The power of turning the wheels in the direction of the drift.
+	[Range(0f, 2f)] public float HelpSteerPower;            //The power of turning the wheels in the direction of the drift.
 	public float OppositeAngularVelocityHelpPower = 0.1f;	//The power of the helper to turn the rigidbody in the direction of the control turn.
 	public float PositiveAngularVelocityHelpPower = 0.1f;	//The power of the helper to positive turn the rigidbody in the direction of the control turn.
 	public float MaxAngularVelocityHelpAngle;               //The angle at which the assistant works 100%.

@@ -22,10 +22,12 @@ public class SpectateCameraController : MonoBehaviour
 
         if(m_PhotonView.IsMine)
         {
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
         else
         {
+            Destroy(GetComponent<AudioListener>());
             Destroy(m_Camera);
         }
     }
@@ -71,8 +73,9 @@ public class SpectateCameraController : MonoBehaviour
             transform.position -= transform.up * m_ClimbSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.End))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Cursor.visible = !Cursor.visible;
             Cursor.lockState = Cursor.lockState == CursorLockMode.Confined ? CursorLockMode.Locked : CursorLockMode.Confined;
         }
     }

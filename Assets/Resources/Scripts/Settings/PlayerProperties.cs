@@ -52,7 +52,7 @@ namespace Andrich.UtilityScripts
             PhotonHashtable deaths = new PhotonHashtable();  // using PUN's implementation of Hashtable
             deaths[PlayerProperties.DeathsProperty] = newDeaths;
 
-            player.SetCustomProperties(deaths);  // this locally sets the score and will sync it in-game asap.
+            player.SetCustomProperties(deaths);  // this locally sets the deaths and will sync it in-game asap.
         }
 
         public static void AddDeath(this Player player, int deathsToAdd)
@@ -63,7 +63,7 @@ namespace Andrich.UtilityScripts
             PhotonHashtable deaths = new PhotonHashtable();  // using PUN's implementation of Hashtable
             deaths[PlayerProperties.DeathsProperty] = current;
 
-            player.SetCustomProperties(deaths);  // this locally sets the score and will sync it in-game asap.
+            player.SetCustomProperties(deaths);  // this locally sets the deaths and will sync it in-game asap.
         }
 
         public static int GetDeaths(this Player player)

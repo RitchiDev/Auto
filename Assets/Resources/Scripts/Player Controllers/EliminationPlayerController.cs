@@ -19,29 +19,34 @@ public class EliminationPlayerController : MonoBehaviour
     {
         m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
         //PhotonNetwork.LocalPlayer.SetScore(0);
-        
+
         if (m_PhotonView.IsMine)
         {
             PhotonNetwork.LocalPlayer.SetEliminated(false);
-            m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All);
+            m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All, PhotonNetwork.LocalPlayer);
+        }
+        else
+        {
+            Destroy(GetComponent<AudioListener>());
         }
     }
 
     public void Eliminate()
     {
+        PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
         EliminateManager.Instance.RemoveAlivePlayer(this);
         Debug.Log("Eliminate Called");
-        if(!m_Player.GetIfEliminated())
-        {
-            Debug.Log("Hier");
-            m_PlayerManager.RespawnPlayerAsSpectator();
-        }
+        m_PlayerManager.RespawnPlayerAsSpectator();
+    }
+
+    public void SetPlayer(Player player)
+    {
+        m_Player = player;
     }
 
     [PunRPC]
-    private void RPC_AddPlayerToAliveList()
+    private void RPC_AddPlayerToAliveList(Player player)
     {
-        m_Player = PhotonNetwork.LocalPlayer;
-        EliminateManager.Instance.AddAlivePlayer(this);
+        EliminateManager.Instance.AddAlivePlayer(this, player);
     }
 }

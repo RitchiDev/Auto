@@ -82,7 +82,7 @@ public class RingManager : MonoBehaviour
                 break;
             }
 
-            if (m_RingsWorth500[index] != m_PreviousRing && !m_RingsWorth500[index].transform.parent.gameObject.activeInHierarchy)
+            if (m_RingsWorth500[index] != m_PreviousRing)
             {
                 Debug.Log("New Ring Activated Succesfully!");
 

@@ -86,8 +86,6 @@ namespace GameMode.Elimination
         {
             if (m_PhotonView.IsMine)
             {
-                Debug.Log("Nieuwe speler");
-
                 PhotonNetwork.Destroy(m_PlayerGameObject);
 
                 CreatePlayerSpectator();
