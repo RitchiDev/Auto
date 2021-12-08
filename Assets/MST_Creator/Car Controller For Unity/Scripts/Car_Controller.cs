@@ -34,7 +34,7 @@ public class Car_Controller : MonoBehaviour
     [Space(15)]
 
     public float handBrakeFrictionMultiplier = 2; //The handbrake friction multiplier
-    private float handBrakeFriction  = 0.05f; //The handbrake friction
+    [SerializeField] private float handBrakeFriction  = 0.05f; //The handbrake friction
     public float tempo; //Tempo (don't edit this)
 
     [Header("Boost Settings")]
@@ -180,8 +180,6 @@ public class Car_Controller : MonoBehaviour
 
     private void SetUpCar()
     {
-
-
         //Play Car Smoke Particle System
         if (Use_Particle_Systems)
         {
