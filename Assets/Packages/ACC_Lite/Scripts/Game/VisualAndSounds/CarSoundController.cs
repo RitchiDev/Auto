@@ -30,12 +30,21 @@ public class CarSoundController :MonoBehaviour
 
 	private void Awake ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
+
 		CarController = GetComponent<CarController> ();
 		CarController.BackFireAction += PlayBackfire;
 	}
 
 	void Update ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
 
 		//Engine PRM sound
 		EngineSource.pitch = (EngineRPM / MaxRPM) + PitchOffset;

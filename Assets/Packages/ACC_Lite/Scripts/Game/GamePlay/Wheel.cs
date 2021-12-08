@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PG_Physics.Wheel;
+using Photon.Pun;
 
 /// <summary>
 /// Wheel settings and update logic.
@@ -9,6 +10,7 @@ using PG_Physics.Wheel;
 [System.Serializable]
 public struct Wheel
 {
+	[SerializeField] private PhotonView m_PhotonView;
 	public WheelCollider WheelCollider;
 	public Transform WheelView;
 	public float SlipForGenerateParticle;
@@ -40,7 +42,7 @@ public struct Wheel
 		}
 	}
 
-	private FXController m_FXController;
+	[SerializeField] private FXController m_FXController;
 	Vector3 HitPoint;
 
 	const int SmoothValuesCount = 3;
@@ -50,6 +52,10 @@ public struct Wheel
 	/// </summary>
 	public void FixedUpdate ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
 
 		if (WheelCollider.GetGroundHit (out Hit))
 		{
@@ -71,6 +77,11 @@ public struct Wheel
 	/// </summary>
 	public void UpdateVisual ()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
+
 		UpdateTransform ();
 
 		if (WheelCollider.isGrounded && CurrentMaxSlip > SlipForGenerateParticle)

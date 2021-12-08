@@ -14,8 +14,8 @@ public class CameraController : MonoBehaviour
 	[SerializeField] KeyCode SetCameraKey = KeyCode.C;                              //Set next camore on PC hotkey.
 	[SerializeField] UnityEngine.UI.Button NextCameraButton;
 	[SerializeField] List<CameraPreset> CamerasPreset = new List<CameraPreset>();   //Camera presets
-	private CarSetUp m_CarSetUp;
-	private CarController m_TargetCar;
+	[SerializeField] private CarSetUp m_CarSetUp;
+	[SerializeField] private CarController m_TargetCar;
 	int ActivePresetIndex = 0;
 	CameraPreset ActivePreset;
 
@@ -25,8 +25,10 @@ public class CameraController : MonoBehaviour
 	{
 		if(!m_PhotonView.IsMine)
 		{
-
+			gameObject.SetActive(false);
+			return;
 		}
+		transform.SetParent(null);
 
 		CamerasPreset.ForEach (c => c.CameraHolder.SetActive (false));
 		UpdateActiveCamera ();
@@ -65,6 +67,11 @@ public class CameraController : MonoBehaviour
 
 	private void Update()
 	{
+		if (!m_PhotonView.IsMine)
+		{
+			return;
+		}
+
 		if (ActivePreset.EnableRotation && (TargetPoint - transform.position).sqrMagnitude >= SqrMinDistance)
 		{
 			Quaternion rotation = Quaternion.LookRotation (TargetPoint - transform.position, Vector3.up);
