@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Andrich.UtilityScripts;
 
 public class Ring : MonoBehaviour
 {
@@ -40,7 +42,10 @@ public class Ring : MonoBehaviour
             yield return null;
         }
 
-        m_MeshRenderer.enabled = true;
-        m_RingCollision.enabled = true;
+        if(!PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+        {
+            m_MeshRenderer.enabled = true;
+            m_RingCollision.enabled = true;
+        }
     }
 }

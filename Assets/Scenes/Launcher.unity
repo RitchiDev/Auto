@@ -11730,8 +11730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameModes:
   - {fileID: 11400000, guid: d2730356ddebdcb4d9030e27dfaa88ba, type: 2}
-  - {fileID: 11400000, guid: 096f9ccbc9ee3dd4eb8afa0d37bf0746, type: 2}
-  - {fileID: 11400000, guid: 28f73346882fa254d990e61e0ab72760, type: 2}
+  - {fileID: 11400000, guid: 9aa2f56f679fac044ac1bdaa198b0ab7, type: 2}
   m_RoomManager: {fileID: 286613777}
   m_GameModeNameText: {fileID: 758796267}
   m_SelectedMapText: {fileID: 1527252557}

@@ -205,7 +205,10 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             ReadyToggle readyToggle = m_TogglesInRoom[i];
 
-            readyToggle.UpdateToggleState(targetPlayer);
+            if(readyToggle)
+            {
+                readyToggle.UpdateToggleState(targetPlayer);
+            }
         }
 
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
@@ -239,7 +242,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("Left Room");
-        PhotonNetwork.LocalPlayer.SetReadyState(false);
         MenuManager.Instance.OpenMenu(MenuName.onlineMenu);
     }
 
@@ -270,7 +272,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Player Entered Room");
 
         GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
-        //GameObject item = PhotonNetwork.Instantiate(combinedPath, Vector3.zero, Quaternion.identity);
         item.transform.SetParent(m_PlayerListContent, false);
         item.GetComponent<PlayerInRoomItem>().SetUp(newPlayer, newPlayer.NickName);
 
@@ -278,10 +279,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (toggle)
         {
             toggle.SetUp(newPlayer);
-            //toggle.Interactable(newPlayer == PhotonNetwork.LocalPlayer);
-            //toggle.UpdateToggle(newPlayer);
             m_TogglesInRoom.Add(toggle);
         }
-        //Instantiate(m_PlayerListItemPrefab, m_PlayerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer, newPlayer.NickName);
     }
 }

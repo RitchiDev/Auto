@@ -57,7 +57,7 @@ namespace Andrich.UtilityScripts
 
         public static void AddDeath(this Player player, int deathsToAdd)
         {
-            int current = player.GetScore();
+            int current = player.GetDeaths();
             current = current + deathsToAdd;
 
             PhotonHashtable deaths = new PhotonHashtable();  // using PUN's implementation of Hashtable

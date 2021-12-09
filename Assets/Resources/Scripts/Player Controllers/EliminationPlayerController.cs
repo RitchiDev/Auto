@@ -33,6 +33,12 @@ public class EliminationPlayerController : MonoBehaviour
 
     public void Eliminate()
     {
+        m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RPC_Eliminate()
+    {
         EliminateManager.Instance.RemoveAlivePlayer(this);
         Debug.Log("Eliminate Called");
         m_PlayerManager.RespawnPlayerAsSpectator();

@@ -13,6 +13,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
     public static EliminateManager Instance { get; private set; }
     [SerializeField] private List<EliminationPlayerController> m_AlivePlayers = new List<EliminationPlayerController>();
 
+    [SerializeField] private bool m_FreeRoam = false;
     [SerializeField] private Image m_CountDownImage;
     [SerializeField] private TMP_Text m_CountDownText;
     [SerializeField] private float m_MaxEliminationTime = 60f;
@@ -39,6 +40,12 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        if(m_FreeRoam)
+        {
+            m_CountDownImage.transform.parent.gameObject.SetActive(false);
+            return;
+        }
+
         if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(PhotonTimeBeforeEliminateStartsCountdown());
@@ -47,29 +54,24 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(PhotonHashtable propertiesThatChanged)
     {
+        if(m_FreeRoam)
+        {
+            return;
+        }
+
         m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
 
         m_CountDownImage.fillAmount = (float)PhotonNetwork.CurrentRoom.GetTime() / m_MaxEliminationTime;
         m_CountDownText.text = PhotonNetwork.CurrentRoom.GetTime().ToString("0");
-
-        if(PhotonNetwork.CurrentRoom.GetIfToDoElimination())
-        {
-            //if (PhotonNetwork.IsMasterClient)
-            //{
-            //    PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
-            //}
-
-            EliminatePlayer();
-        }
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 
     private IEnumerator PhotonTimeBeforeEliminateStartsCountdown()
     {
-        RingManager.Instance.DeactiveAllRings();
-
         PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
+
+        RingManager.Instance.DeactiveAllRings();
 
         m_CurrentTime = m_MaxEliminationTime;
 
@@ -85,10 +87,10 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
     private IEnumerator PhotonEliminateCountdown()
     {
+        PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(false);
+
         RingManager.Instance.ActivateAllRings();
         RingManager.Instance.SetNew500RingActive();
-
-        PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(false);
 
         m_CurrentTime = m_MaxEliminationTime;
         while (m_CurrentTime >= 0)
@@ -156,7 +158,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             }
         }
 
-        PhotonNetwork.CurrentRoom.SetIfToDoElimination(true);
+        EliminatePlayer();
     }
 
     private IEnumerator TimeBeforeEliminateStartsCountdown()
