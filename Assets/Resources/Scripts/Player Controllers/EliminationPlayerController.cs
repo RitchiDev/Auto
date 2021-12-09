@@ -33,7 +33,6 @@ public class EliminationPlayerController : MonoBehaviour
 
     public void Eliminate()
     {
-        PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
         EliminateManager.Instance.RemoveAlivePlayer(this);
         Debug.Log("Eliminate Called");
         m_PlayerManager.RespawnPlayerAsSpectator();

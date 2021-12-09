@@ -239,6 +239,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("Left Room");
+        PhotonNetwork.LocalPlayer.SetReadyState(false);
         MenuManager.Instance.OpenMenu(MenuName.onlineMenu);
     }
 

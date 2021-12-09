@@ -17,8 +17,8 @@ public class EliminateManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text m_CountDownText;
     [SerializeField] private float m_MaxEliminationTime = 60f;
     [SerializeField] private float m_TimeBeforeNextElimination = 5f;
+    private EliminationPlayerController m_PlayerControllerToEliminate;
     private double m_CurrentTime;
-
     private void Awake()
     {
         if (Instance)
@@ -31,13 +31,16 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             Instance = this;
         }
 
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
+        }
     }
 
     private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
             StartCoroutine(PhotonTimeBeforeEliminateStartsCountdown());
         }
     }
@@ -51,13 +54,12 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
         if(PhotonNetwork.CurrentRoom.GetIfToDoElimination())
         {
-            //if(PhotonNetwork.IsMasterClient)
+            //if (PhotonNetwork.IsMasterClient)
             //{
             //    PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
             //}
 
             EliminatePlayer();
-
         }
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
@@ -102,7 +104,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             yield return null;
         }
 
-        PhotonNetwork.CurrentRoom.SetIfToDoElimination(true);
+        CheckForElimination();
         StartCoroutine(PhotonTimeBeforeEliminateStartsCountdown());
     }
 
@@ -120,6 +122,16 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
     private void EliminatePlayer()
     {
+        if (m_PlayerControllerToEliminate)
+        {
+            Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
+            m_PlayerControllerToEliminate.Player.SetEliminated(true);
+            m_PlayerControllerToEliminate.Eliminate();
+        }
+    }
+
+    private void CheckForElimination()
+    {
         Debug.Log("Check for elimination");
 
         if(m_AlivePlayers.Count <= 1)
@@ -127,7 +139,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        EliminationPlayerController playerControllerToEliminate = m_AlivePlayers[0];
+        m_PlayerControllerToEliminate = m_AlivePlayers[0];
 
         for (int i = 0; i < m_AlivePlayers.Count; i++)
         {
@@ -135,21 +147,16 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             EliminationPlayerController currentPlayerController = m_AlivePlayers[i];
             Debug.Log(currentPlayerController.Player.NickName);
 
-            Debug.Log("The score of current checked player: " + currentPlayerController.Player.NickName + " (" + currentPlayerController.Player.GetScore() + ")" + " and player with lowest score: " + playerControllerToEliminate.Player.NickName + " (" + playerControllerToEliminate.Player.GetScore() + ")");
+            Debug.Log("The score of current checked player: " + currentPlayerController.Player.NickName + " (" + currentPlayerController.Player.GetScore() + ")" + " and player with lowest score: " + m_PlayerControllerToEliminate.Player.NickName + " (" + m_PlayerControllerToEliminate.Player.GetScore() + ")");
 
-            if (currentPlayerController.Player.GetScore() < playerControllerToEliminate.Player.GetScore())
+            if (currentPlayerController.Player.GetScore() < m_PlayerControllerToEliminate.Player.GetScore())
             {
-                Debug.Log("The score of: " + currentPlayerController.Player.NickName + " is lower than: " + playerControllerToEliminate.Player.NickName);
-                playerControllerToEliminate = currentPlayerController;
+                Debug.Log("The score of: " + currentPlayerController.Player.NickName + " is lower than: " + m_PlayerControllerToEliminate.Player.NickName);
+                m_PlayerControllerToEliminate = currentPlayerController;
             }
         }
 
-        if(playerControllerToEliminate)
-        {
-            Debug.Log(playerControllerToEliminate.Player.NickName + ": Eliminated");
-            playerControllerToEliminate.Player.SetEliminated(true);
-            playerControllerToEliminate.Eliminate();
-        }
+        PhotonNetwork.CurrentRoom.SetIfToDoElimination(true);
     }
 
     private IEnumerator TimeBeforeEliminateStartsCountdown()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
@@ -52,14 +53,20 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     public void UpdateScoreboardItemText(Player player)
     {
-        foreach (ScoreboardItem item in m_ScoreboardItems)
+        for (int i = 0; i < m_ScoreboardItems.Count; i++)
         {
-            if (player == item.Player())
+            ScoreboardItem item = m_ScoreboardItems[i];
+
+            if (player == item.Player)
             {
                 item.SetScore(player.GetScore());
                 item.SetDeaths(player.GetDeaths());
             }
+
+            //m_ScoreboardItems.Sort(SortByScore());
         }
+
+        //m_ScoreboardItems = m_ScoreboardItems.OrderBy(item => item.Player.GetScore()).ToList();
     }
 
     private void RemoveScoreboardItem(Player player)
@@ -68,7 +75,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         {
             ScoreboardItem item = m_ScoreboardItems[i];
 
-            if (player == item.Player())
+            if (player == item.Player)
             {
                 Destroy(item.gameObject);
                 m_ScoreboardItems.Remove(item);

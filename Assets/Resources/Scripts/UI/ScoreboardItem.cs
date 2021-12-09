@@ -13,7 +13,7 @@ public class ScoreboardItem : MonoBehaviour
     [SerializeField] private TMP_Text m_KOs;
     [SerializeField] private TMP_Text m_Deaths;
     private Player m_Player;
-
+    public Player Player => m_Player;
     public void SetUp(Player player)
     {
         m_Player = player;
@@ -29,11 +29,6 @@ public class ScoreboardItem : MonoBehaviour
     public void SetDeaths(int deaths)
     {
         m_Deaths.text = "Deaths: " + deaths.ToString();
-    }
-
-    public Player Player()
-    {
-        return m_Player;
     }
 }
 
