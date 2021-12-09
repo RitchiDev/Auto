@@ -23,15 +23,22 @@ public class CameraController : MonoBehaviour
 	
 	private void Awake()
 	{
+		transform.SetParent(null);
+
 		if(!m_PhotonView.IsMine)
 		{
 			gameObject.SetActive(false);
 			return;
 		}
-		transform.SetParent(null);
 
 		CamerasPreset.ForEach (c => c.CameraHolder.SetActive (false));
+
 		UpdateActiveCamera ();
+
+		//CamerasPreset[0].CameraHolder.transform.localPosition = Vector3.zero;
+		//Quaternion rotation = Quaternion.LookRotation(TargetPoint - transform.position, Vector3.up);
+		//ActivePreset.CameraHolder.rotation = rotation;
+		//CamerasPreset[0].CameraHolder.transform.localRotation = new Quaternion(0, -198, 0, 0);
 
 		if (NextCameraButton)
 		{
@@ -49,6 +56,7 @@ public class CameraController : MonoBehaviour
 			{
 				return transform.position;
 			}
+
 			Vector3 result = m_TargetCar.RB.velocity * ActivePreset.VelocityMultiplier;
 			result += m_TargetCar.transform.position;
 			//result.y = 0;
