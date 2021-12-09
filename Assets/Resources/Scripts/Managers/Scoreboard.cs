@@ -61,6 +61,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
             {
                 item.SetScore(player.GetScore());
                 item.SetDeaths(player.GetDeaths());
+                item.SetKOs(0);
             }
 
             //m_ScoreboardItems.Sort(SortByScore());

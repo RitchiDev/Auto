@@ -23,12 +23,20 @@ public class ScoreboardItem : MonoBehaviour
 
     public void SetScore(int score)
     {
-        m_InTabScore.text = "Score: " + score.ToString();
+        m_InTabScore.text = score.ToString();
+        //m_InTabScore.text = "Score: " + score.ToString();
     }
 
     public void SetDeaths(int deaths)
     {
-        m_Deaths.text = "Deaths: " + deaths.ToString();
+        m_Deaths.text = deaths.ToString();
+        //m_Deaths.text = "Deaths: " + deaths.ToString();
+    }
+
+    public void SetKOs(int kOs)
+    {
+        m_KOs.text = kOs.ToString();
+        //m_KOs.text = "KO's: " + kOs.ToString();
     }
 }
 
