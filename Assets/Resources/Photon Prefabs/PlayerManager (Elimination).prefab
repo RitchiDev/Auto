@@ -232,3 +232,5 @@ MonoBehaviour:
   m_PlayerDiedItemPrefab: {fileID: 6667665894929906831, guid: f20c26139ab759f4da4877ee462913d3,
     type: 3}
   m_DeadPlayerListContainer: {fileID: 3925309366359264833}
+  m_RespawnedPlayerItemPrefab: {fileID: 6667665894929906831, guid: 1b99c9ff04091e242947e7f74416ff17,
+    type: 3}

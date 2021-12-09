@@ -12,6 +12,7 @@ namespace GameMode.Elimination
         private GameObject m_PlayerGameObject;
         [SerializeField] private GameObject m_PlayerDiedItemPrefab;
         [SerializeField] private Transform m_DeadPlayerListContainer;
+        [SerializeField] private GameObject m_RespawnedPlayerItemPrefab;
         private PhotonView m_PhotonView;
 
         private void Awake()
@@ -53,7 +54,6 @@ namespace GameMode.Elimination
             m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
 
             DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
-
         }
 
         public override void AddDeathToUI(string name)
@@ -64,7 +64,7 @@ namespace GameMode.Elimination
         [PunRPC]
         private void RPC_AddDeathToUI(string name)
         {
-            Instantiate(m_PlayerDiedItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name);
+            Instantiate(m_RespawnedPlayerItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name);
         }
 
         public override void RespawnPlayer()

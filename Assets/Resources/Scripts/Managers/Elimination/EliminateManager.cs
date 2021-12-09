@@ -20,6 +20,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
     [SerializeField] private float m_TimeBeforeNextElimination = 5f;
     private EliminationPlayerController m_PlayerControllerToEliminate;
     private double m_CurrentTime;
+
     private void Awake()
     {
         if (Instance)
@@ -95,7 +96,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         m_CurrentTime = m_MaxEliminationTime;
         while (m_CurrentTime >= 0)
         {
-            m_CurrentTime -= Time.deltaTime;
+            m_CurrentTime -= PhotonNetwork.Time;
             PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
             yield return null;
         }
