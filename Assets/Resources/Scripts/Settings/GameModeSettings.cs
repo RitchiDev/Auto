@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Game Mode Settings", menuName = "Create New Game Mode Settings")]
 public class GameModeSettings : ScriptableObject
 {
-    [SerializeField] private string m_GameModeName = "Game MOode";
+    [SerializeField] private string m_GameModeName = "Game Mode";
     public string GameModeName => m_GameModeName;
 
     [SerializeField] private string m_GameModeDescription = "Description of this mode";

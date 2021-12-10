@@ -13,13 +13,13 @@ public class EliminateManager : MonoBehaviourPunCallbacks
     public static EliminateManager Instance { get; private set; }
     [SerializeField] private List<EliminationPlayerController> m_AlivePlayers = new List<EliminationPlayerController>();
 
-    [SerializeField] private bool m_FreeRoam = false;
     [SerializeField] private Image m_CountDownImage;
     [SerializeField] private TMP_Text m_CountDownText;
     [SerializeField] private float m_MaxEliminationTime = 60f;
     [SerializeField] private float m_TimeBeforeNextElimination = 5f;
     private EliminationPlayerController m_PlayerControllerToEliminate;
     private double m_CurrentTime;
+    private bool m_SyncRings;
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             Instance = this;
         }
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
         }
@@ -41,7 +41,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if(m_FreeRoam)
+        if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
             m_CountDownImage.transform.parent.gameObject.SetActive(false);
             return;
@@ -55,14 +55,15 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(PhotonHashtable propertiesThatChanged)
     {
-        if(m_FreeRoam)
+        if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
             return;
         }
 
         m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
 
-        m_CountDownImage.fillAmount = (float)PhotonNetwork.CurrentRoom.GetTime() / m_MaxEliminationTime;
+        float maxTime = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? m_TimeBeforeNextElimination : m_MaxEliminationTime;
+        m_CountDownImage.fillAmount = (float)PhotonNetwork.CurrentRoom.GetTime() / maxTime;
         m_CountDownText.text = PhotonNetwork.CurrentRoom.GetTime().ToString("0");
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);

@@ -974,12 +974,12 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544605212539157626}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 47c65d5baf3d3234592bb00bc0e7e255, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.65, y: 0.95, z: 3.57}
-  m_Center: {x: 0, y: 0.67, z: 0.02}
+  m_Center: {x: 0, y: 0.7, z: 0.02}
 --- !u!114 &5544605212539157620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1103,6 +1103,7 @@ MonoBehaviour:
   - {fileID: 5636079016763161348}
   CarConfig:
     MaxSteerAngle: 42
+    MaxSteerAngleInDrift: 42
     DriveType: 2
     AutomaticGearBox: 1
     MaxMotorTorque: 800
@@ -1173,7 +1174,8 @@ MonoBehaviour:
     MaxSpeedForMinAngleMultiplier: 250
     SteerAngleChangeSpeed: 60
     MinSpeedForSteerHelp: 20
-    HelpSteerPower: 2
+    HelpSteerPower: 2.5
+    HelpSteerPowerInDrift: 0.3
     OppositeAngularVelocityHelpPower: 0.05
     PositiveAngularVelocityHelpPower: 0
     MaxAngularVelocityHelpAngle: 45

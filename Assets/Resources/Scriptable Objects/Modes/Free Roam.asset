@@ -15,6 +15,7 @@ MonoBehaviour:
   m_GameModeName: Free Roam
   m_GameModeDescription: 
   m_PhotonPrefabsFolder: Photon Prefabs
+  m_GameModeManagerString: EliminateManager
   m_PlayerManagerString: PlayerManager (Elimination)
   m_PlayerControllerString: EliminationCarController (ACC)
   m_PlayerSpectatorString: SpectateCameraController

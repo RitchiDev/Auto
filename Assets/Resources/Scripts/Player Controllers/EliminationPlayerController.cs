@@ -16,12 +16,11 @@ public class EliminationPlayerController : MonoBehaviour
     [SerializeField] private float m_MaxRespawnTime = 3f;
     private float m_RespawnTimer;
     PlayerManager m_PlayerManager;
-
     private Player m_Player;
     public Player Player => m_Player;
     private bool m_IsEliminated;
 
-    private void Awake()
+    private void Start()
     {
         m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
         //PhotonNetwork.LocalPlayer.SetScore(0);
@@ -37,6 +36,7 @@ public class EliminationPlayerController : MonoBehaviour
             Destroy(GetComponent<AudioListener>());
         }
     }
+
     public void SetPlayer(Player player)
     {
         m_Player = player;
@@ -100,6 +100,7 @@ public class EliminationPlayerController : MonoBehaviour
     [PunRPC]
     private void RPC_AddPlayerToAliveList(Player player)
     {
+        Debug.Log(EliminateManager.Instance);
         EliminateManager.Instance.AddAlivePlayer(this, player);
     }
 }
