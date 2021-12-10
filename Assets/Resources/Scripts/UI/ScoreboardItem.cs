@@ -38,6 +38,11 @@ public class ScoreboardItem : MonoBehaviour
         m_KOs.text = kOs.ToString();
         //m_KOs.text = "KO's: " + kOs.ToString();
     }
+
+    public void SetUsernameColor(bool eliminated)
+    {
+        m_Username.color = eliminated ? Color.red : Color.white;
+    }
 }
 
 

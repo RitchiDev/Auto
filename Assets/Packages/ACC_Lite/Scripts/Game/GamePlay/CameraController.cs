@@ -23,9 +23,12 @@ public class CameraController : MonoBehaviour
 	
 	private void Awake()
 	{
-		transform.SetParent(null);
+		if (transform.parent)
+		{
+			transform.SetParent(null);
+		}
 
-		if(!m_PhotonView.IsMine)
+		if (!m_PhotonView.IsMine)
 		{
 			gameObject.SetActive(false);
 			return;

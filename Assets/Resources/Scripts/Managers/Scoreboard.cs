@@ -22,10 +22,15 @@ public class Scoreboard : MonoBehaviourPunCallbacks
     {
         InGameStatsManager.Instance.AddScoreboard(this);
 
-        foreach (Player player in PhotonNetwork.PlayerList)
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
-            AddScoreboardItem(player);
+            AddScoreboardItem(PhotonNetwork.PlayerList[i]);
         }
+
+        //foreach (Player player in PhotonNetwork.PlayerList)
+        //{
+        //    AddScoreboardItem(player);
+        //}
     }
 
     private void OnDestroy()
@@ -39,6 +44,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         m_ScoreboardItems.Add(item);
 
         item.SetUp(player);
+        UpdateScoreboardItemText(player);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -59,6 +65,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
             if (player == item.Player)
             {
+                item.SetUsernameColor(player.GetIfEliminated());
                 item.SetScore(player.GetScore());
                 item.SetDeaths(player.GetDeaths());
                 item.SetKOs(0);
