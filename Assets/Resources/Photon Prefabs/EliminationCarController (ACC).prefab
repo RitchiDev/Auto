@@ -1039,7 +1039,7 @@ MonoBehaviour:
   m_RespawnKey: 102
   m_RespawnImage: {fileID: 7453721072242874959}
   m_RespawnText: {fileID: 2879030092125732835}
-  m_MaxRespawnTime: 5
+  m_MaxRespawnTime: 3
 --- !u!114 &5544605212539157621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1173,7 +1173,7 @@ MonoBehaviour:
     MaxSpeedForMinAngleMultiplier: 250
     SteerAngleChangeSpeed: 60
     MinSpeedForSteerHelp: 20
-    HelpSteerPower: 1.52
+    HelpSteerPower: 2
     OppositeAngularVelocityHelpPower: 0.05
     PositiveAngularVelocityHelpPower: 0
     MaxAngularVelocityHelpAngle: 45

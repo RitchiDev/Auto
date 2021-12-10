@@ -13,7 +13,7 @@ public class EliminationPlayerController : MonoBehaviour
     [SerializeField] private KeyCode m_RespawnKey = KeyCode.F;
     [SerializeField] private Image m_RespawnImage;
     [SerializeField] private TMP_Text m_RespawnText;
-    [SerializeField] private float m_MaxRespawnTime = 5f;
+    [SerializeField] private float m_MaxRespawnTime = 3f;
     private float m_RespawnTimer;
     PlayerManager m_PlayerManager;
 
@@ -28,7 +28,7 @@ public class EliminationPlayerController : MonoBehaviour
 
         if (m_PhotonView.IsMine)
         {
-            m_RespawnTimer = 0;
+            m_RespawnTimer = m_MaxRespawnTime;
             PhotonNetwork.LocalPlayer.SetEliminated(false);
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All, PhotonNetwork.LocalPlayer);
         }
@@ -53,26 +53,26 @@ public class EliminationPlayerController : MonoBehaviour
         {
             m_RespawnImage.SetActive(true);
 
-            m_RespawnTimer += Time.deltaTime;
+            m_RespawnTimer -= Time.deltaTime;
 
-            if(m_RespawnTimer >= m_MaxRespawnTime)
+            if(m_RespawnTimer <= 0)
             {
-                m_RespawnTimer = 0;
+                m_RespawnTimer = m_MaxRespawnTime;
                 m_PhotonView.RPC("RPC_Respawn", RpcTarget.All);
             }
         }
         else
         {
-            if(m_RespawnTimer > 0)
+            if(m_RespawnTimer <= m_MaxRespawnTime)
             {
-                m_RespawnTimer -= Time.deltaTime * m_MaxRespawnTime;
+                m_RespawnTimer += Time.deltaTime * m_MaxRespawnTime;
             }
         }
 
         m_RespawnImage.fillAmount = m_RespawnTimer / m_MaxRespawnTime;
         m_RespawnText.text = m_RespawnTimer.ToString("0");
 
-        if (m_RespawnTimer <= 0)
+        if (m_RespawnTimer >= m_MaxRespawnTime)
         {
             m_RespawnImage.SetActive(false);
         }

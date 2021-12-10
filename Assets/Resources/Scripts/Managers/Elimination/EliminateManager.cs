@@ -74,11 +74,11 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
         RingManager.Instance.DeactiveAllRings();
 
-        m_CurrentTime = m_MaxEliminationTime;
+        m_CurrentTime = m_TimeBeforeNextElimination;
 
         while (m_CurrentTime > 0)
         {
-            m_CurrentTime -= PhotonNetwork.Time;
+            m_CurrentTime -= Time.deltaTime;
             PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
             yield return null;
         }
@@ -96,7 +96,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         m_CurrentTime = m_MaxEliminationTime;
         while (m_CurrentTime >= 0)
         {
-            m_CurrentTime -= PhotonNetwork.Time;
+            m_CurrentTime -= Time.deltaTime;
             PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
             yield return null;
         }

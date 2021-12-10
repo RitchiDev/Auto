@@ -75,9 +75,20 @@ namespace GameMode.Elimination
 
                 AddDeathToUI(PhotonNetwork.LocalPlayer.NickName);
 
-                PhotonNetwork.Destroy(m_PlayerGameObject);
+                Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
 
-                CreatePlayerController();
+                m_PlayerGameObject.transform.position = spawnPoint.position;
+                m_PlayerGameObject.transform.rotation = spawnPoint.rotation;
+
+                Rigidbody rigidbody = m_PlayerGameObject.GetComponent<Rigidbody>();
+                if(rigidbody)
+                {
+                    rigidbody.velocity = Vector3.zero;
+                }
+
+                //PhotonNetwork.Destroy(m_PlayerGameObject);
+
+                //CreatePlayerController();
             }
         }
 
