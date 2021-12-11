@@ -11,10 +11,10 @@ public abstract class PlayerManager : MonoBehaviourPunCallbacks
     public abstract void CreatePlayerSpectator();
 
     public abstract void RespawnPlayer();
+    public abstract void RespawnPlayerAfterKO();
     public abstract void RespawnPlayerAsSpectator();
 
-    public virtual void AddDeathToUI(string name)
-    {
-        Debug.Log("Added death to UI");
-    }
+    public abstract void AddEliminateToUI(string name);
+    public abstract void AddKOToUI(string name);
+    public abstract void AddRespawnToUI(string name);
 }

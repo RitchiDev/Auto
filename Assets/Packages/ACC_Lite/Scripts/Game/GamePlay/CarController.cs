@@ -25,6 +25,7 @@ public class CarController :MonoBehaviour
 
 	float MaxMotorTorque;
 	float MaxSteerAngle { get { return CarConfig.MaxSteerAngle; } }
+	float MaxSteerAngleInDrift { get { return CarConfig.MaxSteerAngleInDrift; } }
 	DriveType DriveType { get { return CarConfig.DriveType; } }
 	bool AutomaticGearBox { get { return CarConfig.AutomaticGearBox; } }
 	AnimationCurve MotorTorqueFromRpmCurve { get { return CarConfig.MotorTorqueFromRpmCurve; } }
@@ -53,6 +54,7 @@ public class CarController :MonoBehaviour
 	float SteerAngleChangeSpeed { get { return CarConfig.SteerAngleChangeSpeed; } }
 	float MinSpeedForSteerHelp { get { return CarConfig.MinSpeedForSteerHelp; } }
 	float HelpSteerPower { get { return CarConfig.HelpSteerPower; } }
+	float HelpSteerPowerInDrift { get { return CarConfig.HelpSteerPowerInDrift; } }
 	float OppositeAngularVelocityHelpPower { get { return CarConfig.OppositeAngularVelocityHelpPower; } }
 	float PositiveAngularVelocityHelpPower { get { return CarConfig.PositiveAngularVelocityHelpPower; } }
 	float MaxAngularVelocityHelpAngle { get { return CarConfig.MaxAngularVelocityHelpAngle; } }
@@ -89,7 +91,7 @@ public class CarController :MonoBehaviour
 	float CurrentSteerAngle;
 	float CurrentAcceleration;
 	float CurrentBrake;
-    bool InHandBrake;
+    bool InDrifting;
 
     int FirstDriveWheel;
 	int LastDriveWheel;
@@ -153,7 +155,8 @@ public class CarController :MonoBehaviour
 	/// <param name="horizontal">Turn direction</param>
 	/// <param name="vertical">Acceleration</param>
 	/// <param name="brake">Brake</param>
-	public void UpdateControls (float horizontal, float vertical, bool handBrake)
+
+	public void UpdateControls (float horizontal, float vertical, bool drift)
 	{
 		if(!m_PhotonView.IsMine)
 		{
@@ -161,6 +164,11 @@ public class CarController :MonoBehaviour
 		}
 
 		float targetSteerAngle = horizontal * MaxSteerAngle;
+
+		if(drift)
+		{
+			targetSteerAngle = horizontal * MaxSteerAngleInDrift;
+		}
 
 		if (EnableSteerAngleMultiplier)
 		{
@@ -170,7 +178,7 @@ public class CarController :MonoBehaviour
 		CurrentSteerAngle = Mathf.MoveTowards (CurrentSteerAngle, targetSteerAngle, Time.deltaTime * SteerAngleChangeSpeed);
 
 		CurrentAcceleration = vertical;
-        InHandBrake = handBrake;
+        InDrifting = drift;
 	}
 
 	private void Update ()
@@ -202,17 +210,17 @@ public class CarController :MonoBehaviour
 		CurrentMaxSlip = Wheels[0].CurrentMaxSlip;
 		CurrentMaxSlipWheelIndex = 0;
 
-        if (InHandBrake)
-        {
-            RearLeftWheel.WheelCollider.brakeTorque = MaxBrakeTorque;
-            RearRightWheel.WheelCollider.brakeTorque = MaxBrakeTorque;
-            FrontLeftWheel.WheelCollider.brakeTorque = 0;
-            FrontRightWheel.WheelCollider.brakeTorque = 0;
-        }
+        //if (InDrifting)
+        //{
+        //    RearLeftWheel.WheelCollider.brakeTorque = MaxBrakeTorque;
+        //    RearRightWheel.WheelCollider.brakeTorque = MaxBrakeTorque;
+        //    FrontLeftWheel.WheelCollider.brakeTorque = 0;
+        //    FrontRightWheel.WheelCollider.brakeTorque = 0;
+        //}
 
         for (int i = 0; i < Wheels.Length; i++)
 		{
-            if (!InHandBrake)
+            if (!InDrifting)
             {
                 Wheels[i].WheelCollider.brakeTorque = CurrentBrake;
             }
@@ -246,6 +254,11 @@ public class CarController :MonoBehaviour
 		{
 			//Wheel turning helper.
 			targetAngle = Mathf.Clamp (VelocityAngle * HelpSteerPower, -MaxSteerAngle, MaxSteerAngle);
+
+			if(InDrifting)
+			{
+				targetAngle = Mathf.Clamp(VelocityAngle * HelpSteerPowerInDrift, -MaxSteerAngle, MaxSteerAngle);
+			}
 		}
 
 		//Wheel turn limitation.
@@ -451,6 +464,7 @@ public class CarController :MonoBehaviour
 
 		//TODO manual gearbox logic.
 	}
+
 	void PlayBackfireWithProbability ()
 	{
 		PlayBackfireWithProbability (GetCarConfig.ProbabilityBackfire);
@@ -502,7 +516,8 @@ public class CarController :MonoBehaviour
 public class CarConfig
 {
 	[Header("Steer Settings")]
-	public float MaxSteerAngle = 25;
+	public float MaxSteerAngle = 40;
+	public float MaxSteerAngleInDrift = 42;
 
 	[Header("Engine and power settings")]
 	public DriveType DriveType = DriveType.RWD;				//Drive type AWD, FWD, RWD. With the current parameters of the car only RWD works well. TODO Add rally and offroad regime.
@@ -536,7 +551,8 @@ public class CarConfig
 
 	public float SteerAngleChangeSpeed;                     //Wheel turn speed.
 	public float MinSpeedForSteerHelp;                      //Min speed at which helpers are enabled.
-	[Range(0f, 1f)] public float HelpSteerPower;            //The power of turning the wheels in the direction of the drift.
+	[Range(0f, 5f)] public float HelpSteerPower = 2f;            //The power of turning the wheels in the direction of the drift.
+	[Range(0f, 5f)] public float HelpSteerPowerInDrift = 0.3f;            //The power of turning the wheels in the direction of the drift (edited).
 	public float OppositeAngularVelocityHelpPower = 0.1f;	//The power of the helper to turn the rigidbody in the direction of the control turn.
 	public float PositiveAngularVelocityHelpPower = 0.1f;	//The power of the helper to positive turn the rigidbody in the direction of the control turn.
 	public float MaxAngularVelocityHelpAngle;               //The angle at which the assistant works 100%.

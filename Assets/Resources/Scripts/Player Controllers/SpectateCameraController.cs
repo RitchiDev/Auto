@@ -15,17 +15,14 @@ public class SpectateCameraController : MonoBehaviour
 
     private float m_RotationX = 0.0f;
     private float m_RotationY = 0.0f;
-
+    private bool m_CursorVisible;
     private void Awake()
     {
         m_PhotonView = GetComponent<PhotonView>();
 
-        if(m_PhotonView.IsMine)
+        if(!m_PhotonView.IsMine)
         {
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-        else
-        {
+            Destroy(GetComponent<AudioListener>());
             Destroy(m_Camera);
         }
     }
@@ -69,11 +66,6 @@ public class SpectateCameraController : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             transform.position -= transform.up * m_ClimbSpeed * Time.deltaTime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.End))
-        {
-            Cursor.lockState = Cursor.lockState == CursorLockMode.Confined ? CursorLockMode.Locked : CursorLockMode.Confined;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
@@ -21,10 +22,15 @@ public class Scoreboard : MonoBehaviourPunCallbacks
     {
         InGameStatsManager.Instance.AddScoreboard(this);
 
-        foreach (Player player in PhotonNetwork.PlayerList)
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
-            AddScoreboardItem(player);
+            AddScoreboardItem(PhotonNetwork.PlayerList[i]);
         }
+
+        //foreach (Player player in PhotonNetwork.PlayerList)
+        //{
+        //    AddScoreboardItem(player);
+        //}
     }
 
     private void OnDestroy()
@@ -38,6 +44,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         m_ScoreboardItems.Add(item);
 
         item.SetUp(player);
+        UpdateScoreboardItemText(player);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -52,14 +59,22 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     public void UpdateScoreboardItemText(Player player)
     {
-        foreach (ScoreboardItem item in m_ScoreboardItems)
+        for (int i = 0; i < m_ScoreboardItems.Count; i++)
         {
-            if (player == item.Player())
+            ScoreboardItem item = m_ScoreboardItems[i];
+
+            if (player == item.Player)
             {
+                item.SetUsernameColor(player.GetIfEliminated());
                 item.SetScore(player.GetScore());
                 item.SetDeaths(player.GetDeaths());
+                item.SetKOs(0);
             }
+
+            //m_ScoreboardItems.Sort(SortByScore());
         }
+
+        //m_ScoreboardItems = m_ScoreboardItems.OrderBy(item => item.Player.GetScore()).ToList();
     }
 
     private void RemoveScoreboardItem(Player player)
@@ -68,7 +83,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         {
             ScoreboardItem item = m_ScoreboardItems[i];
 
-            if (player == item.Player())
+            if (player == item.Player)
             {
                 Destroy(item.gameObject);
                 m_ScoreboardItems.Remove(item);

@@ -20,6 +20,9 @@ public class InGameUI : MonoBehaviour
         if(m_PhotonView.IsMine)
         {
             m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<GameMode.Elimination.EliminationPlayerManager>();
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
         }
         else
         {
@@ -70,12 +73,18 @@ public class InGameUI : MonoBehaviour
             m_PauseMenu.SetActive(false);
             m_Scoreboard.SetActive(false);
             m_OnScreenStats.SetActive(true);
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
         }
         else
         {
             m_PauseMenu.SetActive(true);
             m_Scoreboard.SetActive(true);
             m_OnScreenStats.SetActive(false);
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

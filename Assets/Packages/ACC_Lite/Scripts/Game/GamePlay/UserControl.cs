@@ -14,7 +14,7 @@ public class UserControl : MonoBehaviour
 
 	public float Horizontal { get; private set; }
 	public float Vertical { get; private set; }
-	public bool Brake { get; private set; }
+	public bool Drift { get; private set; }
 
 	public static MobileControlUI CurrentUIControl { get; set; }
 
@@ -29,7 +29,7 @@ public class UserControl : MonoBehaviour
 		CurrentUIControl = FindObjectOfType<MobileControlUI> ();
 	}
 
-	void Update ()
+	private void Update ()
 	{
 		if (!m_PhotonView.IsMine)
 		{
@@ -47,10 +47,10 @@ public class UserControl : MonoBehaviour
 			//Standart input control (Keyboard or gamepad).
 			Horizontal = Input.GetAxis ("Horizontal");
 			Vertical = Input.GetAxis ("Vertical");
-			Brake = Input.GetButton ("Jump");
+			Drift = Input.GetButton ("Drift");
 		}
 
 		//Apply control for controlled car.
-		ControlledCar.UpdateControls (Horizontal, Vertical, Brake);
+		ControlledCar.UpdateControls (Horizontal, Vertical, Drift);
 	}
 }

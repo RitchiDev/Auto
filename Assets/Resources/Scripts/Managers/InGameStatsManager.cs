@@ -8,12 +8,9 @@ public class InGameStatsManager : MonoBehaviourPunCallbacks
 {
     public static InGameStatsManager Instance { get; private set; }
     [SerializeField] private List<Scoreboard> m_Scoreboards = new List<Scoreboard>();
-    private PhotonView m_PhotonView;
 
     private void Awake()
     {
-        m_PhotonView = GetComponent<PhotonView>();
-
         if (Instance)
         {
             Debug.LogError("An instance of: " + this.ToString() + " already existed!");

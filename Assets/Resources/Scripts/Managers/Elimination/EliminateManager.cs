@@ -6,17 +6,20 @@ using TMPro;
 using Photon.Realtime;
 using Photon.Pun;
 using Andrich.UtilityScripts;
+using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
-public class EliminateManager : MonoBehaviour
+public class EliminateManager : MonoBehaviourPunCallbacks
 {
     public static EliminateManager Instance { get; private set; }
-
     [SerializeField] private List<EliminationPlayerController> m_AlivePlayers = new List<EliminationPlayerController>();
 
     [SerializeField] private Image m_CountDownImage;
     [SerializeField] private TMP_Text m_CountDownText;
     [SerializeField] private float m_MaxEliminationTime = 60f;
     [SerializeField] private float m_TimeBeforeNextElimination = 5f;
+    private EliminationPlayerController m_PlayerControllerToEliminate;
+    private double m_CurrentTime;
+    private bool m_SyncRings;
 
     private void Awake()
     {
@@ -29,11 +32,135 @@ public class EliminateManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
+        }
     }
 
     private void Start()
     {
-        StartCoroutine(TimeBeforeEliminateStartsCountdown());
+        if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+        {
+            m_CountDownImage.transform.parent.gameObject.SetActive(false);
+            return;
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(PhotonTimeBeforeEliminateStartsCountdown());
+        }
+    }
+
+    public override void OnRoomPropertiesUpdate(PhotonHashtable propertiesThatChanged)
+    {
+        if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+        {
+            return;
+        }
+
+        m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
+
+        float maxTime = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? m_TimeBeforeNextElimination : m_MaxEliminationTime;
+        m_CountDownImage.fillAmount = (float)PhotonNetwork.CurrentRoom.GetTime() / maxTime;
+        m_CountDownText.text = PhotonNetwork.CurrentRoom.GetTime().ToString("0");
+
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+    private IEnumerator PhotonTimeBeforeEliminateStartsCountdown()
+    {
+        PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
+
+        RingManager.Instance.DeactiveAllRings();
+
+        m_CurrentTime = m_TimeBeforeNextElimination;
+
+        while (m_CurrentTime > 0)
+        {
+            m_CurrentTime -= Time.deltaTime;
+            PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
+            yield return null;
+        }
+
+        StartCoroutine(PhotonEliminateCountdown());
+    }
+
+    private IEnumerator PhotonEliminateCountdown()
+    {
+        PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(false);
+
+        RingManager.Instance.ActivateAllRings();
+        RingManager.Instance.SetNew500RingActive();
+
+        m_CurrentTime = m_MaxEliminationTime;
+        while (m_CurrentTime >= 0)
+        {
+            m_CurrentTime -= Time.deltaTime;
+            PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
+            yield return null;
+        }
+
+        if (m_AlivePlayers.Count <= 1)
+        {
+            Debug.Log("Not Enough Alive Players");
+            yield return null;
+        }
+
+        CheckForElimination();
+        StartCoroutine(PhotonTimeBeforeEliminateStartsCountdown());
+    }
+
+
+    public void AddAlivePlayer(EliminationPlayerController playerController, Player player)
+    {
+        playerController.SetPlayer(player);
+        m_AlivePlayers.Add(playerController);
+    }
+
+    public void RemoveAlivePlayer(EliminationPlayerController playerController)
+    {
+        m_AlivePlayers.Remove(playerController);
+    }
+
+    private void EliminatePlayer()
+    {
+        if (m_PlayerControllerToEliminate)
+        {
+            Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
+            m_PlayerControllerToEliminate.Player.SetEliminated(true);
+            m_PlayerControllerToEliminate.Eliminate();
+        }
+    }
+
+    private void CheckForElimination()
+    {
+        Debug.Log("Check for elimination");
+
+        if(m_AlivePlayers.Count <= 1)
+        {
+            return;
+        }
+
+        m_PlayerControllerToEliminate = m_AlivePlayers[0];
+
+        for (int i = 0; i < m_AlivePlayers.Count; i++)
+        {
+            Debug.Log(m_AlivePlayers.Count);
+            EliminationPlayerController currentPlayerController = m_AlivePlayers[i];
+            Debug.Log(currentPlayerController.Player.NickName);
+
+            Debug.Log("The score of current checked player: " + currentPlayerController.Player.NickName + " (" + currentPlayerController.Player.GetScore() + ")" + " and player with lowest score: " + m_PlayerControllerToEliminate.Player.NickName + " (" + m_PlayerControllerToEliminate.Player.GetScore() + ")");
+
+            if (currentPlayerController.Player.GetScore() < m_PlayerControllerToEliminate.Player.GetScore())
+            {
+                Debug.Log("The score of: " + currentPlayerController.Player.NickName + " is lower than: " + m_PlayerControllerToEliminate.Player.NickName);
+                m_PlayerControllerToEliminate = currentPlayerController;
+            }
+        }
+
+        EliminatePlayer();
     }
 
     private IEnumerator TimeBeforeEliminateStartsCountdown()
@@ -72,43 +199,7 @@ public class EliminateManager : MonoBehaviour
             yield return null;
         }
 
-        EliminatePlayer();
+        //EliminatePlayer();
         StartCoroutine(TimeBeforeEliminateStartsCountdown());
-    }
-
-    public void AddAlivePlayer(EliminationPlayerController playerController)
-    {
-        m_AlivePlayers.Add(playerController);
-    }
-
-    public void RemoveAlivePlayer(EliminationPlayerController playerController)
-    {
-        m_AlivePlayers.Remove(playerController);
-    }
-
-    private void EliminatePlayer()
-    {
-        if(m_AlivePlayers.Count <= 1)
-        {
-            return;
-        }
-
-        Debug.Log("Check for elimination");
-
-        EliminationPlayerController playerControllerToEliminate = m_AlivePlayers[0];
-
-        for (int i = 0; i < m_AlivePlayers.Count; i++)
-        {
-            EliminationPlayerController currentPlayerController = m_AlivePlayers[i];
-
-            if (currentPlayerController.Player.GetScore() < playerControllerToEliminate.Player.GetScore())
-            {
-                playerControllerToEliminate = currentPlayerController;
-            }
-        }
-
-        Debug.Log(playerControllerToEliminate.Player.NickName + ": Eliminated");
-        playerControllerToEliminate.Player.SetEliminated(true);
-        playerControllerToEliminate.Eliminate();
     }
 }

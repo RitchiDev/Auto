@@ -351,7 +351,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8935410329842561349}
-  - component: {fileID: 8938393759767168970}
   - component: {fileID: 9049997429586516709}
   m_Layer: 0
   m_Name: Camera Controller (ACC)
@@ -378,28 +377,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &8938393759767168970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8938393759767168969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &9049997429586516709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec3c95bef660c44b9d4356558f6dd17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PhotonView: {fileID: 8938393759767168970}
+  m_PhotonView: {fileID: 0}
   SetCameraKey: 99
   NextCameraButton: {fileID: 0}
   CamerasPreset:

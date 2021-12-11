@@ -13,7 +13,7 @@ public class ScoreboardItem : MonoBehaviour
     [SerializeField] private TMP_Text m_KOs;
     [SerializeField] private TMP_Text m_Deaths;
     private Player m_Player;
-
+    public Player Player => m_Player;
     public void SetUp(Player player)
     {
         m_Player = player;
@@ -23,17 +23,25 @@ public class ScoreboardItem : MonoBehaviour
 
     public void SetScore(int score)
     {
-        m_InTabScore.text = "Score: " + score.ToString();
+        m_InTabScore.text = score.ToString();
+        //m_InTabScore.text = "Score: " + score.ToString();
     }
 
     public void SetDeaths(int deaths)
     {
-        m_Deaths.text = "Deaths: " + deaths.ToString();
+        m_Deaths.text = deaths.ToString();
+        //m_Deaths.text = "Deaths: " + deaths.ToString();
     }
 
-    public Player Player()
+    public void SetKOs(int kOs)
     {
-        return m_Player;
+        m_KOs.text = kOs.ToString();
+        //m_KOs.text = "KO's: " + kOs.ToString();
+    }
+
+    public void SetUsernameColor(bool eliminated)
+    {
+        m_Username.color = eliminated ? Color.red : Color.white;
     }
 }
 

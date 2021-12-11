@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7373d52c2d68e8142b1823a791596269, type: 3}
+  m_Name: Free Roam
+  m_EditorClassIdentifier: 
+  m_GameModeName: Free Roam
+  m_GameModeDescription: 
+  m_PhotonPrefabsFolder: Photon Prefabs
+  m_GameModeManagerString: EliminateManager
+  m_PlayerManagerString: PlayerManager (Elimination)
+  m_PlayerControllerString: EliminationCarController (ACC)
+  m_PlayerSpectatorString: SpectateCameraController
+  m_MinimumPlayers: 1
+  m_MaximumPlayers: 20
+  m_DefaultSceneIndex: 3
+  m_MapsItem: {fileID: 11400000, guid: 7a41ca53e2947c74cb87e8b44b580030, type: 2}
+  m_CloseRoomOnStart: 0

@@ -32,6 +32,7 @@ public class CarSoundController :MonoBehaviour
 	{
 		if (!m_PhotonView.IsMine)
 		{
+			SlipSource.Stop();
 			return;
 		}
 

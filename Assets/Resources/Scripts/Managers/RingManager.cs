@@ -1,5 +1,7 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class RingManager : MonoBehaviour
@@ -22,17 +24,41 @@ public class RingManager : MonoBehaviour
 
             RingCollision[] ringCollisions = GetComponentsInChildren<RingCollision>();
 
-            foreach (RingCollision ringCollision in ringCollisions)
+            for (int i = 0; i < ringCollisions.Length; i++)
             {
-                if(ringCollision.Worth >= 500)
+                string path1 = "Photon Prefabs";
+                string path2 = "Ring " + ringCollisions[i].Worth;
+                //string path2 = ringCollisions[i].transform.parent.name;
+
+                if (ringCollisions[i].Worth >= 500)
                 {
-                    m_RingsWorth500.Add(ringCollision);
+                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation);
+
+                    //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
+                    m_RingsWorth500.Add(ringToAdd.GetComponentInChildren<RingCollision>());
                 }
                 else
                 {
-                    m_Rings.Add(ringCollision);
+                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation);
+                    
+                    //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
+                    m_Rings.Add(ringToAdd.GetComponentInChildren<RingCollision>());
                 }
+
+                Destroy(ringCollisions[i].transform.parent.gameObject);
             }
+
+            //foreach (RingCollision ringCollision in ringCollisions)
+            //{
+            //    if (ringCollision.Worth >= 500)
+            //    {
+            //        m_RingsWorth500.Add(ringCollision);
+            //    }
+            //    else
+            //    {
+            //        m_Rings.Add(ringCollision);
+            //    }
+            //}
         }
     }
 
@@ -82,7 +108,7 @@ public class RingManager : MonoBehaviour
                 break;
             }
 
-            if (m_RingsWorth500[index] != m_PreviousRing && !m_RingsWorth500[index].transform.parent.gameObject.activeInHierarchy)
+            if (m_RingsWorth500[index] != m_PreviousRing)
             {
                 Debug.Log("New Ring Activated Succesfully!");
 

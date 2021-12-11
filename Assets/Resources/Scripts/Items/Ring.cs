@@ -1,30 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Andrich.UtilityScripts;
 
 public class Ring : MonoBehaviour
 {
+    private PhotonView m_PhotonView;
     [SerializeField] private float m_TimeBeforeReActivation = 20f;
-    [SerializeField] private RingCollision m_RingCollision;
+    [SerializeField] private Collider m_Collider;
     private MeshRenderer m_MeshRenderer;
 
     private void Awake()
     {
+        m_PhotonView = GetComponentInParent<PhotonView>();
         m_MeshRenderer = GetComponent<MeshRenderer>();
     }
 
     public void Activate()
     {
-        m_MeshRenderer.enabled = true;
-        m_RingCollision.enabled = true;
+        m_PhotonView.RPC("RPC_Activate", RpcTarget.All);
     }
 
     public void Deactivate(bool reActivate = true)
     {
-        m_MeshRenderer.enabled = false;
-        m_RingCollision.enabled = false;
+        m_PhotonView.RPC("RPC_Deactivate", RpcTarget.All, reActivate);
+    }
 
-        if(reActivate)
+    [PunRPC]
+    private void RPC_Activate()
+    {
+        m_MeshRenderer.enabled = true;
+        m_Collider.SetActive(true);
+    }
+
+    [PunRPC]
+    public void RPC_Deactivate(bool reActivate)
+    {
+        m_MeshRenderer.enabled = false;
+        m_Collider.SetActive(false);
+
+        if (reActivate)
         {
             StartCoroutine(ReActivate());
         }
@@ -40,7 +56,9 @@ public class Ring : MonoBehaviour
             yield return null;
         }
 
-        m_MeshRenderer.enabled = true;
-        m_RingCollision.enabled = true;
+        if(!PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+        {
+            Activate();
+        }
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4461610069916562493}
   - component: {fileID: 4461610069916562488}
   - component: {fileID: 4461610069916562490}
+  - component: {fileID: 3256163973323180560}
   m_Layer: 6
   m_Name: SpectateCameraController
   m_TagString: Untagged
@@ -72,11 +73,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 4461610070084110536}
-  m_CameraSensitivity: 50
+  m_CameraSensitivity: 60
   m_ClimbSpeed: 4
   m_NormalMoveSpeed: 10
   m_SlowMoveFactor: 0.25
-  m_FastMoveFactor: 2
+  m_FastMoveFactor: 3
 --- !u!114 &4461610069916562490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +94,14 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!81 &3256163973323180560
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461610069916562489}
+  m_Enabled: 1
 --- !u!1 &4461610070084110534
 GameObject:
   m_ObjectHideFlags: 0
