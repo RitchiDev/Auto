@@ -48,17 +48,7 @@ public class RingManager : MonoBehaviour
                 Destroy(ringCollisions[i].transform.parent.gameObject);
             }
 
-            //foreach (RingCollision ringCollision in ringCollisions)
-            //{
-            //    if (ringCollision.Worth >= 500)
-            //    {
-            //        m_RingsWorth500.Add(ringCollision);
-            //    }
-            //    else
-            //    {
-            //        m_Rings.Add(ringCollision);
-            //    }
-            //}
+            DeactiveAllRings();
         }
     }
 

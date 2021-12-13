@@ -96,6 +96,7 @@ namespace GameMode.Elimination
             if (m_PhotonView.IsMine)
             {
                 PhotonNetwork.LocalPlayer.AddDeath(1);
+                PhotonNetwork.LocalPlayer.AddScore(-250);
 
                 AddRespawnToUI(PhotonNetwork.LocalPlayer.NickName);
 

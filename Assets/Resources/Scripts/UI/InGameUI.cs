@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
-public class InGameUI : MonoBehaviour
+using Andrich.UtilityScripts;
+
+public class InGameUI : MonoBehaviourPunCallbacks
 {
     [SerializeField] private PhotonView m_PhotonView;
 
     [SerializeField] private GameObject m_Scoreboard;
     [SerializeField] private GameObject m_OnScreenStats;
     [SerializeField] private GameObject m_PauseMenu;
-
+    [SerializeField] private GameObject m_WinMenu;
+    [SerializeField] private TMP_Text m_WinnerText;
     [SerializeField] private TMP_Text m_OnScreenScore;
 
     private GameMode.Elimination.EliminationPlayerManager m_PlayerManager;
+    private bool m_GameIsWon;
 
     private void Start()
     {
         if(m_PhotonView.IsMine)
         {
+            m_GameIsWon = false;
             m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<GameMode.Elimination.EliminationPlayerManager>();
 
             Cursor.visible = false;
@@ -29,21 +34,22 @@ public class InGameUI : MonoBehaviour
             Destroy(m_Scoreboard);
             Destroy(m_OnScreenStats);
             Destroy(m_PauseMenu);
+            Destroy(m_WinMenu);
             Destroy(gameObject);
+            //gameObject.SetActive(false);
         }
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        if(!m_PhotonView.IsMine)
+        if(!m_PhotonView.IsMine || m_GameIsWon)
         {
             return;
         }
         
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseMenu();
+            OpenPauseMenu();
         }
 
         if (Input.GetKey(KeyCode.Tab))
@@ -61,21 +67,29 @@ public class InGameUI : MonoBehaviour
         }
     }
 
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        {
+            if(PhotonNetwork.CurrentRoom.GetPlayerWhoWon() != null)
+            {
+                OpenWinMenu(PhotonNetwork.CurrentRoom.GetPlayerWhoWon().NickName);
+            }
+        }
+
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
     public void SetOnscreenScore(int score)
     {
         m_OnScreenScore.text = "Score: " + score.ToString();
     }
 
-    public void PauseMenu()
+    public void OpenPauseMenu()
     {
         if (m_PauseMenu.activeInHierarchy)
         {
-            m_PauseMenu.SetActive(false);
-            m_Scoreboard.SetActive(false);
-            m_OnScreenStats.SetActive(true);
-
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
+            ClosePauseMenu();
         }
         else
         {
@@ -85,6 +99,40 @@ public class InGameUI : MonoBehaviour
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+    private void ClosePauseMenu()
+    {
+        m_PauseMenu.SetActive(false);
+        m_Scoreboard.SetActive(false);
+        m_OnScreenStats.SetActive(true);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void OpenWinMenu(string playerName)
+    {
+        if(!m_PhotonView.IsMine)
+        {
+            return;
+        }
+
+        ClosePauseMenu();
+
+        m_GameIsWon = true;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        m_WinMenu.SetActive(true);
+        m_Scoreboard.SetActive(true);
+        m_OnScreenStats.SetActive(false);
+
+        if(m_WinnerText)
+        {
+            m_WinnerText.text = playerName + " Won The Game!";
         }
     }
 
