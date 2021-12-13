@@ -1176,8 +1176,8 @@ MonoBehaviour:
     MinSpeedForSteerHelp: 20
     HelpSteerPower: 2
     HelpSteerPowerInDrift: 0.3
-    OppositeAngularVelocityHelpPower: 0
-    PositiveAngularVelocityHelpPower: 0
+    OppositeAngularVelocityHelpPower: 0.1
+    PositiveAngularVelocityHelpPower: 0.1
     MaxAngularVelocityHelpAngle: 45
     AngularVelucityInMaxAngle: 0.5
     AngularVelucityInMinAngle: 2

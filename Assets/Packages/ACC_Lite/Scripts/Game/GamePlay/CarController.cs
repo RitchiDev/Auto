@@ -210,14 +210,6 @@ public class CarController :MonoBehaviour
 		CurrentMaxSlip = Wheels[0].CurrentMaxSlip;
 		CurrentMaxSlipWheelIndex = 0;
 
-        //if (InDrifting)
-        //{
-        //    RearLeftWheel.WheelCollider.brakeTorque = MaxBrakeTorque;
-        //    RearRightWheel.WheelCollider.brakeTorque = MaxBrakeTorque;
-        //    FrontLeftWheel.WheelCollider.brakeTorque = 0;
-        //    FrontRightWheel.WheelCollider.brakeTorque = 0;
-        //}
-
         for (int i = 0; i < Wheels.Length; i++)
 		{
             if (!InDrifting)
