@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: b98745f0ca1fb21488839441404252b7
+guid: 290fb453ed925d045a9663ff52063cfa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5000927251509650613
-    second: Back_0
+      213: 1337470608386419211
+    second: UI BUTTONS_0
   - first:
-      213: 564042922023100985
-    second: Back_1
+      213: -8411724642278225128
+    second: UI BUTTONS_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -53,7 +53,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 46, y: 39, z: 28, w: 161}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Back_0
+      name: UI BUTTONS_0
       rect:
         serializedVersion: 2
         x: 49
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b4adc5d6dcd66540800000000000000
-      internalID: 5000927251509650613
+      spriteID: b0ae56e9e66af8210800000000000000
+      internalID: 1337470608386419211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Back_1
+      name: UI BUTTONS_1
       rect:
         serializedVersion: 2
         x: 59
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 932a2459c02e3d700800000000000000
-      internalID: 564042922023100985
+      spriteID: 81b4b9c410d834b80800000000000000
+      internalID: -8411724642278225128
       vertices: []
       indices: 
       edges: []
