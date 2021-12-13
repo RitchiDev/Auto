@@ -8,6 +8,7 @@ namespace Andrich.UtilityScripts
 {
     public class RoomProperties : MonoBehaviour
     {
+        public const string GameModeNameProperty = "GameModeName";
         public const string TimeProperty = "CurrentEliminateTime";
         public const string TimeColorProperty = "EliminateTimeColor";
         public const string DoEliminationProperty = "DoElimination";

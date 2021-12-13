@@ -6,7 +6,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using Andrich.UtilityScripts;
-using ExitGames.Client.Photon;
+using PhotonHashTable = ExitGames.Client.Photon.Hashtable;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -160,6 +160,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = (byte)GameModeManager.Instance.MaxPlayers;
+
         PhotonNetwork.CreateRoom(m_RoomNameInputField.text, roomOptions);
 
         GameModeManager.Instance.ActivateMaps();
@@ -170,6 +171,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined Room");
+
         MenuManager.Instance.OpenMenu(MenuName.inRoomMenu);
         m_RoomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
@@ -199,7 +201,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         m_StartGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, PhotonHashTable changedProps)
     {
         for (int i = 0; i < m_TogglesInRoom.Count; i++)
         {
