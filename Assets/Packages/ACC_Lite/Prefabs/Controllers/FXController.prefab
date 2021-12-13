@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4385622581913210}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TrailsHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4833497562275480}
   - component: {fileID: 198010928671236698}
   - component: {fileID: 199729217124764016}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: GroundSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4858,7 +4858,7 @@ GameObject:
   - component: {fileID: 4454074190658448}
   - component: {fileID: 198573454739823850}
   - component: {fileID: 199362628286919318}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: AsphaltSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9673,7 +9673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4981185827229966}
   - component: {fileID: 96580947845389234}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9802,7 +9802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4984181857720406}
   - component: {fileID: 82279450089836288}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Audio Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9929,7 +9929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4622598348882566}
   - component: {fileID: 114984856473557396}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FXController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9979,7 +9979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4210342975357130}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SoundsHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

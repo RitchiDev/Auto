@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8935588443765296593}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraHolder_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8944130911601573073}
   - component: {fileID: 8955799197814874691}
   - component: {fileID: 9057405247463137247}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8943982603889257151}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraHolder_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 8935332480820071221}
   - component: {fileID: 8955112858294565321}
   - component: {fileID: 9057913134945345889}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8943952569192898343}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraHolder_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 8943649307936833155}
   - component: {fileID: 8955896411926533715}
   - component: {fileID: 9058988578175569967}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8935410329842561349}
   - component: {fileID: 9049997429586516709}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Camera Controller (ACC)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ MonoBehaviour:
     SetPositionSpeed: 10
     VelocityMultiplier: 0.05
     EnableRotation: 1
-    MinDistanceForRotation: 0.01
+    MinDistanceForRotation: 0.07
     SetRotationSpeed: 5
   - CameraHolder: {fileID: 8943952569192898343}
     SetPositionSpeed: 3
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 8943867681845618973}
   - component: {fileID: 8954876382814824385}
   - component: {fileID: 9057386822765488671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -511,7 +511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8935158335533812527}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraHolder_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

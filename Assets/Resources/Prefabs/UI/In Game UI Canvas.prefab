@@ -994,7 +994,7 @@ GameObject:
   - component: {fileID: 2026859157353931109}
   - component: {fileID: 2026859157353931107}
   - component: {fileID: 2026859157353931106}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: UsernameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1128,7 +1128,7 @@ GameObject:
   - component: {fileID: 2026859157925324696}
   - component: {fileID: 2026859157925324678}
   - component: {fileID: 2026859157925324697}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: KOText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1260,7 +1260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2026859158054677037}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ScoreboardInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1302,7 +1302,7 @@ GameObject:
   - component: {fileID: 2026859158080239070}
   - component: {fileID: 2026859158080239068}
   - component: {fileID: 2026859158080239071}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1378,7 +1378,7 @@ GameObject:
   - component: {fileID: 2026859158418988775}
   - component: {fileID: 2026859158418988773}
   - component: {fileID: 2026859158418988772}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1512,7 +1512,7 @@ GameObject:
   - component: {fileID: 6451904599102037761}
   - component: {fileID: 9081921696783644337}
   - component: {fileID: 8243392887896908231}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: DeathText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
