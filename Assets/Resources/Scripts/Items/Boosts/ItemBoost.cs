@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using BoostList = System.Collections.Generic.List<IBoostClass>;
 using System.Collections;
+#region Old
 
 public class ItemBoostManager : MonoBehaviour
 {
@@ -141,16 +142,6 @@ public class ProjectileBoost : BoostHeadClass
     }
 }
 
-#region AddtoController
-//public void AddSpeed(float amount)
-//{
-//    rb.AddForce(amount * transform.forward, ForceMode.VelocityChange);
-
-//}
-
-//public void AddJumpBoost(float amount)
-//{
-//    rb.AddForce(amount * transform.up, ForceMode.VelocityChange);
-
-//}
+#endregion
+#region New
 #endregion
