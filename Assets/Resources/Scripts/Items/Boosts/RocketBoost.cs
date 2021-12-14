@@ -33,6 +33,10 @@ public class ExplosionBoostType : MonoBehaviour
                 //}
             }
         }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
