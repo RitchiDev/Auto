@@ -67,15 +67,6 @@ public class CameraController : MonoBehaviour
 		}
 	}
 
-	private IEnumerator Start ()
-	{
-		while (m_CarSetUp == null)
-		{
-			yield return null;
-		}
-		transform.position = TargetPoint;
-	}
-
 	private void Update()
 	{
 		if (!m_PhotonView.IsMine)

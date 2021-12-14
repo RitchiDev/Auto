@@ -324,6 +324,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &634497565 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5576530450230893162, guid: 6f3e521ba655c964986be4fdec300ee8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5545859597549606429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d204033c4a67b4f868a9a1a2715013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &634497566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5544605212539157621, guid: 6f3e521ba655c964986be4fdec300ee8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5545859597549606429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9256ab73476d248874682e984cf590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &634497569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5544605212539157620, guid: 6f3e521ba655c964986be4fdec300ee8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5545859597549606429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5545859597549606429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -476,5 +512,20 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
+        type: 3}
+      propertyPath: m_CarSetUp
+      value: 
+      objectReference: {fileID: 634497566}
+    - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
+        type: 3}
+      propertyPath: m_TargetCar
+      value: 
+      objectReference: {fileID: 634497565}
+    - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
+        type: 3}
+      propertyPath: m_PhotonView
+      value: 
+      objectReference: {fileID: 634497569}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee550c520d95334e84e4c4437f67df3, type: 3}

@@ -34,7 +34,7 @@ namespace GameMode.Elimination
 
         public override void CreatePlayerController()
         {
-            Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+            Transform spawnPoint = SpawnManager.Instance.GetRandomSpawnPoint();
 
             object[] data = new object[] { m_PhotonView.ViewID };
             byte group = 0;
@@ -47,7 +47,7 @@ namespace GameMode.Elimination
 
         public override void CreatePlayerSpectator()
         {
-            Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+            Transform spawnPoint = SpawnManager.Instance.GetRandomSpawnPoint();
 
             object[] data = new object[] { m_PhotonView.ViewID };
             byte group = 0;
@@ -96,10 +96,11 @@ namespace GameMode.Elimination
             if (m_PhotonView.IsMine)
             {
                 PhotonNetwork.LocalPlayer.AddDeath(1);
+                PhotonNetwork.LocalPlayer.AddScore(-250);
 
                 AddRespawnToUI(PhotonNetwork.LocalPlayer.NickName);
 
-                Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+                Transform spawnPoint = SpawnManager.Instance.GetRandomSpawnPoint();
 
                 m_PlayerGameObject.transform.position = spawnPoint.position;
                 m_PlayerGameObject.transform.rotation = spawnPoint.rotation;

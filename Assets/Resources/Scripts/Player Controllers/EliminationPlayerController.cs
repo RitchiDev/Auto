@@ -44,8 +44,13 @@ public class EliminationPlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(!m_PhotonView.IsMine)
+        if(!m_PhotonView.IsMine || PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
         {
+            if(m_RespawnImage)
+            {
+                m_RespawnImage.SetActive(false);
+            }
+
             return;
         }
 

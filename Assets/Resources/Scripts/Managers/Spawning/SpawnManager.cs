@@ -3,9 +3,9 @@ using System.Collections.Generic;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private LayerMask m_LayerMask;
-    private Vector3 m_PlayerDetectionSize = new Vector3(16f, 10f, 16f);
+    [SerializeField] private Vector3 m_PlayerDetectionSize = new Vector3(6f, 6f, 6f);
     private List<Spawnpoint> m_Spawnpoints  = new List<Spawnpoint>();
-    private List<Spawnpoint> m_AvailebleSpawnPoints = new List<Spawnpoint>();
+    private List<Spawnpoint> m_AvailableSpawnPoints = new List<Spawnpoint>();
     private int m_PreviousIndex;
     public static SpawnManager Instance { get; private set; }
 
@@ -27,7 +27,7 @@ public class SpawnManager : MonoBehaviour
                 m_Spawnpoints.Add(spawnpoint);
             }
 
-            m_AvailebleSpawnPoints = m_Spawnpoints;
+            m_AvailableSpawnPoints = m_Spawnpoints;
         }
     }
 
@@ -46,18 +46,18 @@ public class SpawnManager : MonoBehaviour
 
     public Transform GetUntakenSpawnpoints()
     {
-        if (m_AvailebleSpawnPoints.Count == 0)
-            m_AvailebleSpawnPoints = m_Spawnpoints;
+        if (m_AvailableSpawnPoints.Count == 0)
+            m_AvailableSpawnPoints = m_Spawnpoints;
 
-        int index = Random.Range(0, m_AvailebleSpawnPoints.Count - 1);
-        Transform Location = m_AvailebleSpawnPoints[index].transform;
-        m_AvailebleSpawnPoints.RemoveAt(index);
+        int index = Random.Range(0, m_AvailableSpawnPoints.Count - 1);
+        Transform Location = m_AvailableSpawnPoints[index].transform;
+        m_AvailableSpawnPoints.RemoveAt(index);
         return Location;
     }
 
     public Transform GetRandomSpawnPoint()
     {
-        int index = Random.Range(0, m_Spawnpoints.Count - 1);
+        int index = 0;
         bool placed = false;
         int stopCount = 0;
 
@@ -72,13 +72,17 @@ public class SpawnManager : MonoBehaviour
                 break;
             }
 
-            if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
+            Collider[] hitColliders = Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize / 2, Quaternion.identity, m_LayerMask);
+
+            //if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
+            if (hitColliders.Length <= 0)
             {
                 Debug.Log("Placed Succesfully!");
 
                 placed = true;
             }
         }
+
         return m_Spawnpoints[index].transform;
     }
 }

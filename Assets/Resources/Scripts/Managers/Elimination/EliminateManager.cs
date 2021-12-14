@@ -19,7 +19,6 @@ public class EliminateManager : MonoBehaviourPunCallbacks
     [SerializeField] private float m_TimeBeforeNextElimination = 5f;
     private EliminationPlayerController m_PlayerControllerToEliminate;
     private double m_CurrentTime;
-    private bool m_SyncRings;
 
     private void Awake()
     {
@@ -36,6 +35,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
+            PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
         }
     }
 
@@ -49,7 +49,7 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(PhotonTimeBeforeEliminateStartsCountdown());
+            StartCoroutine(TimeBeforeEliminateStartsCountdown());
         }
     }
 
@@ -66,10 +66,15 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         m_CountDownImage.fillAmount = (float)PhotonNetwork.CurrentRoom.GetTime() / maxTime;
         m_CountDownText.text = PhotonNetwork.CurrentRoom.GetTime().ToString("0");
 
+        if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        {
+            m_CountDownImage.SetActive(false);
+        }
+
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 
-    private IEnumerator PhotonTimeBeforeEliminateStartsCountdown()
+    private IEnumerator TimeBeforeEliminateStartsCountdown()
     {
         PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
 
@@ -84,10 +89,10 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             yield return null;
         }
 
-        StartCoroutine(PhotonEliminateCountdown());
+        StartCoroutine(EliminateCountdown());
     }
 
-    private IEnumerator PhotonEliminateCountdown()
+    private IEnumerator EliminateCountdown()
     {
         PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(false);
 
@@ -109,7 +114,11 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         }
 
         CheckForElimination();
-        StartCoroutine(PhotonTimeBeforeEliminateStartsCountdown());
+
+        if(!PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        {
+            StartCoroutine(TimeBeforeEliminateStartsCountdown());
+        }
     }
 
 
@@ -131,6 +140,19 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
             m_PlayerControllerToEliminate.Player.SetEliminated(true);
             m_PlayerControllerToEliminate.Eliminate();
+        }
+
+        CheckForWin();
+    }
+
+    private void CheckForWin()
+    {
+        if (m_AlivePlayers.Count <= 1)
+        {
+            PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Player);
+            PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(true);
+
+            return;
         }
     }
 
@@ -161,45 +183,5 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         }
 
         EliminatePlayer();
-    }
-
-    private IEnumerator TimeBeforeEliminateStartsCountdown()
-    {
-        RingManager.Instance.DeactiveAllRings();
-
-        m_CountDownText.color = Color.white;
-
-        float totalTime = m_TimeBeforeNextElimination;
-        while (totalTime >= 0)
-        {
-            m_CountDownImage.fillAmount = totalTime / m_MaxEliminationTime;
-            totalTime -= Time.deltaTime;
-            m_CountDownText.text = totalTime.ToString("0");
-
-            yield return null;
-        }
-
-        StartCoroutine(EliminateCountdown());
-    }
-
-    private IEnumerator EliminateCountdown()
-    {
-        RingManager.Instance.ActivateAllRings();
-        RingManager.Instance.SetNew500RingActive();
-
-        m_CountDownText.color = Color.red;
-
-        float totalTime = m_MaxEliminationTime;
-        while (totalTime >= 0)
-        {
-            m_CountDownImage.fillAmount = totalTime / m_MaxEliminationTime;
-            totalTime -= Time.deltaTime;
-            m_CountDownText.text = totalTime.ToString("0");
-
-            yield return null;
-        }
-
-        //EliminatePlayer();
-        StartCoroutine(TimeBeforeEliminateStartsCountdown());
     }
 }

@@ -79,10 +79,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1570476110808800511}
     m_Modifications:
+    - target: {fileID: 5943853330161871267, guid: ae68cbb10d76d8c4f821530c84704b38,
+        type: 3}
+      propertyPath: m_Name
+      value: Count Down Image
+      objectReference: {fileID: 0}
     - target: {fileID: 5943853330293838761, guid: ae68cbb10d76d8c4f821530c84704b38,
         type: 3}
       propertyPath: m_Name
-      value: TimeCanvas
+      value: Count Down Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 5943853330293838765, guid: ae68cbb10d76d8c4f821530c84704b38,
         type: 3}
