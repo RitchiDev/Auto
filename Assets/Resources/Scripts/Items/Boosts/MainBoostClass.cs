@@ -18,7 +18,7 @@
 //Deze klas niks mee doen
 public abstract class MainBoostClass : MonoBehaviour
 {
-    private PlayerBoost m_PlayerBooster;
+    public PlayerBoost m_PlayerBooster;
     public abstract void UseBoost(GameObject EliminationCar);
     public void AddCurrentBoostHolder(PlayerBoost Booster)
     {
@@ -33,6 +33,9 @@ public class BoostManager : MonoBehaviour
     [Header("Rocket")]
     public GameObject m_RocketPrefab;
     public float m_RocketSpeed;
+
+    [Header("SpeedBoost")]
+    public float m_SpeedBoostSpeed;
     public void Awake()
     {
         m_singleton = this;
