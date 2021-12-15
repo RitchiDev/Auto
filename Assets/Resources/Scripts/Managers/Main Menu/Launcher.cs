@@ -70,6 +70,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.OfflineMode = false;
         MenuManager.Instance.OpenMenu(MenuName.loadingMenu);
         PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.GameVersion = Application.version;
     }
 
     public void LeaveOnline()
