@@ -28,13 +28,25 @@ public class CarMaterialSelector : MonoBehaviour
         }
     }
 
+    public void UpdateCarSprite(Player player)
+    {
+        if (player == m_PlayerItem.Player)
+        {
+            m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(player.GetPrimaryMaterialIndex());
+            m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(player.GetPrimaryMaterialIndex());
+
+            m_SecondaryColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(player.GetSecondaryMaterialIndex());
+            m_SecondarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(player.GetSecondaryMaterialIndex());
+        }
+    }
+
     public void ChangePrimaryCarMaterial(int amount)
     {
         int index = PhotonNetwork.LocalPlayer.GetPrimaryMaterialIndex();
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxPrimaryIndex);
 
-        m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
-        m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
+        //m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
+        //m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
         PhotonNetwork.LocalPlayer.SetPrimaryMaterialIndex(index);
     }
 
@@ -43,8 +55,8 @@ public class CarMaterialSelector : MonoBehaviour
         int index = PhotonNetwork.LocalPlayer.GetSecondaryMaterialIndex();
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxSecondaryIndex);
 
-        m_SecondaryColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
-        m_SecondarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
+        //m_SecondaryColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
+        //m_SecondarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
         PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex(index);
     }
 }

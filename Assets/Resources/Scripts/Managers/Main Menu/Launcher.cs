@@ -24,8 +24,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject m_PlayerListItemPrefab;
     [SerializeField] private GameObject m_StartGameButton;
     [SerializeField] private GameObject m_ChooseMapBlocker;
-    private List<ReadyToggle> m_TogglesInRoom;
-    //[SerializeField] private GameObject m_PlayerListItemPrefab;
+    private List<ReadyToggle> m_TogglesInRoom = new List<ReadyToggle>();
+    private List<CarMaterialSelector> m_CarMaterialSelectorInRoom = new List<CarMaterialSelector>();
 
     [Header("Find Room")]
     [SerializeField] private Transform m_RoomListContent;
@@ -197,10 +197,11 @@ public class Launcher : MonoBehaviourPunCallbacks
                 m_TogglesInRoom.Add(toggle);
             }
 
-            CarMaterialSelector selector = item.GetComponentInChildren<CarMaterialSelector>();
+            CarMaterialSelector selector = item.GetComponent<CarMaterialSelector>();
             if (selector)
             {
                 selector.SetUp(player);
+                m_CarMaterialSelectorInRoom.Add(selector);
             }
         }
 
@@ -217,6 +218,16 @@ public class Launcher : MonoBehaviourPunCallbacks
             if(readyToggle)
             {
                 readyToggle.UpdateToggleState(targetPlayer);
+            }
+        }
+
+        for (int i = 0; i < m_CarMaterialSelectorInRoom.Count; i++)
+        {
+            CarMaterialSelector selector = m_CarMaterialSelectorInRoom[i];
+
+            if(selector)
+            {
+                selector.UpdateCarSprite(targetPlayer);
             }
         }
 
@@ -291,10 +302,11 @@ public class Launcher : MonoBehaviourPunCallbacks
             m_TogglesInRoom.Add(toggle);
         }
 
-        CarMaterialSelector selector = item.GetComponentInChildren<CarMaterialSelector>();
+        CarMaterialSelector selector = item.GetComponent<CarMaterialSelector>();
         if(selector)
         {
             selector.SetUp(newPlayer);
+            m_CarMaterialSelectorInRoom.Add(selector);
         }
     }
 }

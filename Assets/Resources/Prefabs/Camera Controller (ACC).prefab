@@ -397,7 +397,7 @@ MonoBehaviour:
     SetPositionSpeed: 10
     VelocityMultiplier: 0.05
     EnableRotation: 1
-    MinDistanceForRotation: 0.5
+    MinDistanceForRotation: 0.1
     SetRotationSpeed: 5
   - CameraHolder: {fileID: 8943952569192898343}
     SetPositionSpeed: 3

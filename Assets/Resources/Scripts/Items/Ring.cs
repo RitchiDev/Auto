@@ -15,6 +15,12 @@ public class Ring : MonoBehaviour
     {
         m_PhotonView = GetComponentInParent<PhotonView>();
         m_MeshRenderer = GetComponent<MeshRenderer>();
+
+        if(!m_PhotonView)
+        {
+            m_MeshRenderer.enabled = false;
+            m_Collider.SetActive(false);
+        }
     }
 
     public void Activate()

@@ -423,6 +423,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3689347509960344974, guid: 59288e842f7beed4fb4baa952f1fa324,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6293105210292697050, guid: 59288e842f7beed4fb4baa952f1fa324,
         type: 3}
       propertyPath: m_PhotonView

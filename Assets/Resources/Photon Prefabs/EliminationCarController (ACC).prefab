@@ -1749,7 +1749,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544963942823372986}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5546717481853565206}
@@ -7450,11 +7450,6 @@ PrefabInstance:
       propertyPath: m_PhotonView
       value: 
       objectReference: {fileID: 5544605212539157620}
-    - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
-        type: 3}
-      propertyPath: CamerasPreset.Array.data[0].MinDistanceForRotation
-      value: 0.1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee550c520d95334e84e4c4437f67df3, type: 3}
 --- !u!4 &2976214869963246165 stripped
