@@ -196,6 +196,12 @@ public class Launcher : MonoBehaviourPunCallbacks
                 toggle.SetUp(player);
                 m_TogglesInRoom.Add(toggle);
             }
+
+            CarMaterialSelector selector = item.GetComponentInChildren<CarMaterialSelector>();
+            if (selector)
+            {
+                selector.SetUp(player);
+            }
         }
 
         m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);
@@ -283,6 +289,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             toggle.SetUp(newPlayer);
             m_TogglesInRoom.Add(toggle);
+        }
+
+        CarMaterialSelector selector = item.GetComponentInChildren<CarMaterialSelector>();
+        if(selector)
+        {
+            selector.SetUp(newPlayer);
         }
     }
 }
