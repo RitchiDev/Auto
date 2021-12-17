@@ -10,7 +10,9 @@ public class CarMaterialSelector : MonoBehaviour
 {
     [SerializeField] private PlayerInRoomItem m_PlayerItem;
     [SerializeField] private Image m_PrimaryColorImage;
+    [SerializeField] private Image m_PrimarySpriteColorImage;
     [SerializeField] private Image m_SecondaryColorImage;
+    [SerializeField] private Image m_SecondarySpriteColorImage;
 
     private Player m_Player;
     public Player Player => m_Player;
@@ -32,6 +34,7 @@ public class CarMaterialSelector : MonoBehaviour
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxPrimaryIndex);
 
         m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
+        m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
         PhotonNetwork.LocalPlayer.SetPrimaryMaterialIndex(index);
     }
 
@@ -41,6 +44,7 @@ public class CarMaterialSelector : MonoBehaviour
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxSecondaryIndex);
 
         m_SecondaryColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
+        m_SecondarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
         PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex(index);
     }
 }
