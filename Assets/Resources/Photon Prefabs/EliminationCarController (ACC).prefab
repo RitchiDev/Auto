@@ -7453,7 +7453,7 @@ PrefabInstance:
     - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
       propertyPath: CamerasPreset.Array.data[0].MinDistanceForRotation
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee550c520d95334e84e4c4437f67df3, type: 3}
