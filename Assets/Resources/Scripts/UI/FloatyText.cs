@@ -13,6 +13,8 @@ public class FloatyText : MonoBehaviour
     [SerializeField] private Vector3 m_Randomize = new Vector3(0.5f, 0.0f, 0.0f);
     [SerializeField] private Vector3 m_GrowScale = new Vector3(1.5f, 1.5f, 1.5f);
     private RectTransform m_Transform;
+    private IEnumerator m_Grow;
+    private IEnumerator m_Shrink;
 
     private void Awake()
     {
@@ -40,38 +42,51 @@ public class FloatyText : MonoBehaviour
         m_PointsText.text = "+" + text;
         m_PointsText.color = material.color;
 
-        Grow();
+        m_Grow = Grow();
+        StartCoroutine(m_Grow);
     }
 
-    private void Shrink()
+    private IEnumerator Grow()
     {
-        if (!m_Transform)
-        {
-            return;
-        }
-
-        m_Transform.DOScale(Vector3.zero, m_ShrinkTime);
-        Invoke("DoDestroy", m_ShrinkTime);
-    }
-
-    private void Grow()
-    {
-        if (!m_Transform)
-        {
-            return;
-        }
-
         m_Transform.DOScale(m_GrowScale, m_GrowTime);
-        Invoke("Shrink", m_GrowTime);
+
+        float totalTime = m_GrowTime;
+        while (totalTime >= 0)
+        {
+            totalTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        m_Shrink = Shrink();
+        StartCoroutine(m_Shrink);
     }
+
+    private IEnumerator Shrink()
+    {
+        m_Transform.DOScale(Vector3.zero, m_ShrinkTime);
+
+        float totalTime = m_ShrinkTime;
+        while (totalTime >= 0)
+        {
+            totalTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        DoDestroy();
+    }
+
 
     private void DoDestroy()
     {
-        if (!m_Transform)
+        if(m_Transform.parent)
         {
-            return;
+            Destroy(m_Transform.parent.gameObject);
         }
-
-        Destroy(m_Transform.parent.gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

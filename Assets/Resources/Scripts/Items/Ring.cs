@@ -10,6 +10,7 @@ public class Ring : MonoBehaviour
     [SerializeField] private float m_TimeBeforeReActivation = 20f;
     [SerializeField] private Collider m_Collider;
     private MeshRenderer m_MeshRenderer;
+    private IEnumerator m_ReActivate;
 
     private void Awake()
     {
@@ -48,7 +49,8 @@ public class Ring : MonoBehaviour
 
         if (reActivate)
         {
-            StartCoroutine(ReActivate());
+            m_ReActivate = ReActivate();
+            StartCoroutine(m_ReActivate);
         }
     }
 
