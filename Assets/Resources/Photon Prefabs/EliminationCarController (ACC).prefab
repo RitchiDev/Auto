@@ -1069,10 +1069,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PhotonView: {fileID: 5544605212539157620}
+  m_CarController: {fileID: 5576530450230893162}
+  m_RespawnEffect: {fileID: 100018, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
+  m_EliminateEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56,
+    type: 3}
   m_RespawnKey: 102
   m_RespawnImage: {fileID: 7453721072242874959}
   m_RespawnText: {fileID: 2879030092125732835}
   m_MaxRespawnTime: 3
+  m_MaxRespawnDelay: 1.1
+  m_MaxEliminateDelay: 1.1
+  m_ObjectsToHideDuringRespawn:
+  - {fileID: 7937315350786449102}
+  - {fileID: 5544425165969220508}
+  - {fileID: 349422105473056889}
+  - {fileID: 5544928894150296712}
 --- !u!114 &5544605212539157621
 MonoBehaviour:
   m_ObjectHideFlags: 0

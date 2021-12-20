@@ -57,6 +57,15 @@ public class EliminateManager : MonoBehaviourPunCallbacks
     {
         if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
+            if(m_CountDownImage)
+            {
+                m_CountDownImage.SetActive(false);
+            }
+
+            if(m_CountDownText)
+            {
+                m_CountDownText.SetActive(false);
+            }
             return;
         }
 
@@ -86,6 +95,14 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         {
             m_CurrentTime -= Time.deltaTime;
             PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
+            yield return null;
+        }
+
+        CheckForWin();
+
+        if (m_AlivePlayers.Count <= 1)
+        {
+            Debug.Log("Not Enough Alive Players");
             yield return null;
         }
 
@@ -137,12 +154,12 @@ public class EliminateManager : MonoBehaviourPunCallbacks
     {
         if (m_PlayerControllerToEliminate)
         {
-            Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
+            //Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
             m_PlayerControllerToEliminate.Player.SetEliminated(true);
             m_PlayerControllerToEliminate.Eliminate();
         }
 
-        CheckForWin();
+        //CheckForWin();
     }
 
     private void CheckForWin()
@@ -169,15 +186,15 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < m_AlivePlayers.Count; i++)
         {
-            Debug.Log(m_AlivePlayers.Count);
+            //Debug.Log(m_AlivePlayers.Count);
             EliminationPlayerController currentPlayerController = m_AlivePlayers[i];
-            Debug.Log(currentPlayerController.Player.NickName);
+            //Debug.Log(currentPlayerController.Player.NickName);
 
-            Debug.Log("The score of current checked player: " + currentPlayerController.Player.NickName + " (" + currentPlayerController.Player.GetScore() + ")" + " and player with lowest score: " + m_PlayerControllerToEliminate.Player.NickName + " (" + m_PlayerControllerToEliminate.Player.GetScore() + ")");
+            //Debug.Log("The score of current checked player: " + currentPlayerController.Player.NickName + " (" + currentPlayerController.Player.GetScore() + ")" + " and player with lowest score: " + m_PlayerControllerToEliminate.Player.NickName + " (" + m_PlayerControllerToEliminate.Player.GetScore() + ")");
 
             if (currentPlayerController.Player.GetScore() < m_PlayerControllerToEliminate.Player.GetScore())
             {
-                Debug.Log("The score of: " + currentPlayerController.Player.NickName + " is lower than: " + m_PlayerControllerToEliminate.Player.NickName);
+                //Debug.Log("The score of: " + currentPlayerController.Player.NickName + " is lower than: " + m_PlayerControllerToEliminate.Player.NickName);
                 m_PlayerControllerToEliminate = currentPlayerController;
             }
         }

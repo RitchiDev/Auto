@@ -71,11 +71,14 @@ namespace Andrich.UtilityScripts
             for (int i = 0; i < m_AudioList.Count; i++)
             {
                 Audio audio = m_AudioList[i];
-                audio.AudioSource.Stop();
+                if(audio != null)
+                {
+                    audio.AudioSource.Stop();
+                }
             }
 
-            Debug.Log("OnSceneLoaded: " + scene.name);
-            Debug.Log(mode);
+            //Debug.Log("OnSceneLoaded: " + scene.name);
+            //Debug.Log(mode);
         }
 
         public void Play(AudioKey key)

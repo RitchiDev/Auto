@@ -187,7 +187,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         foreach (Player player in playerList)
         {
-            Debug.Log("Created Item");
+            //Debug.Log("Created Item");
 
             GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
             item.transform.SetParent(m_PlayerListContent, false);

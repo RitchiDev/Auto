@@ -66,7 +66,7 @@ public class FloatyText : MonoBehaviour
     {
         m_Transform.DOScale(Vector3.zero, m_ShrinkTime);
 
-        float totalTime = m_ShrinkTime;
+        float totalTime = m_ShrinkTime + 0.1f;
         while (totalTime >= 0)
         {
             totalTime -= Time.deltaTime;

@@ -99,7 +99,7 @@ public class RingManager : MonoBehaviour
 
             if (m_RingsWorth500[index] != m_PreviousRing)
             {
-                Debug.Log("New Ring Activated Succesfully!");
+                //Debug.Log("New Ring Activated Succesfully!");
 
                 newRingHasBeenActivated = true;
             }
