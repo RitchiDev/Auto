@@ -22,30 +22,29 @@ public class RingManager : MonoBehaviour
         {
             Instance = this;
 
-            RingCollision[] ringCollisions = GetComponentsInChildren<RingCollision>();
+            PlaceholderRing[] placeholderRings = GetComponentsInChildren<PlaceholderRing>();
 
-            for (int i = 0; i < ringCollisions.Length; i++)
+            for (int i = 0; i < placeholderRings.Length; i++)
             {
                 string path1 = "Photon Prefabs";
-                string path2 = "Ring " + ringCollisions[i].Worth;
-                //string path2 = ringCollisions[i].transform.parent.name;
+                string path2 = "Ring " + placeholderRings[i].Worth;
 
-                if (ringCollisions[i].Worth >= 500)
+                if (placeholderRings[i].Worth >= 500)
                 {
-                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation);
+                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
 
                     //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
                     m_RingsWorth500.Add(ringToAdd.GetComponentInChildren<RingCollision>());
                 }
                 else
                 {
-                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation);
+                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
                     
                     //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
                     m_Rings.Add(ringToAdd.GetComponentInChildren<RingCollision>());
                 }
 
-                Destroy(ringCollisions[i].transform.parent.gameObject);
+                Destroy(placeholderRings[i].gameObject);
             }
 
             DeactiveAllRings();

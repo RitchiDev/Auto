@@ -85,13 +85,16 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        if(!AllPlayersReady() || !MinimumPlayersReached())
+        if(!Application.isEditor)
         {
-            if(!MinimumPlayersReached())
+            if(!AllPlayersReady() || !MinimumPlayersReached())
             {
-                Debug.Log("Minimim Players hasn't been reached!");
+                if(!MinimumPlayersReached())
+                {
+                    Debug.Log("Minimim Players hasn't been reached!");
+                }
+                return;
             }
-            return;
         }
 
         if(GameModeManager.Instance.SelectedGameMode.CloseRoomOnStart)

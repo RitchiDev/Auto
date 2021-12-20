@@ -2163,7 +2163,7 @@ MonoBehaviour:
     m_PlayOnWake: 1
     m_Loop: 1
     m_Priority: 128
-    m_Volume: 0.2
+    m_Volume: 0.1
     m_Pitch: 1
     m_StereoPan: 0
     m_SpatialBlend: 0
