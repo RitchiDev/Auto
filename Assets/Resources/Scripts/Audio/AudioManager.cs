@@ -38,7 +38,6 @@ namespace Andrich.UtilityScripts
                 DontDestroyOnLoad(gameObject);
             }
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
             m_CurrentMasterVolume = 1f;
             m_CurrentMusicVolume = 1f;
             m_CurrentSFXVolume = 1f;
@@ -64,6 +63,16 @@ namespace Andrich.UtilityScripts
 
                 audio.AudioSource.Stop();
             }
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
