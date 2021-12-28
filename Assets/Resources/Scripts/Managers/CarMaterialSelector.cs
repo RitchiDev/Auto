@@ -42,6 +42,11 @@ public class CarMaterialSelector : MonoBehaviour
 
     public void ChangePrimaryCarMaterial(int amount)
     {
+        if(!CarMaterialManager.Instance)
+        {
+            return;
+        }
+
         int index = PhotonNetwork.LocalPlayer.GetPrimaryMaterialIndex();
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxPrimaryIndex);
 
@@ -52,6 +57,11 @@ public class CarMaterialSelector : MonoBehaviour
 
     public void ChangeSecondaryCarMaterial(int amount)
     {
+        if (!CarMaterialManager.Instance)
+        {
+            return;
+        }
+
         int index = PhotonNetwork.LocalPlayer.GetSecondaryMaterialIndex();
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxSecondaryIndex);
 

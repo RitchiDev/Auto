@@ -21,6 +21,11 @@ public class CarMaterialSetUp : MonoBehaviour
     [PunRPC]
     private void RPC_SetUp()
     {
+        if(!CarMaterialManager.Instance)
+        {
+            return;
+        }
+
         Material[] newMaterials = m_MeshRenderer.materials;
 
         newMaterials[1] = CarMaterialManager.Instance.GetSelectedPrimaryMaterial(m_EliminationPlayerController.Player.GetPrimaryMaterialIndex());

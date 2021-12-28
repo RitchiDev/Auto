@@ -38,7 +38,6 @@ public class EliminationPlayerController : MonoBehaviour
         {
             m_DisableRespawning = false;
             m_RespawnTimer = m_MaxRespawnTime;
-            PhotonNetwork.LocalPlayer.SetEliminated(false);
             m_Rigidbody = GetComponent<Rigidbody>();
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All, PhotonNetwork.LocalPlayer);
         }
@@ -192,8 +191,8 @@ public class EliminationPlayerController : MonoBehaviour
     [PunRPC]
     private void RPC_Eliminate()
     {
-        EliminateManager.Instance.RemoveAlivePlayer(this);
-        Debug.Log("Eliminate Called");
+        EliminationGameManager.Instance.RemoveAlivePlayer(this);
+        //Debug.Log("Eliminate Called");
         m_PlayerManager.RespawnPlayerAsSpectator();
     }
 
@@ -207,7 +206,7 @@ public class EliminationPlayerController : MonoBehaviour
     [PunRPC]
     private void RPC_AddPlayerToAliveList(Player player)
     {
-        Debug.Log(EliminateManager.Instance);
-        EliminateManager.Instance.AddAlivePlayer(this, player);
+        //Debug.Log(EliminationGameManager.Instance);
+        EliminationGameManager.Instance.AddAlivePlayer(this, player);
     }
 }

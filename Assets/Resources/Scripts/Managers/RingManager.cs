@@ -21,32 +21,42 @@ public class RingManager : MonoBehaviour
         else
         {
             Instance = this;
+        }
 
-            PlaceholderRing[] placeholderRings = GetComponentsInChildren<PlaceholderRing>();
+        SetRings();
+    }
 
-            for (int i = 0; i < placeholderRings.Length; i++)
+    private void SetRings()
+    {
+        PlaceholderRing[] placeholderRings = GetComponentsInChildren<PlaceholderRing>();
+
+        for (int i = 0; i < placeholderRings.Length; i++)
+        {
+            string path1 = "Photon Prefabs";
+            string path2 = "Ring " + placeholderRings[i].Worth;
+
+            if (placeholderRings[i].Worth >= 500)
             {
-                string path1 = "Photon Prefabs";
-                string path2 = "Ring " + placeholderRings[i].Worth;
+                GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
 
-                if (placeholderRings[i].Worth >= 500)
-                {
-                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
+                m_RingsWorth500.Add(ringToAdd.GetComponent<Ring>());
+            }
+            else
+            {
+                GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
 
-                    m_RingsWorth500.Add(ringToAdd.GetComponent<Ring>());
-                }
-                else
-                {
-                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
-                    
-                    m_Rings.Add(ringToAdd.GetComponent<Ring>());
-                }
-
-                Destroy(placeholderRings[i].gameObject);
+                m_Rings.Add(ringToAdd.GetComponent<Ring>());
             }
 
-            DeactiveAllRings();
+            Destroy(placeholderRings[i].gameObject);
         }
+
+        Restart();
+    }
+
+    public void Restart()
+    {
+        DeactiveAllRings();
     }
 
     public void ActivateAllRings()

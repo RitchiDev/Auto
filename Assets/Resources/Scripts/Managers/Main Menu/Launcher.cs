@@ -109,25 +109,23 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private bool AllPlayersReady()
     {
-        int readyPlayers = 0;
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if(player.GetIfReady())
-            {
-                Debug.Log(player.NickName + " is Ready");
-                readyPlayers++;
-            }
-        }
+        Player[] players = PhotonNetwork.PlayerList;
 
-        if (readyPlayers != PhotonNetwork.PlayerList.Length)
+        for (int i = 0; i < players.Length; i++)
         {
+            if (players[i].GetIfReady())
+            {
+                Debug.Log(players[i].NickName + " is Ready");
+
+                continue;
+            }
+
             Debug.Log("Some players aren't ready");
+
             return false;
         }
-        else
-        {
-            return true;
-        }
+
+        return true;
     }
 
     private bool MinimumPlayersReached()
@@ -239,8 +237,13 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);
-        m_StartGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        if (PhotonNetwork.LocalPlayer == newMasterClient)
+        {
+            GameModeManager.Instance.ActivateMaps();
+
+            m_ChooseMapBlocker.SetActive(false);
+            m_StartGameButton.SetActive(true);
+        }
     }
 
     public void JoinRoom(RoomInfo info)

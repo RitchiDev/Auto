@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Andrich.UtilityScripts;
+using Photon.Realtime;
 
 public class InGameUI : MonoBehaviourPunCallbacks
 {
@@ -14,6 +15,7 @@ public class InGameUI : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject m_PauseMenu;
     [SerializeField] private GameObject m_WinMenu;
     [SerializeField] private TMP_Text m_WinnerText;
+    [SerializeField] private TMP_Text m_NumberOfVotedRematchText;
     [SerializeField] private TMP_Text m_OnScreenScore;
 
     private GameMode.Elimination.EliminationPlayerManager m_PlayerManager;
@@ -71,6 +73,8 @@ public class InGameUI : MonoBehaviourPunCallbacks
     {
         if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
         {
+            UpdateOnScreenPlayersWhoVotedRematch();
+
             if(PhotonNetwork.CurrentRoom.GetPlayerWhoWon() != null)
             {
                 OpenWinMenu(PhotonNetwork.CurrentRoom.GetPlayerWhoWon().NickName);
@@ -78,6 +82,34 @@ public class InGameUI : MonoBehaviourPunCallbacks
         }
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if(changedProps.ContainsKey(PlayerProperties.VotedRematchProperty))
+        {
+            if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+            {
+                UpdateOnScreenPlayersWhoVotedRematch();
+            }
+        }
+
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
+
+    public void VoteRematch()
+    {
+        if(m_PhotonView.IsMine)
+        {
+            Player player = PhotonNetwork.LocalPlayer;
+            player.SetVotedRematchState(!player.GetIfVotedRematch());
+            //Debug.Log("Voted: " + player.GetIfVotedRematch());
+        }
+    }
+
+    private void UpdateOnScreenPlayersWhoVotedRematch()
+    {
+        m_NumberOfVotedRematchText.text = "Voted: " + RematchManager.Instance.NumberOfPlayersWhoVotedRematch + " / " + PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
     public void SetOnscreenScore(int score)

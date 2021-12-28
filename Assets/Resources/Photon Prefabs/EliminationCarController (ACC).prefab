@@ -1651,7 +1651,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 2803444968037680251, guid: 3006ef23ebf93d3418815eed405f9037,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 7c9301870734e1a4ebe29586a865dbc4, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -7196,6 +7196,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7095170890696394095, guid: cb022383ad77a464ea27c74a6a3d013c,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7446345182281747435, guid: cb022383ad77a464ea27c74a6a3d013c,
         type: 3}
       propertyPath: m_Name
@@ -7411,6 +7416,11 @@ PrefabInstance:
       propertyPath: m_PhotonView
       value: 
       objectReference: {fileID: 5544605212539157620}
+    - target: {fileID: 7678572338210317432, guid: 59288e842f7beed4fb4baa952f1fa324,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59288e842f7beed4fb4baa952f1fa324, type: 3}
 --- !u!114 &2879030092125732835 stripped
@@ -7458,17 +7468,17 @@ PrefabInstance:
     - target: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}

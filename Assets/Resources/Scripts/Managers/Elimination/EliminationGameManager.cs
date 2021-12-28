@@ -8,9 +8,9 @@ using Photon.Pun;
 using Andrich.UtilityScripts;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
-public class EliminateManager : MonoBehaviourPunCallbacks
+public class EliminationGameManager : MonoBehaviourPunCallbacks
 {
-    public static EliminateManager Instance { get; private set; }
+    public static EliminationGameManager Instance { get; private set; }
     [SerializeField] private List<EliminationPlayerController> m_AlivePlayers = new List<EliminationPlayerController>();
 
     [SerializeField] private Image m_CountDownImage;
@@ -32,25 +32,51 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             Instance = this;
         }
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.CurrentRoom.SetIfToDoElimination(false);
-            PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
-        }
+        Restart();
     }
 
-    private void Start()
+    public void Restart()
     {
-        if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+        m_AlivePlayers.Clear();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //StopAllCoroutines();
+            PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
+        }
+
+        if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
             m_CountDownImage.transform.parent.gameObject.SetActive(false);
             return;
         }
 
-        if (PhotonNetwork.IsMasterClient)
+        if (m_CountDownImage)
         {
-            StartCoroutine(TimeBeforeEliminateStartsCountdown());
+            m_CountDownImage.SetActive(true);
         }
+
+        if (m_CountDownText)
+        {
+            m_CountDownText.SetActive(true);
+        }
+    }
+
+    private bool GetIfAllPlayersLoadedLevel()
+    {
+        Player[] players = PhotonNetwork.PlayerList;
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].GetIfLoadedAndReady())
+            {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     public override void OnRoomPropertiesUpdate(PhotonHashtable propertiesThatChanged)
@@ -66,21 +92,81 @@ public class EliminateManager : MonoBehaviourPunCallbacks
             {
                 m_CountDownText.SetActive(false);
             }
+
             return;
         }
 
-        m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
-
-        float maxTime = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? m_TimeBeforeNextElimination : m_MaxEliminationTime;
-        m_CountDownImage.fillAmount = (float)PhotonNetwork.CurrentRoom.GetTime() / maxTime;
-        m_CountDownText.text = PhotonNetwork.CurrentRoom.GetTime().ToString("0");
-
-        if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        if(propertiesThatChanged.ContainsKey(RoomProperties.TimeProperty))
         {
-            m_CountDownImage.SetActive(false);
+            m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
+
+            float maxTime = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? m_TimeBeforeNextElimination : m_MaxEliminationTime;
+            m_CountDownImage.fillAmount = (float)PhotonNetwork.CurrentRoom.GetTime() / maxTime;
+            m_CountDownText.text = PhotonNetwork.CurrentRoom.GetTime().ToString("0");
+        }
+
+        if(propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
+        {
+            if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+            {
+                m_CountDownImage.SetActive(false);
+
+                if(BackgroundMusicStarter.Instance)
+                {
+                    BackgroundMusicStarter.Instance.StopMusic();
+                }
+            }
         }
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, PhotonHashtable changedProps)
+    {
+        if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+        {
+            return;
+        }
+
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
+        if(changedProps.ContainsKey(PlayerProperties.LoadedLevelProperty))
+        {
+            //Debug.Log("Changed LoadedLevelProperty");
+            if(GetIfAllPlayersLoadedLevel())
+            {
+                Debug.Log("Started Game");
+                Debug.Log(m_AlivePlayers.Count);
+                StartCoroutine(TimeBeforeEliminateStartsCountdown());
+            }
+        }
+
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        {
+            return;
+        }
+
+        if (PhotonNetwork.LocalPlayer == newMasterClient)
+        {
+            if(PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+            {
+                StartCoroutine(TimeBeforeEliminateStartsCountdown());
+            }
+            else
+            {
+                StartCoroutine(EliminateCountdown());
+            }
+        }
+
+        base.OnMasterClientSwitched(newMasterClient);
     }
 
     private IEnumerator TimeBeforeEliminateStartsCountdown()
@@ -100,13 +186,10 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
         CheckForWin();
 
-        if (m_AlivePlayers.Count <= 1)
+        if (m_AlivePlayers.Count >= 2)
         {
-            Debug.Log("Not Enough Alive Players");
-            yield return null;
+            StartCoroutine(EliminateCountdown());
         }
-
-        StartCoroutine(EliminateCountdown());
     }
 
     private IEnumerator EliminateCountdown()
@@ -126,15 +209,18 @@ public class EliminateManager : MonoBehaviourPunCallbacks
 
         if (m_AlivePlayers.Count <= 1)
         {
-            Debug.Log("Not Enough Alive Players");
-            yield return null;
+            Debug.Log("Not Enough Alive Players To Eliminate One");
+
+            CheckForWin();
         }
-
-        CheckForElimination();
-
-        if(!PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        else
         {
-            StartCoroutine(TimeBeforeEliminateStartsCountdown());
+            CheckForElimination();
+
+            if(!PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+            {
+                StartCoroutine(TimeBeforeEliminateStartsCountdown());
+            }
         }
     }
 
@@ -155,22 +241,20 @@ public class EliminateManager : MonoBehaviourPunCallbacks
         if (m_PlayerControllerToEliminate)
         {
             //Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
-            m_PlayerControllerToEliminate.Player.SetEliminated(true);
+            m_PlayerControllerToEliminate.Player.SetIfEliminated(true);
             m_PlayerControllerToEliminate.Eliminate();
         }
-
-        //CheckForWin();
     }
 
     private void CheckForWin()
     {
-        if (m_AlivePlayers.Count <= 1)
+        if(m_AlivePlayers.Count >= 2)
         {
-            PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Player);
-            PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(true);
-
             return;
         }
+
+        PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Player);
+        PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(true);
     }
 
     private void CheckForElimination()

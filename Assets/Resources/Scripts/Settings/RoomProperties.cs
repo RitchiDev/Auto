@@ -11,7 +11,6 @@ namespace Andrich.UtilityScripts
         public const string GameModeNameProperty = "GameModeName";
         public const string TimeProperty = "CurrentEliminateTime";
         public const string TimeColorProperty = "EliminateTimeColor";
-        public const string DoEliminationProperty = "DoElimination";
         public const string GameHasBeenWonProperty = "GameHasBeenWon";
         public const string PlayerWhoWonProperty = "PlayerWhoWon";
     }
@@ -54,28 +53,6 @@ namespace Andrich.UtilityScripts
             if (room.CustomProperties.TryGetValue(RoomProperties.TimeColorProperty, out paused))
             {
                 return (bool)paused;
-            }
-
-            return false;
-        }
-    }
-
-    public static class DoEliminationExtensions
-    {
-        public static void SetIfToDoElimination(this Room room, bool doElimination)
-        {
-            PhotonHashtable eliminate = new PhotonHashtable();  // using PUN's implementation of Hashtable
-            eliminate[RoomProperties.DoEliminationProperty] = doElimination;
-
-            room.SetCustomProperties(eliminate);  // this locally sets whether to do elimination and will sync it in-game asap.
-        }
-
-        public static bool GetIfToDoElimination(this Room room)
-        {
-            object eliminate;
-            if (room.CustomProperties.TryGetValue(RoomProperties.DoEliminationProperty, out eliminate))
-            {
-                return (bool)eliminate;
             }
 
             return false;
