@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour
 {
-    private List<RingCollision> m_Rings = new List<RingCollision>();
-    private List<RingCollision> m_RingsWorth500 = new List<RingCollision>();
+    private List<Ring> m_Rings = new List<Ring>();
+    private List<Ring> m_RingsWorth500 = new List<Ring>();
     public static RingManager Instance { get; private set; }
-    private RingCollision m_PreviousRing;
+    private Ring m_PreviousRing;
 
     private void Awake()
     {
@@ -33,15 +33,13 @@ public class RingManager : MonoBehaviour
                 {
                     GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
 
-                    //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
-                    m_RingsWorth500.Add(ringToAdd.GetComponentInChildren<RingCollision>());
+                    m_RingsWorth500.Add(ringToAdd.GetComponent<Ring>());
                 }
                 else
                 {
                     GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
                     
-                    //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
-                    m_Rings.Add(ringToAdd.GetComponentInChildren<RingCollision>());
+                    m_Rings.Add(ringToAdd.GetComponent<Ring>());
                 }
 
                 Destroy(placeholderRings[i].gameObject);
@@ -55,7 +53,7 @@ public class RingManager : MonoBehaviour
     {
         for (int i = 0; i < m_Rings.Count; i++)
         {
-            m_Rings[i].Ring.Activate();
+            m_Rings[i].Activate();
         }
 
         SetNew500RingActive();
@@ -65,12 +63,12 @@ public class RingManager : MonoBehaviour
     {
         for (int i = 0; i < m_Rings.Count; i++)
         {
-            m_Rings[i].Ring.Deactivate(false);
+            m_Rings[i].Deactivate(false);
         }
 
         for (int i = 0; i < m_RingsWorth500.Count; i++)
         {
-            m_RingsWorth500[i].Ring.Deactivate(false);
+            m_RingsWorth500[i].Deactivate(false);
         }
     }
 
@@ -105,6 +103,6 @@ public class RingManager : MonoBehaviour
             }
         }
 
-        m_RingsWorth500[index].Ring.Activate();
+        m_RingsWorth500[index].Activate();
     }
 }
