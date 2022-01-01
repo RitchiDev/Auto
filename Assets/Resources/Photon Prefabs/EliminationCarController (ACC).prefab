@@ -1069,6 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PhotonView: {fileID: 5544605212539157620}
+  m_Camera: {fileID: 2974304546207546585}
   m_CarController: {fileID: 5576530450230893162}
   m_RespawnEffect: {fileID: 100018, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
   m_EliminateEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56,
@@ -7196,11 +7197,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7095170890696394095, guid: cb022383ad77a464ea27c74a6a3d013c,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7446345182281747435, guid: cb022383ad77a464ea27c74a6a3d013c,
         type: 3}
       propertyPath: m_Name
@@ -7416,11 +7412,6 @@ PrefabInstance:
       propertyPath: m_PhotonView
       value: 
       objectReference: {fileID: 5544605212539157620}
-    - target: {fileID: 7678572338210317432, guid: 59288e842f7beed4fb4baa952f1fa324,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59288e842f7beed4fb4baa952f1fa324, type: 3}
 --- !u!114 &2879030092125732835 stripped
@@ -7540,6 +7531,12 @@ PrefabInstance:
 --- !u!4 &2976214869963246165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6146665813722675984}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2974304546207546585 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8938393759767168969, guid: dee550c520d95334e84e4c4437f67df3,
     type: 3}
   m_PrefabInstance: {fileID: 6146665813722675984}
   m_PrefabAsset: {fileID: 0}

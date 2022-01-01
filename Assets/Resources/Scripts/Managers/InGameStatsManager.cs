@@ -7,7 +7,8 @@ using Andrich.UtilityScripts;
 public class InGameStatsManager : MonoBehaviourPunCallbacks
 {
     public static InGameStatsManager Instance { get; private set; }
-    [SerializeField] private List<Scoreboard> m_Scoreboards = new List<Scoreboard>();
+    [SerializeField] private List<TabScoreboard> m_TabScoreboards = new List<TabScoreboard>();
+    [SerializeField] private List<OnScreenScoreboard> m_OnScreenScoreboards = new List<OnScreenScoreboard>();
 
     private void Awake()
     {
@@ -24,12 +25,17 @@ public class InGameStatsManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        for (int i = 0; i < m_Scoreboards.Count; i++)
+        if(!changedProps.ContainsKey(PlayerProperties.ScoreProperty))
         {
-            Scoreboard scoreboard = m_Scoreboards[i];
+            return;
+        }
+
+        for (int i = 0; i < m_TabScoreboards.Count; i++)
+        {
+            TabScoreboard scoreboard = m_TabScoreboards[i];
             scoreboard.UpdateScoreboardItemText(targetPlayer);
 
-            if(targetPlayer == scoreboard.Player)
+            if(targetPlayer == scoreboard.Player) // Old for checking to set the on screen score
             {
                 InGameUI inGameUI = scoreboard.GetComponentInParent<InGameUI>();
                 if (inGameUI)
@@ -38,15 +44,31 @@ public class InGameStatsManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        for (int i = 0; i < m_OnScreenScoreboards.Count; i++)
+        {
+            OnScreenScoreboard scoreboard = m_OnScreenScoreboards[i];
+            scoreboard.UpdateScoreboardItem(targetPlayer);
+        }
     }
 
-    public void AddScoreboard(Scoreboard scoreboard)
+    public void AddTabScoreboard(TabScoreboard scoreboard)
     {
-        m_Scoreboards.Add(scoreboard);
+        m_TabScoreboards.Add(scoreboard);
     }
 
-    public void RemoveScoreboard(Scoreboard scoreboard)
+    public void RemoveTabScoreboard(TabScoreboard scoreboard)
     {
-        m_Scoreboards.Remove(scoreboard);
+        m_TabScoreboards.Remove(scoreboard);
+    }
+
+    public void AddOnScreenScoreboard(OnScreenScoreboard scoreboard)
+    {
+        m_OnScreenScoreboards.Add(scoreboard);
+    }
+
+    public void RemoveOnScreenScoreboard(OnScreenScoreboard scoreboard)
+    {
+        m_OnScreenScoreboards.Remove(scoreboard);
     }
 }

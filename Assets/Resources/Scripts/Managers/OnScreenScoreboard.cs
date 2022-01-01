@@ -5,11 +5,11 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 using Andrich.UtilityScripts;
-public class Scoreboard : MonoBehaviourPunCallbacks
+public class OnScreenScoreboard : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Transform m_Container;
+    [SerializeField] private Transform m_ScoresContainer;
     [SerializeField] private GameObject m_ScoreboardItemPrefab;
-    private List<ScoreboardItem> m_ScoreboardItems = new List<ScoreboardItem>();
+    private List<OnScreenScoreboardItem> m_ScoreboardItems = new List<OnScreenScoreboardItem>();
     private Player m_Player;
     public Player Player => m_Player;
 
@@ -20,31 +20,26 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        InGameStatsManager.Instance.AddScoreboard(this);
+        InGameStatsManager.Instance.AddOnScreenScoreboard(this);
 
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             AddScoreboardItem(PhotonNetwork.PlayerList[i]);
         }
-
-        //foreach (Player player in PhotonNetwork.PlayerList)
-        //{
-        //    AddScoreboardItem(player);
-        //}
     }
 
     private void OnDestroy()
     {
-        InGameStatsManager.Instance.RemoveScoreboard(this);
+        InGameStatsManager.Instance.RemoveOnScreenScoreboard(this);
     }
 
     private void AddScoreboardItem(Player player)
     {
-        ScoreboardItem item = Instantiate(m_ScoreboardItemPrefab, m_Container).GetComponent<ScoreboardItem>();
+        OnScreenScoreboardItem item = Instantiate(m_ScoreboardItemPrefab, m_ScoresContainer).GetComponent<OnScreenScoreboardItem>();
         m_ScoreboardItems.Add(item);
 
         item.SetUp(player);
-        UpdateScoreboardItemText(player);
+        UpdateScoreboardItem(player);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -57,31 +52,40 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         RemoveScoreboardItem(otherPlayer);
     }
 
-    public void UpdateScoreboardItemText(Player player)
+    public void UpdateScoreboardItem(Player player)
     {
         for (int i = 0; i < m_ScoreboardItems.Count; i++)
         {
-            ScoreboardItem item = m_ScoreboardItems[i];
+            OnScreenScoreboardItem item = m_ScoreboardItems[i];
 
             if (player == item.Player)
             {
-                item.SetUsernameColor(player.GetIfEliminated());
                 item.SetScore(player.GetScore());
-                item.SetDeaths(player.GetDeaths());
-                item.SetKOs(0);
             }
 
             //m_ScoreboardItems.Sort(SortByScore());
         }
 
         //m_ScoreboardItems = m_ScoreboardItems.OrderBy(item => item.Player.GetScore()).ToList();
+        UpdateScoreboardItemsPlacement();
+    }
+
+    private void UpdateScoreboardItemsPlacement()
+    {
+        OnScreenScoreboardItem[] temp = m_ScoreboardItems.OrderByDescending(item => item.Player.GetScore()).ToArray();
+        //OnScreenScoreboardItem[] temp = m_ScoreboardItems.ToArray();
+        for (int i = 0; i < temp.Length; i++)
+        {
+            temp[i].transform.SetSiblingIndex(i);
+            temp[i].SetPlacement(i + 1); //+1 because index starts at 0
+        }
     }
 
     private void RemoveScoreboardItem(Player player)
     {
         for (int i = 0; i < m_ScoreboardItems.Count; i++)
         {
-            ScoreboardItem item = m_ScoreboardItems[i];
+            OnScreenScoreboardItem item = m_ScoreboardItems[i];
 
             if (player == item.Player)
             {

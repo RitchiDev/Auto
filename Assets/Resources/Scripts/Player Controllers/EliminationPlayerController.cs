@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class EliminationPlayerController : MonoBehaviour
 {
     [SerializeField] private PhotonView m_PhotonView;
+    [SerializeField] private GameObject m_Camera;
     [SerializeField] private CarController m_CarController;
     [SerializeField] private GameObject m_RespawnEffect;
     [SerializeField] private GameObject m_EliminateEffect;
@@ -50,6 +51,14 @@ public class EliminationPlayerController : MonoBehaviour
     public void SetPlayer(Player player)
     {
         m_Player = player;
+    }
+
+    private void OnDestroy()
+    {
+        if(m_Camera)
+        {
+            Destroy(m_Camera);
+        }
     }
 
     private void Update()

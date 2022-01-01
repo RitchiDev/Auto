@@ -6,7 +6,7 @@ using Photon.Realtime;
 using Photon.Pun;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
-public class ScoreboardItem : MonoBehaviour
+public class TabScoreboardItem : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_Username;
     [SerializeField] private TMP_Text m_InTabScore;
@@ -14,6 +14,7 @@ public class ScoreboardItem : MonoBehaviour
     [SerializeField] private TMP_Text m_Deaths;
     private Player m_Player;
     public Player Player => m_Player;
+
     public void SetUp(Player player)
     {
         m_Player = player;
