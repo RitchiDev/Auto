@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(PhotonView))]
 public class PlayerInRoomItem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_Text m_PlayerNameText;

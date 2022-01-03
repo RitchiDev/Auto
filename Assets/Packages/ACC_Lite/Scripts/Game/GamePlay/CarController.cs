@@ -96,6 +96,13 @@ public class CarController :MonoBehaviour
     int FirstDriveWheel;
 	int LastDriveWheel;
 
+	private bool m_Disable;
+
+	public void Disable(bool value)
+	{
+		m_Disable = value;
+	}
+
 	private void Awake ()
 	{
 		if (!m_PhotonView.IsMine)
@@ -183,7 +190,7 @@ public class CarController :MonoBehaviour
 
 	private void Update ()
 	{
-		if(!m_PhotonView.IsMine)
+		if(!m_PhotonView.IsMine || m_Disable)
 		{
 			return;
 		}
@@ -196,7 +203,7 @@ public class CarController :MonoBehaviour
 
 	private void FixedUpdate ()
 	{
-		if (!m_PhotonView.IsMine)
+		if (!m_PhotonView.IsMine || m_Disable)
 		{
 			return;
 		}

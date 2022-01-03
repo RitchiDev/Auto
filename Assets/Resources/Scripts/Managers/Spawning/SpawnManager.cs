@@ -77,7 +77,7 @@ public class SpawnManager : MonoBehaviour
             //if (Physics.OverlapBox(m_Spawnpoints[index].transform.position, m_PlayerDetectionSize, Quaternion.identity, m_LayerMask) == null)
             if (hitColliders.Length <= 0)
             {
-                Debug.Log("Placed Succesfully!");
+                //Debug.Log("Placed Succesfully!");
 
                 placed = true;
             }

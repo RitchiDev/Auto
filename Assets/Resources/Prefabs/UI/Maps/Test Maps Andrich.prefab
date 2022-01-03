@@ -148,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 230709b8b526aaa42933e4a3bf95dbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DefaultMap: 1
   m_MapNumber: 1
   m_SceneIndex: 1
 --- !u!1 &7951711596210139002
@@ -279,8 +278,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: db73d37903992d74cb3e68f9497d8102, type: 2}
+  m_sharedMaterial: {fileID: -4094183799534811866, guid: db73d37903992d74cb3e68f9497d8102,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

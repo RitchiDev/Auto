@@ -15,7 +15,7 @@ public class SpectateCameraController : MonoBehaviour
 
     private float m_RotationX = 0.0f;
     private float m_RotationY = 0.0f;
-    private bool m_CursorVisible;
+
     private void Awake()
     {
         m_PhotonView = GetComponent<PhotonView>();

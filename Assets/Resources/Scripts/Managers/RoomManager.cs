@@ -13,10 +13,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private PhotonView m_PhotonView;
 
-    private bool m_InGame;
-    public bool InGame => m_InGame;
-
-
     private void Awake()
     {
         if (Instance)
@@ -40,13 +36,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
-        SceneManager.sceneLoaded += new UnityAction<Scene, LoadSceneMode>(OnSceneLoaded);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
-        SceneManager.sceneLoaded -= new UnityAction<Scene, LoadSceneMode>(OnSceneLoaded);
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -62,7 +58,5 @@ public class RoomManager : MonoBehaviourPunCallbacks
         string path1 = GameModeSettings.PhotonPrefabsFolder;
         string path2 = GameModeSettings.PlayerManagerString;
         PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity);
-
-        m_InGame = true;
     }
 }

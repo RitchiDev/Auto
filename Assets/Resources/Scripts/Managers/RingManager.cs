@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour
 {
-    private List<RingCollision> m_Rings = new List<RingCollision>();
-    private List<RingCollision> m_RingsWorth500 = new List<RingCollision>();
+    private List<Ring> m_Rings = new List<Ring>();
+    private List<Ring> m_RingsWorth500 = new List<Ring>();
     public static RingManager Instance { get; private set; }
-    private RingCollision m_PreviousRing;
+    private Ring m_PreviousRing;
 
     private void Awake()
     {
@@ -21,42 +21,49 @@ public class RingManager : MonoBehaviour
         else
         {
             Instance = this;
+        }
 
-            RingCollision[] ringCollisions = GetComponentsInChildren<RingCollision>();
+        SetRings();
+    }
 
-            for (int i = 0; i < ringCollisions.Length; i++)
+    private void SetRings()
+    {
+        PlaceholderRing[] placeholderRings = GetComponentsInChildren<PlaceholderRing>();
+
+        for (int i = 0; i < placeholderRings.Length; i++)
+        {
+            string path1 = "Photon Prefabs";
+            string path2 = "Ring " + placeholderRings[i].Worth;
+
+            if (placeholderRings[i].Worth >= 500)
             {
-                string path1 = "Photon Prefabs";
-                string path2 = "Ring " + ringCollisions[i].Worth;
-                //string path2 = ringCollisions[i].transform.parent.name;
+                GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
 
-                if (ringCollisions[i].Worth >= 500)
-                {
-                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation);
+                m_RingsWorth500.Add(ringToAdd.GetComponent<Ring>());
+            }
+            else
+            {
+                GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
 
-                    //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
-                    m_RingsWorth500.Add(ringToAdd.GetComponentInChildren<RingCollision>());
-                }
-                else
-                {
-                    GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation);
-                    
-                    //RingCollision ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), ringCollisions[i].transform.position, ringCollisions[i].transform.rotation, group, data).transform.parent.GetComponentInChildren<RingCollision>();
-                    m_Rings.Add(ringToAdd.GetComponentInChildren<RingCollision>());
-                }
-
-                Destroy(ringCollisions[i].transform.parent.gameObject);
+                m_Rings.Add(ringToAdd.GetComponent<Ring>());
             }
 
-            DeactiveAllRings();
+            Destroy(placeholderRings[i].gameObject);
         }
+
+        Restart();
+    }
+
+    public void Restart()
+    {
+        DeactiveAllRings();
     }
 
     public void ActivateAllRings()
     {
         for (int i = 0; i < m_Rings.Count; i++)
         {
-            m_Rings[i].Ring.Activate();
+            m_Rings[i].Activate();
         }
 
         SetNew500RingActive();
@@ -66,12 +73,12 @@ public class RingManager : MonoBehaviour
     {
         for (int i = 0; i < m_Rings.Count; i++)
         {
-            m_Rings[i].Ring.Deactivate(false);
+            m_Rings[i].Deactivate(false);
         }
 
         for (int i = 0; i < m_RingsWorth500.Count; i++)
         {
-            m_RingsWorth500[i].Ring.Deactivate(false);
+            m_RingsWorth500[i].Deactivate(false);
         }
     }
 
@@ -100,12 +107,12 @@ public class RingManager : MonoBehaviour
 
             if (m_RingsWorth500[index] != m_PreviousRing)
             {
-                Debug.Log("New Ring Activated Succesfully!");
+                //Debug.Log("New Ring Activated Succesfully!");
 
                 newRingHasBeenActivated = true;
             }
         }
 
-        m_RingsWorth500[index].Ring.Activate();
+        m_RingsWorth500[index].Activate();
     }
 }

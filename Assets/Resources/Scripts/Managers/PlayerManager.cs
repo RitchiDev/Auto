@@ -7,6 +7,7 @@ using Andrich.UtilityScripts;
 [RequireComponent(typeof(PhotonView))]
 public abstract class PlayerManager : MonoBehaviourPunCallbacks
 {
+    public abstract void Restart();
     public abstract void CreatePlayerController();
     public abstract void CreatePlayerSpectator();
 

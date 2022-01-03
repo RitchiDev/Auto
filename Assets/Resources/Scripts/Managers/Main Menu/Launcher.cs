@@ -24,8 +24,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject m_PlayerListItemPrefab;
     [SerializeField] private GameObject m_StartGameButton;
     [SerializeField] private GameObject m_ChooseMapBlocker;
-    private List<ReadyToggle> m_TogglesInRoom;
-    //[SerializeField] private GameObject m_PlayerListItemPrefab;
+    private List<ReadyToggle> m_TogglesInRoom = new List<ReadyToggle>();
+    private List<CarMaterialSelector> m_CarMaterialSelectorInRoom = new List<CarMaterialSelector>();
 
     [Header("Find Room")]
     [SerializeField] private Transform m_RoomListContent;
@@ -70,6 +70,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.OfflineMode = false;
         MenuManager.Instance.OpenMenu(MenuName.loadingMenu);
         PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.GameVersion = Application.version;
     }
 
     public void LeaveOnline()
@@ -84,13 +85,16 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        if(!AllPlayersReady() || !MinimumPlayersReached())
+        if(!Application.isEditor)
         {
-            if(!MinimumPlayersReached())
+            if(!AllPlayersReady() || !MinimumPlayersReached())
             {
-                Debug.Log("Minimim Players hasn't been reached!");
+                if(!MinimumPlayersReached())
+                {
+                    Debug.Log("Minimim Players hasn't been reached!");
+                }
+                return;
             }
-            return;
         }
 
         if(GameModeManager.Instance.SelectedGameMode.CloseRoomOnStart)
@@ -105,25 +109,23 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private bool AllPlayersReady()
     {
-        int readyPlayers = 0;
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if(player.GetIfReady())
-            {
-                Debug.Log(player.NickName + " is Ready");
-                readyPlayers++;
-            }
-        }
+        Player[] players = PhotonNetwork.PlayerList;
 
-        if (readyPlayers != PhotonNetwork.PlayerList.Length)
+        for (int i = 0; i < players.Length; i++)
         {
+            if (players[i].GetIfReady())
+            {
+                Debug.Log(players[i].NickName + " is Ready");
+
+                continue;
+            }
+
             Debug.Log("Some players aren't ready");
+
             return false;
         }
-        else
-        {
-            return true;
-        }
+
+        return true;
     }
 
     private bool MinimumPlayersReached()
@@ -183,7 +185,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         foreach (Player player in playerList)
         {
-            Debug.Log("Created Item");
+            //Debug.Log("Created Item");
 
             GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
             item.transform.SetParent(m_PlayerListContent, false);
@@ -194,6 +196,13 @@ public class Launcher : MonoBehaviourPunCallbacks
             {
                 toggle.SetUp(player);
                 m_TogglesInRoom.Add(toggle);
+            }
+
+            CarMaterialSelector selector = item.GetComponent<CarMaterialSelector>();
+            if (selector)
+            {
+                selector.SetUp(player);
+                m_CarMaterialSelectorInRoom.Add(selector);
             }
         }
 
@@ -213,13 +222,28 @@ public class Launcher : MonoBehaviourPunCallbacks
             }
         }
 
+        for (int i = 0; i < m_CarMaterialSelectorInRoom.Count; i++)
+        {
+            CarMaterialSelector selector = m_CarMaterialSelectorInRoom[i];
+
+            if(selector)
+            {
+                selector.UpdateCarSprite(targetPlayer);
+            }
+        }
+
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        m_ChooseMapBlocker.SetActive(!PhotonNetwork.IsMasterClient);
-        m_StartGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        if (PhotonNetwork.LocalPlayer == newMasterClient)
+        {
+            GameModeManager.Instance.ActivateMaps();
+
+            m_ChooseMapBlocker.SetActive(false);
+            m_StartGameButton.SetActive(true);
+        }
     }
 
     public void JoinRoom(RoomInfo info)
@@ -282,6 +306,13 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             toggle.SetUp(newPlayer);
             m_TogglesInRoom.Add(toggle);
+        }
+
+        CarMaterialSelector selector = item.GetComponent<CarMaterialSelector>();
+        if(selector)
+        {
+            selector.SetUp(newPlayer);
+            m_CarMaterialSelectorInRoom.Add(selector);
         }
     }
 }

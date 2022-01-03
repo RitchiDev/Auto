@@ -61,6 +61,10 @@ MonoBehaviour:
   - RPC_AddEliminateToUI
   - RPC_AddKOToUI
   - RPC_AddRespawnToUI
+  - RPC_SetUp
+  - RPC_InstantiateRespawnEffect
+  - RPC_InstantiateEliminateEffect
+  - RPC_SetActiveObjects
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

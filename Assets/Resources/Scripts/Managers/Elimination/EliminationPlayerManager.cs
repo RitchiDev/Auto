@@ -20,14 +20,40 @@ namespace GameMode.Elimination
         private void Awake()
         {
             m_PhotonView = GetComponent<PhotonView>();
+
+            Restart();
         }
 
         private void Start()
         {
+            //Restart();   
+        }
+
+        public override void Restart()
+        {
+            //if(m_PlayerGameObject)
+            //{
+            //    EliminationPlayerController playerEliminationController = m_PlayerGameObject.GetComponent<EliminationPlayerController>();
+            //    if (playerEliminationController)
+            //    {
+            //        EliminationGameManager.Instance.RemoveAlivePlayer(playerEliminationController);
+            //    }
+            //}
+
             if (m_PhotonView.IsMine)
             {
-                PhotonNetwork.LocalPlayer.SetScore(0);
-                PhotonNetwork.LocalPlayer.SetDeaths(0);
+                if (m_PlayerGameObject)
+                {
+                    PhotonNetwork.Destroy(m_PlayerGameObject);
+                }
+
+                Player player = PhotonNetwork.LocalPlayer;
+                player.SetScore(0);
+                player.SetDeaths(0);
+                player.SetReadyState(false);
+                player.SetVotedRematchState(false);
+                player.SetIfEliminated(false);
+                player.SetLoadedAndReadyState(true);
                 CreatePlayerController();
             }
         }
@@ -110,10 +136,6 @@ namespace GameMode.Elimination
                 {
                     rigidbody.velocity = Vector3.zero;
                 }
-
-                //PhotonNetwork.Destroy(m_PlayerGameObject);
-
-                //CreatePlayerController();
             }
         }
 
@@ -126,7 +148,6 @@ namespace GameMode.Elimination
         {
             if (m_PhotonView.IsMine)
             {
-                Debug.Log("View Is Mine");
                 PhotonNetwork.LocalPlayer.AddDeath(1);
 
                 AddEliminateToUI(PhotonNetwork.LocalPlayer.NickName);
@@ -135,9 +156,6 @@ namespace GameMode.Elimination
 
                 CreatePlayerSpectator();
             }
-
-            Debug.Log("View Is NOT Mine!");
-
         }
 
         public void ReturnToTitlescreen()

@@ -12,13 +12,13 @@ public class CarSoundController :MonoBehaviour
 {
 	[SerializeField] private PhotonView m_PhotonView;
 
-	[Header("Engine sounds")]
-	[SerializeField] AudioClip EngineIdleClip;
-	[SerializeField] AudioClip EngineBackFireClip;
+	[Header("Engine Sounds")]
+	[SerializeField] private AudioKey m_EngineBackFireKey;
+	//[SerializeField] AudioClip EngineBackFireClip;
 	[SerializeField] float PitchOffset = 0.5f;
 	[SerializeField] AudioSource EngineSource;
 
-	[Header("Slip sounds")]
+	[Header("Slip Sounds")]
 	[SerializeField] AudioSource SlipSource;
 	[SerializeField] float MinSlipSound = 0.15f;
 	[SerializeField] float MaxSlipForSound = 1f;
@@ -30,11 +30,11 @@ public class CarSoundController :MonoBehaviour
 
 	private void Awake ()
 	{
-		if (!m_PhotonView.IsMine)
-		{
-			SlipSource.Stop();
-			return;
-		}
+		//if (!m_PhotonView.IsMine)
+		//{
+		//	//SlipSource.Stop();
+		//	return;
+		//}
 
 		CarController = GetComponent<CarController> ();
 		CarController.BackFireAction += PlayBackfire;
@@ -42,34 +42,40 @@ public class CarSoundController :MonoBehaviour
 
 	void Update ()
 	{
-		if (!m_PhotonView.IsMine)
-		{
-			return;
-		}
+		//if (!m_PhotonView.IsMine)
+		//{
+		//	return;
+		//}
 
 		//Engine PRM sound
-		EngineSource.pitch = (EngineRPM / MaxRPM) + PitchOffset;
+		if(EngineSource && CarController)
+		{
+			EngineSource.pitch = (EngineRPM / MaxRPM) + PitchOffset;
+		}
 
 		//Slip sound logic
-		if (CarController.CurrentMaxSlip > MinSlipSound
-		)
+		if(SlipSource && CarController)
 		{
-			if (!SlipSource.isPlaying)
+			if (CarController.CurrentMaxSlip > MinSlipSound)
 			{
-				SlipSource.Play ();
+				if (!SlipSource.isPlaying)
+				{
+					SlipSource.Play ();
+				}
+
+				float slipVolumeProcent = CarController.CurrentMaxSlip / MaxSlipForSound;
+				SlipSource.volume = slipVolumeProcent * 0.5f;
+				SlipSource.pitch = Mathf.Clamp (slipVolumeProcent, 0.75f, 1);
 			}
-			var slipVolumeProcent = CarController.CurrentMaxSlip / MaxSlipForSound;
-			SlipSource.volume = slipVolumeProcent * 0.5f;
-			SlipSource.pitch = Mathf.Clamp (slipVolumeProcent, 0.75f, 1);
-		}
-		else
-		{
-			SlipSource.Stop ();
+			else
+			{
+				SlipSource.Stop ();
+			}
 		}
 	}
 
 	void PlayBackfire ()
 	{
-		EngineSource.PlayOneShot (EngineBackFireClip);
+		EngineSource.PlayOneShot(Andrich.UtilityScripts.AudioManager.Instance.GetAudioClip(m_EngineBackFireKey));
 	}
 }

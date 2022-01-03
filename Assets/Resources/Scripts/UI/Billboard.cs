@@ -5,6 +5,7 @@ using UnityEngine;
 public class Billboard : MonoBehaviour
 {
     private Camera m_Camera;
+    [SerializeField] private float m_Rotation = 180f;
 
     private void Update()
     {
@@ -19,6 +20,6 @@ public class Billboard : MonoBehaviour
         }
 
         transform.LookAt(m_Camera.transform);
-        transform.Rotate(Vector3.up * 180);
+        transform.Rotate(Vector3.up * m_Rotation);
     }
 }
