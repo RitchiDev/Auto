@@ -180,9 +180,13 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         while (m_CurrentTime > 0)
         {
             m_CurrentTime -= Time.deltaTime;
-            PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
+
+            SetTime(m_CurrentTime);
+
             yield return null;
         }
+
+        CleanUpAlivePlayerList();
 
         CheckForWin();
 
@@ -200,30 +204,47 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         RingManager.Instance.SetNew500RingActive();
 
         m_CurrentTime = m_MaxEliminationTime;
+
         while (m_CurrentTime >= 0)
         {
             m_CurrentTime -= Time.deltaTime;
-            PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
+
+            SetTime(m_CurrentTime);
+
             yield return null;
         }
 
-        if (m_AlivePlayers.Count <= 1)
-        {
-            Debug.Log("Not Enough Alive Players To Eliminate One");
+        CleanUpAlivePlayerList();
 
-            CheckForWin();
-        }
-        else
-        {
-            CheckForElimination();
+        CheckForElimination();
 
-            if(!PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
-            {
-                StartCoroutine(TimeBeforeEliminateStartsCountdown());
-            }
+        StartCoroutine(TimeBeforeEliminateStartsCountdown());
+    }
+
+    private void SetTime(double time)
+    {
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            PhotonNetwork.CurrentRoom.SetTime(time);
         }
     }
 
+    private void CleanUpAlivePlayerList()
+    {
+        int indexToRemove = 0;
+        for (int i = 0; i < m_AlivePlayers.Count; i++)
+        {
+            if(m_AlivePlayers[i] == null)
+            {
+                indexToRemove = i;
+            }
+        }
+
+        if(indexToRemove > 0)
+        {
+            m_AlivePlayers.RemoveAt(indexToRemove);
+        }
+    }
 
     public void AddAlivePlayer(EliminationPlayerController playerController, Player player)
     {
@@ -253,16 +274,19 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             return;
         }
 
+        RingManager.Instance.DeactiveAllRings();
+
         PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Player);
         PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(true);
     }
 
     private void CheckForElimination()
     {
-        Debug.Log("Check for elimination");
+        //Debug.Log("Check for elimination");
 
         if(m_AlivePlayers.Count <= 1)
         {
+            Debug.Log("Not enough players for elimination");
             return;
         }
 

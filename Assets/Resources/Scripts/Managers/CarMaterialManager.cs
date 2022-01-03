@@ -34,18 +34,17 @@ public class CarMaterialManager : MonoBehaviour
         }
         else
         {
-            DontDestroyOnLoad(gameObject);
             Instance = this;
+        }
 
-            if(m_PrimaryMaterials.Count >= 1)
-            {
-                m_MaxPrimaryIndex = m_PrimaryMaterials.Count - 1;
-            }
+        if (m_PrimaryMaterials.Count >= 1)
+        {
+            m_MaxPrimaryIndex = m_PrimaryMaterials.Count - 1;
+        }
 
-            if (m_SecondaryMaterials.Count >= 1)
-            {
-                m_MaxSecondaryIndex = m_SecondaryMaterials.Count - 1;
-            }
+        if (m_SecondaryMaterials.Count >= 1)
+        {
+            m_MaxSecondaryIndex = m_SecondaryMaterials.Count - 1;
         }
     }
 

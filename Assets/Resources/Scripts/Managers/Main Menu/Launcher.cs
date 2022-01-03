@@ -250,7 +250,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRoom(info.Name);
         MenuManager.Instance.OpenMenu(MenuName.loadingMenu);
-        Debug.Log(PhotonNetwork.NickName + " joined the room");
+        //Debug.Log(PhotonNetwork.NickName + " joined the room");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

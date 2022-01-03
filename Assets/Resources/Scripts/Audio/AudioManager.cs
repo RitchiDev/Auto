@@ -29,8 +29,8 @@ namespace Andrich.UtilityScripts
         {
             if (Instance)
             {
-                Debug.LogError("An instance of: " + Instance.ToString() + " already existed!");
-                Destroy(this);
+                Debug.LogWarning("An instance of: " + Instance.ToString() + " already existed!");
+                Destroy(gameObject);
             }
             else
             {
@@ -265,26 +265,6 @@ namespace Andrich.UtilityScripts
             }
 
             return currentVolume;
-        }
-
-        public void SetMusicVolume(float value)
-        {
-            if (value <= -40)
-            {
-                value = -80;
-            }
-
-            m_Music.audioMixer.SetFloat(m_MusicKey, value);
-        }
-
-        public void SetSFXVolume(float value)
-        {
-            if (value <= -40)
-            {
-                value = -80;
-            }
-
-            m_SFX.audioMixer.SetFloat(m_SFXKey, value);
         }
     }
 }

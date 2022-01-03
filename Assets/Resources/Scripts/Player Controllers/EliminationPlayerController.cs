@@ -176,6 +176,11 @@ public class EliminationPlayerController : MonoBehaviour
         m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
     }
 
+    public void RemovePlayerFromAliveList()
+    {
+        m_PhotonView.RPC("RPC_RemovePlayerFromAliveList", RpcTarget.All);
+    }
+
     [PunRPC]
     private void RPC_SetActiveObjects(bool value)
     {
@@ -217,5 +222,12 @@ public class EliminationPlayerController : MonoBehaviour
     {
         //Debug.Log(EliminationGameManager.Instance);
         EliminationGameManager.Instance.AddAlivePlayer(this, player);
+    }
+
+    [PunRPC]
+    private void RPC_RemovePlayerFromAliveList()
+    {
+        //Debug.Log(EliminationGameManager.Instance);
+        EliminationGameManager.Instance.RemoveAlivePlayer(this);
     }
 }
