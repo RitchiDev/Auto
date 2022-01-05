@@ -33,7 +33,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     [Header("Debug")]
     [SerializeField] private TMP_Text m_ErrorText;
-
+    [SerializeField] private List<RoomInfo> m_RoomsList = new List<RoomInfo>();
 
     private void Awake()
     {
@@ -65,10 +65,16 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void PlayOnline()
     {
-        Debug.Log("Connecting to master");
-
         //PhotonNetwork.OfflineMode = false;
         MenuManager.Instance.OpenMenu(MenuName.loadingMenu);
+
+        if(PhotonNetwork.IsConnected)
+        {
+            return;
+        }
+
+        Debug.Log("Connecting to master");
+
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.GameVersion = Application.version;
     }
@@ -273,13 +279,22 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        m_RoomsList = roomList;
+
+        RefreshRoomList();
+    }
+
+    public void RefreshRoomList()
+    {
         foreach (Transform transform in m_RoomListContent)
         {
             Destroy(transform.gameObject);
         }
 
-        foreach (RoomInfo room in roomList)
+        for (int i = 0; i < m_RoomsList.Count; i++)
         {
+            RoomInfo room = m_RoomsList[i];
+
             if (m_RoomListItemPrefab == null)
             {
                 Debug.LogError("m_RoomListItemPrefab is null!");

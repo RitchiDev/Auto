@@ -139,7 +139,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             if(GetIfAllPlayersLoadedLevel())
             {
                 Debug.Log("Started Game");
-                Debug.Log(m_AlivePlayers.Count);
+                //Debug.Log("Alive Players: " + m_AlivePlayers.Count);
                 StartCoroutine(TimeBeforeEliminateStartsCountdown());
             }
         }

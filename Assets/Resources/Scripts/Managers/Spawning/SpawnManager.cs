@@ -19,16 +19,16 @@ public class SpawnManager : MonoBehaviour
         else
         {
             Instance = this;
-            
-            Spawnpoint[] spawnpoints = GetComponentsInChildren<Spawnpoint>();
-
-            foreach (Spawnpoint spawnpoint in spawnpoints)
-            {
-                m_Spawnpoints.Add(spawnpoint);
-            }
-
-            m_AvailableSpawnPoints = m_Spawnpoints;
         }
+
+        Spawnpoint[] spawnpoints = GetComponentsInChildren<Spawnpoint>();
+
+        foreach (Spawnpoint spawnpoint in spawnpoints)
+        {
+            m_Spawnpoints.Add(spawnpoint);
+        }
+
+        m_AvailableSpawnPoints = m_Spawnpoints;
     }
 
     public Transform GetSpawnPoint()
@@ -42,17 +42,6 @@ public class SpawnManager : MonoBehaviour
 
         m_PreviousIndex = index;
         return m_Spawnpoints[index].transform;
-    }
-
-    public Transform GetUntakenSpawnpoints()
-    {
-        if (m_AvailableSpawnPoints.Count == 0)
-            m_AvailableSpawnPoints = m_Spawnpoints;
-
-        int index = Random.Range(0, m_AvailableSpawnPoints.Count - 1);
-        Transform Location = m_AvailableSpawnPoints[index].transform;
-        m_AvailableSpawnPoints.RemoveAt(index);
-        return Location;
     }
 
     public Transform GetRandomSpawnPoint()

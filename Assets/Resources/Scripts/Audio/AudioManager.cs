@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-namespace Andrich.UtilityScripts
+namespace Andrich.Audio
 {
     public class AudioManager : MonoBehaviour
     {
