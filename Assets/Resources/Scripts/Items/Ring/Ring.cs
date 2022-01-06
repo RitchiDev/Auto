@@ -6,7 +6,6 @@ using Andrich.UtilityScripts;
 
 public class Ring : MonoBehaviour
 {
-    private PhotonView m_PhotonView;
     private Collider m_Collider;
     private MeshRenderer m_MeshRenderer;
 
@@ -20,7 +19,6 @@ public class Ring : MonoBehaviour
 
     private void Awake()
     {
-        m_PhotonView = GetComponentInParent<PhotonView>();
         m_MeshRenderer = GetComponent<MeshRenderer>();
         m_Collider = GetComponent<Collider>();
     }
@@ -43,23 +41,11 @@ public class Ring : MonoBehaviour
 
     public void Activate()
     {
-        m_PhotonView.RPC("RPC_Activate", RpcTarget.All);
-    }
-
-    public void Deactivate(bool reActivate = true)
-    {
-        m_PhotonView.RPC("RPC_Deactivate", RpcTarget.All, reActivate);
-    }
-
-    [PunRPC]
-    private void RPC_Activate()
-    {
         m_MeshRenderer.enabled = true;
         m_Collider.enabled = true;
     }
 
-    [PunRPC]
-    public void RPC_Deactivate(bool reActivate)
+    public void Deactivate(bool reActivate = true)
     {
         m_MeshRenderer.enabled = false;
         m_Collider.enabled = false;

@@ -11,9 +11,6 @@ public abstract class PlayerManager : MonoBehaviourPunCallbacks
     public abstract void CreatePlayerController();
     public abstract void CreatePlayerSpectator();
 
-    public abstract void RespawnPlayer(bool afterKO);
+    public abstract void RespawnPlayer();
     public abstract void RespawnPlayerAsSpectator();
-
-    public abstract void AddEliminateToUI(string name);
-    public abstract void AddRespawnToUI(string name, bool afterKO);
 }

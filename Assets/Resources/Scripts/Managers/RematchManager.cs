@@ -60,7 +60,9 @@ public class RematchManager : MonoBehaviourPunCallbacks
                 playersInroom[i].SetLoadedAndReadyState(false);
             }
 
-            RingManager.Instance.Restart();
+            RaiseDeactivateAllRingsEvent();
+            RaiseDeactivateAllItemBoxesEvent();
+            //RingManager.Instance.Restart();
         }
 
         if(EliminationGameManager.Instance)
@@ -74,6 +76,18 @@ public class RematchManager : MonoBehaviourPunCallbacks
         {
             playerManager[i].Restart();
         }
+    }
+
+    private void RaiseDeactivateAllRingsEvent()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllRingsEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+    }
+
+    private void RaiseDeactivateAllItemBoxesEvent()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllItemBoxesEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
     }
 
     public int GetAmountOfPlayersWhoAreReady()

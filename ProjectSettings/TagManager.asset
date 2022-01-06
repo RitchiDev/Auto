@@ -7,6 +7,7 @@ TagManager:
   - Obs
   - Crash
   - Car
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -17,12 +18,12 @@ TagManager:
   - Spectator
   - 
   - Pointer
-  - Not_In_Minimap
-  - Minimap_Layer
+  - Not In Minimap
+  - Minimap Layer
   - Placeholder Ring
-  - 
-  - 
-  - 
+  - Ring
+  - Item Box
+  - Item
   - 
   - 
   - 

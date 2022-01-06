@@ -1,10 +1,11 @@
-using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
+using Photon.Realtime;
+using Photon.Pun;
+using ExitGames.Client.Photon;
+using Andrich.UtilityScripts;
 
-public class RingManager : MonoBehaviour
+public class RingManager : MonoBehaviour, IOnEventCallback
 {
     private List<Ring> m_Rings = new List<Ring>();
     private List<Ring> m_RingsWorth500 = new List<Ring>();
@@ -26,36 +27,46 @@ public class RingManager : MonoBehaviour
         SetRings();
     }
 
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+        if (eventCode == EventCodes.ActivateAllRingsEventCode)
+        {
+            ActivateAllRings();
+        }
+
+        if(eventCode == EventCodes.DeactivateAllRingsEventCode)
+        {
+            DeactiveAllRings();
+        }
+    }
+
     private void SetRings()
     {
-        PlaceholderRing[] placeholderRings = GetComponentsInChildren<PlaceholderRing>();
+        Ring[] rings = GetComponentsInChildren<Ring>();
 
-        for (int i = 0; i < placeholderRings.Length; i++)
+        for (int i = 0; i < rings.Length; i++)
         {
-            string path1 = "Photon Prefabs";
-            string path2 = "Ring " + placeholderRings[i].Worth;
-
-            if (placeholderRings[i].Worth >= 500)
+            if (rings[i].Worth >= 500)
             {
-                GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
-
-                m_RingsWorth500.Add(ringToAdd.GetComponent<Ring>());
+                m_RingsWorth500.Add(rings[i]);
             }
             else
             {
-                GameObject ringToAdd = PhotonNetwork.Instantiate(Path.Combine(path1, path2), placeholderRings[i].transform.position, placeholderRings[i].transform.rotation);
-
-                m_Rings.Add(ringToAdd.GetComponent<Ring>());
+                m_Rings.Add(rings[i]);
             }
-
-            Destroy(placeholderRings[i].gameObject);
         }
 
-        Restart();
-    }
-
-    public void Restart()
-    {
         DeactiveAllRings();
     }
 
@@ -115,4 +126,5 @@ public class RingManager : MonoBehaviour
 
         m_RingsWorth500[index].Activate();
     }
+
 }

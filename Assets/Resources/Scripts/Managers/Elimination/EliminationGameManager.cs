@@ -6,6 +6,7 @@ using TMPro;
 using Photon.Realtime;
 using Photon.Pun;
 using Andrich.UtilityScripts;
+using ExitGames.Client.Photon;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 public class EliminationGameManager : MonoBehaviourPunCallbacks
@@ -43,11 +44,21 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         {
             //StopAllCoroutines();
             PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
+            RaiseActivateAllItemBoxesEvent();
         }
 
         if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
-            m_CountDownImage.transform.parent.gameObject.SetActive(false);
+            if (m_CountDownImage)
+            {
+                m_CountDownImage.SetActive(false);
+            }
+
+            if (m_CountDownText)
+            {
+                m_CountDownText.SetActive(false);
+            }
+
             return;
         }
 
@@ -109,6 +120,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         {
             if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
             {
+                RaiseDeactivateAllItemBoxesEvent();
+
                 m_CountDownImage.SetActive(false);
 
                 if(BackgroundMusicStarter.Instance)
@@ -173,7 +186,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
 
-        RingManager.Instance.DeactiveAllRings();
+        RaiseDeactivateAllRingsEvent();
+        //RingManager.Instance.DeactiveAllRings();
 
         m_CurrentTime = m_TimeBeforeNextElimination;
 
@@ -200,8 +214,9 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(false);
 
-        RingManager.Instance.ActivateAllRings();
-        RingManager.Instance.SetNew500RingActive();
+        RaiseActivateAllRingsEvent();
+        //RingManager.Instance.ActivateAllRings();
+        //RingManager.Instance.SetNew500RingActive();
 
         m_CurrentTime = m_MaxEliminationTime;
 
@@ -219,6 +234,34 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         CheckForElimination();
 
         StartCoroutine(TimeBeforeEliminateStartsCountdown());
+    }
+
+    private void RaiseActivateAllRingsEvent()
+    {
+        //Debug.Log("Raise Activate All Rings Event");
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.ActivateAllRingsEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void RaiseDeactivateAllRingsEvent()
+    {
+        //Debug.Log("Raise Deactivate All Rings Event");
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllRingsEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+
+    private void RaiseDeactivateAllItemBoxesEvent()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllItemBoxesEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+    }
+
+    private void RaiseActivateAllItemBoxesEvent()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.ActivateAllItemBoxesEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
     }
 
     private void SetTime(double time)
@@ -274,7 +317,9 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        RingManager.Instance.DeactiveAllRings();
+        RaiseDeactivateAllRingsEvent();
+        RaiseDeactivateAllItemBoxesEvent();
+        //RingManager.Instance.DeactiveAllRings();
 
         PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Player);
         PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(true);

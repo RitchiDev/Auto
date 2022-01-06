@@ -81,43 +81,14 @@ public class EliminationPlayerManager : PlayerManager
         DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
     }
 
-    public override void AddEliminateToUI(string name)
-    {
-        m_PhotonView.RPC("RPC_AddEliminateToUI", RpcTarget.All, name);
-    }
-
-    [PunRPC]
-    private void RPC_AddEliminateToUI(string name)
-    {
-        Instantiate(m_EliminatedPlayerItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name);
-    }
-
-    public override void AddRespawnToUI(string name, bool afterKO)
-    {
-        m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, afterKO);
-    }
-
-    [PunRPC]
-    private void RPC_AddRespawnToUI(string name, bool afterKO)
-    {
-        if(afterKO)
-        {
-            Instantiate(m_KOdPlayerItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name);
-        }
-        else
-        {
-            Instantiate(m_RespawnedPlayerItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name);
-        }
-    }
-
-    public override void RespawnPlayer(bool afterKO)
+    public override void RespawnPlayer()
     {
         if (m_PhotonView.IsMine)
         {
             PhotonNetwork.LocalPlayer.AddDeath(1);
             PhotonNetwork.LocalPlayer.AddScore(-250);
 
-            AddRespawnToUI(PhotonNetwork.LocalPlayer.NickName, afterKO);
+            //AddRespawnToUI(PhotonNetwork.LocalPlayer.NickName, deathCause, afterKO);
 
             Transform spawnPoint = SpawnManager.Instance.GetRandomSpawnPoint();
 
@@ -138,7 +109,7 @@ public class EliminationPlayerManager : PlayerManager
         {
             PhotonNetwork.LocalPlayer.AddDeath(1);
 
-            AddEliminateToUI(PhotonNetwork.LocalPlayer.NickName);
+            //AddEliminateToUI(PhotonNetwork.LocalPlayer.NickName);
 
             PhotonNetwork.Destroy(m_PlayerGameObject);
 

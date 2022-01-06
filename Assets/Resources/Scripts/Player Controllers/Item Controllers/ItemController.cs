@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Andrich.UtilityScripts;
 
-public class ItemController : MonoBehaviour
+public class ItemController : MonoBehaviourPunCallbacks
 {
     [Header("Components")]
     [SerializeField] private PhotonView m_PhotonView;
@@ -32,17 +33,21 @@ public class ItemController : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject m_ItemHolder;
     private bool m_IsShielded;
+    private bool m_GameHasBeenWon;
 
     private void Awake()
     {
-        InstantiateItems();
-
         m_InGameUI.EmptyItemImageSprite();
+    }
+
+    private void Start()
+    {
+        InstantiateItems();
     }
 
     private void Update()
     {
-        if(!m_PhotonView.IsMine)
+        if(!m_PhotonView.IsMine || m_GameHasBeenWon)
         {
             return;
         }
@@ -58,12 +63,24 @@ public class ItemController : MonoBehaviour
         }
     }
 
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
+        {
+            m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
+        }
+
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
     private void InstantiateItems()
     {
         for (int i = 0; i < m_ItemPrefabs.Count; i++)
         {
             Item item = Instantiate(m_ItemPrefabs[i], transform.position, transform.rotation);
+            //Debug.Log(m_PlayerController.Player);
             item.SetOwner(m_PlayerController.Player, this);
+
             item.SetActive(false);
             item.transform.SetParent(m_ItemHolder.transform);
 
@@ -118,6 +135,11 @@ public class ItemController : MonoBehaviour
 
     public virtual void UseItem(Item.Type itemType)
     {
+        if (PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        {
+            return;
+        }
+
         m_PhotonView.RPC("RPC_UseItem", RpcTarget.All, itemType);
     }
 
@@ -195,7 +217,7 @@ public class ItemController : MonoBehaviour
                 return;
             }
 
-            m_PlayerController.KO();
+            m_PlayerController.KO(aura.Owner.NickName);
         }
     }
 }

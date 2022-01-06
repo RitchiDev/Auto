@@ -58,7 +58,7 @@ public class ItemBox : MonoBehaviour
             yield return null;
         }
 
-        if (!PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+        if (!PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
         {
             Activate();
         }

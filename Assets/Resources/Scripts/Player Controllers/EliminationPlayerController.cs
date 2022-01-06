@@ -7,11 +7,12 @@ using Andrich.UtilityScripts;
 using TMPro;
 using UnityEngine.UI;
 
-public class EliminationPlayerController : MonoBehaviour
+public class EliminationPlayerController : MonoBehaviourPunCallbacks
 {
     [Header("Components")]
     [SerializeField] private PhotonView m_PhotonView;
     [SerializeField] private ItemController m_ItemController;
+    [SerializeField] private InGameUI m_InGameUI;
     [SerializeField] private CarController m_CarController;
     [SerializeField] private CameraController m_CameraController;
     [SerializeField] private Collider m_Collider;
@@ -43,6 +44,9 @@ public class EliminationPlayerController : MonoBehaviour
     [SerializeField] private float m_MaxEliminateDelay = 1.1f;
     [SerializeField] private GameObject m_EliminateEffect;
     private IEnumerator m_Eliminate;
+
+    [Header("Misc")]
+    private bool m_GameHasBeenWon;
 
     private void Start()
     {
@@ -76,7 +80,7 @@ public class EliminationPlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(!m_PhotonView.IsMine || PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon() || m_DisableRespawning)
+        if(!m_PhotonView.IsMine || m_DisableRespawning || m_GameHasBeenWon)
         {
             if(m_RespawnImage)
             {
@@ -87,6 +91,16 @@ public class EliminationPlayerController : MonoBehaviour
         }
 
         CheckForRespawn();
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if(propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
+        {
+            m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
+        }
+
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 
     private void CheckForRespawn()
@@ -101,7 +115,7 @@ public class EliminationPlayerController : MonoBehaviour
             {
                 m_RespawnTimer = m_MaxRespawnTime;
 
-                m_Respawn = RespawnDelay(false);
+                m_Respawn = RespawnDelay("Respawned", false);
                 StartCoroutine(m_Respawn);
             }
         }
@@ -122,11 +136,13 @@ public class EliminationPlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator RespawnDelay(bool afterKO)
+    private IEnumerator RespawnDelay(string deathCause, bool afterKO)
     {
-
         m_DisableRespawning = true;
         m_CarController.Disable(true);
+
+        m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, deathCause, afterKO);
+        //m_InGameUI.AddRespawnToUI(m_Player.NickName, deathCause, afterKO);
 
         m_PhotonView.RPC("RPC_InstantiateRespawnEffect", RpcTarget.All, afterKO);
 
@@ -147,7 +163,7 @@ public class EliminationPlayerController : MonoBehaviour
         FreezeRigidbody(false);
         //m_Rigidbody.constraints = RigidbodyConstraints.None;
 
-        m_PhotonView.RPC("RPC_Respawn", RpcTarget.All, afterKO);
+        m_PhotonView.RPC("RPC_Respawn", RpcTarget.All);
 
         m_CarController.Disable(false);
 
@@ -195,17 +211,20 @@ public class EliminationPlayerController : MonoBehaviour
         StartCoroutine(m_Eliminate);
     }
 
-    public void KO()
+    public void KO(string deathCause)
     {
         m_RespawnTimer = m_MaxRespawnTime; // Just In Case So You Can't Respawn
 
-        m_Respawn = RespawnDelay(true);
+        m_Respawn = RespawnDelay(deathCause, true);
         StartCoroutine(m_Respawn);
     }
 
     private IEnumerator EliminateDelay()
     {
-        if(m_Respawn != null)
+        m_PhotonView.RPC("RPC_AddEliminateToUI", RpcTarget.All, name);
+        //m_InGameUI.AddEliminateToUI(m_Player.NickName);
+
+        if (m_Respawn != null)
         {
             StopCoroutine(m_Respawn);
         }
@@ -243,6 +262,18 @@ public class EliminationPlayerController : MonoBehaviour
     }
 
     [PunRPC]
+    private void RPC_AddEliminateToUI(string name)
+    {
+        m_InGameUI.AddEliminateToUI(name);
+    }
+
+    [PunRPC]
+    private void RPC_AddRespawnToUI(string name, string deathCause, bool afterKO)
+    {
+        m_InGameUI.AddRespawnToUI(name, deathCause, afterKO);
+    }
+
+    [PunRPC]
     private void RPC_SetActiveObjects(bool value)
     {
         for (int i = 0; i < m_ObjectsToHideDuringRespawn.Count; i++)
@@ -256,9 +287,9 @@ public class EliminationPlayerController : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_Respawn(bool afterKO)
+    private void RPC_Respawn()
     {
-        m_PlayerManager.RespawnPlayer(afterKO);
+        m_PlayerManager.RespawnPlayer();
     }
 
     [PunRPC]
@@ -279,6 +310,8 @@ public class EliminationPlayerController : MonoBehaviour
     {
         EliminationGameManager.Instance.RemoveAlivePlayer(this);
         //Debug.Log("Eliminate Called");
+
+        
         m_PlayerManager.RespawnPlayerAsSpectator();
     }
 

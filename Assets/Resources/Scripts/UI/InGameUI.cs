@@ -13,6 +13,12 @@ public class InGameUI : MonoBehaviourPunCallbacks
     [SerializeField] private PhotonView m_PhotonView;
     private EliminationPlayerManager m_PlayerManager;
 
+    [Header("Dead Players UI")]
+    [SerializeField] private Transform m_DeadPlayerListContainer;
+    [SerializeField] private GameObject m_RespawnedPlayerItemPrefab;
+    [SerializeField] private GameObject m_KOdPlayerItemPrefab;
+    [SerializeField] private GameObject m_EliminatedPlayerItemPrefab;
+
     [Header("Tab Scoreboard UI")]
     [SerializeField] private GameObject m_TabScoreboard;
 
@@ -48,12 +54,13 @@ public class InGameUI : MonoBehaviourPunCallbacks
         }
         else
         {
-            Destroy(m_TabScoreboard);
-            Destroy(m_OnScreenStats);
-            Destroy(m_PauseMenu);
-            Destroy(m_WinMenu);
-            Destroy(gameObject);
-            //gameObject.SetActive(false);
+            
+            //Destroy(m_TabScoreboard);
+            //Destroy(m_OnScreenStats);
+            //Destroy(m_PauseMenu);
+            //Destroy(m_WinMenu);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -110,6 +117,23 @@ public class InGameUI : MonoBehaviourPunCallbacks
         }
 
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
+
+    public void AddEliminateToUI(string name)
+    {
+        Instantiate(m_EliminatedPlayerItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name, "Eliminated");
+    }
+
+    public void AddRespawnToUI(string name, string deathCause, bool afterKO)
+    {
+        if (afterKO)
+        {
+            Instantiate(m_KOdPlayerItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name, deathCause);
+        }
+        else
+        {
+            Instantiate(m_RespawnedPlayerItemPrefab, m_DeadPlayerListContainer).GetComponent<PlayerDiedItem>().SetUp(name, deathCause);
+        }
     }
 
     public void VoteRematch()
