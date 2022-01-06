@@ -5,20 +5,39 @@ using Photon.Pun;
 
 public class ItemController : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private PhotonView m_PhotonView;
+    [SerializeField] private InGameUI m_InGameUI;
+    [SerializeField] private EliminationPlayerController m_PlayerController;
+
+    [Header("Firepoints")]
+    [SerializeField] private Transform m_FrontFirepoint;
+    [SerializeField] private Transform m_MiddleFirepoint;
+    [SerializeField] private Transform m_BackFirepoint;
+    private Transform m_CurrentFirepoint;
+    public Transform CurrentFirepoint => m_CurrentFirepoint;
+
+    [Header("Controls")]
     [SerializeField] private KeyCode m_UseItemKey = KeyCode.LeftShift;
+    [SerializeField] private KeyCode m_UseItemKeySecondary = KeyCode.E;
+
+    [Header("Item / UI")]
     [SerializeField] private int m_Loops = 2;
     [SerializeField] private float m_LoopTime = 1f;
     [SerializeField] private List<ItemIcon> m_ItemIcons = new List<ItemIcon>();
     [SerializeField] private List<Item> m_ItemPrefabs = new List<Item>();
     private List<Item> m_Items = new List<Item>();
-    private ItemIcon m_CurrentItem;
+    private ItemIcon m_CurrentItemIcon;
 
+    [Header("Misc")]
+    [SerializeField] private GameObject m_ItemHolder;
     private bool m_IsShielded;
 
     private void Awake()
     {
         InstantiateItems();
+
+        m_InGameUI.EmptyItemImageSprite();
     }
 
     private void Update()
@@ -28,14 +47,14 @@ public class ItemController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(m_UseItemKey))
+        if (Input.GetKeyDown(m_UseItemKey) || Input.GetKeyDown(m_UseItemKeySecondary))
         {
-            if(!m_CurrentItem)
+            if(!m_CurrentItemIcon)
             {
                 return;
             }
 
-            UseItem(m_CurrentItem.ItemType);
+            UseItem(m_CurrentItemIcon.ItemType);
         }
     }
 
@@ -43,10 +62,10 @@ public class ItemController : MonoBehaviour
     {
         for (int i = 0; i < m_ItemPrefabs.Count; i++)
         {
-            Item item = Instantiate(m_ItemPrefabs[i], transform.position, m_ItemPrefabs[i].transform.rotation);
-            item.SetOwner(gameObject, this);
+            Item item = Instantiate(m_ItemPrefabs[i], transform.position, transform.rotation);
+            item.SetOwner(m_PlayerController.Player, this);
             item.SetActive(false);
-            item.transform.SetParent(transform);
+            item.transform.SetParent(m_ItemHolder.transform);
 
             m_Items.Add(item);
         }
@@ -54,7 +73,12 @@ public class ItemController : MonoBehaviour
 
     public void StartItemRoulette()
     {
-        if(!m_CurrentItem)
+        if(!m_PhotonView.IsMine)
+        {
+            return;
+        }
+
+        if(!m_CurrentItemIcon)
         {
             StartCoroutine(ItemRoulette());
         }
@@ -69,7 +93,8 @@ public class ItemController : MonoBehaviour
         {
             for (int i = 0; i < count; i++)
             {
-                // Set New Image
+                // Set New Image Sprite
+                m_InGameUI.SetItemImageSprite(m_ItemIcons[i].ItemSprite);
                 yield return new WaitForSeconds(time / count);
             }
 
@@ -77,13 +102,15 @@ public class ItemController : MonoBehaviour
         }
 
 
-        m_CurrentItem = GetRandomItem();
-        Debug.Log("Item Set: " + m_CurrentItem.ItemType);
+        m_CurrentItemIcon = GetRandomItemIcon();
+        m_InGameUI.SetItemImageSprite(m_CurrentItemIcon.ItemSprite);
+
+        Debug.Log("Item Set: " + m_CurrentItemIcon.ItemType);
         // Item Image = m_CurrentItem Image
 
     }
 
-    private ItemIcon GetRandomItem()
+    private ItemIcon GetRandomItemIcon()
     {
         int index = Random.Range(0, m_ItemIcons.Count - 1);
         return m_ItemIcons[index];
@@ -99,35 +126,76 @@ public class ItemController : MonoBehaviour
     {
         Debug.Log("Used: " + itemType);
 
-        switch (itemType)
-        {
-            case Item.Type.notSet:
-                Debug.LogError("Item Type Not Set");
-                break;
-            case Item.Type.rocket:
-
-                break;
-            case Item.Type.shield:
-
-                break;
-            default:
-                break;
-        }
+        SetFirepoint(itemType);
 
         for (int i = 0; i < m_Items.Count; i++)
         {
-            if (m_CurrentItem.ItemType == m_Items[i].ItemType)
+            if (itemType == m_Items[i].ItemType)
             {
                 m_Items[i].Use();
                 break;
             }
         }
 
-        m_CurrentItem = null;
+        m_InGameUI.EmptyItemImageSprite();
+        m_CurrentItemIcon = null;
+    }
+
+    private void SetFirepoint(Item.Type itemType)
+    {
+        switch (itemType)
+        {
+            case Item.Type.notSet:
+                Debug.LogError("Item Type Not Set");
+                break;
+            case Item.Type.rocket:
+                m_CurrentFirepoint = m_FrontFirepoint;
+
+                break;
+            case Item.Type.shield:
+                m_CurrentFirepoint = m_MiddleFirepoint;
+
+                break;
+            default:
+                break;
+        }
     }
 
     public void SetShielded(bool value)
     {
         m_IsShielded = value;
+    }
+
+    public void HideItems()
+    {
+        for (int i = 0; i < m_Items.Count; i++)
+        {
+            m_Items[i].SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        CheckIfEnteredDemolitionAura(other);
+    }
+
+    private void CheckIfEnteredDemolitionAura(Collider other)
+    {
+        if(m_IsShielded)
+        {
+            return;
+        }
+
+        DemolitionAura aura = other.GetComponent<DemolitionAura>();
+
+        if(aura)
+        {
+            if(aura.Owner == m_PlayerController.Player)
+            {
+                return;
+            }
+
+            m_PlayerController.KO();
+        }
     }
 }

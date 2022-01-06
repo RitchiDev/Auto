@@ -5,20 +5,35 @@ using Photon.Pun;
 using TMPro;
 using Andrich.UtilityScripts;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviourPunCallbacks
 {
+    [Header("Components")]
     [SerializeField] private PhotonView m_PhotonView;
+    private EliminationPlayerManager m_PlayerManager;
 
-    [SerializeField] private GameObject m_Scoreboard;
+    [Header("Tab Scoreboard UI")]
+    [SerializeField] private GameObject m_TabScoreboard;
+
+    [Header("On Screen Stats UI")]
     [SerializeField] private GameObject m_OnScreenStats;
+    [SerializeField] private TMP_Text m_OnScreenScore;
+
+    [Header("Pause UI")]
     [SerializeField] private GameObject m_PauseMenu;
+
+    [Header("Win UI")]
     [SerializeField] private GameObject m_WinMenu;
     [SerializeField] private TMP_Text m_WinnerText;
     [SerializeField] private TMP_Text m_NumberOfVotedRematchText;
-    [SerializeField] private TMP_Text m_OnScreenScore;
 
-    private GameMode.Elimination.EliminationPlayerManager m_PlayerManager;
+    [Header("Item UI")]
+    [SerializeField] private Image m_ItemImage;
+    [SerializeField] private Sprite m_EmptySprite;
+    [SerializeField] private Sprite m_QuestionMarkSprite;
+
+    [Header("Misc")]
     private bool m_GameIsWon;
 
     private void Start()
@@ -26,14 +41,14 @@ public class InGameUI : MonoBehaviourPunCallbacks
         if(m_PhotonView.IsMine)
         {
             m_GameIsWon = false;
-            m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<GameMode.Elimination.EliminationPlayerManager>();
+            m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<EliminationPlayerManager>();
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
         else
         {
-            Destroy(m_Scoreboard);
+            Destroy(m_TabScoreboard);
             Destroy(m_OnScreenStats);
             Destroy(m_PauseMenu);
             Destroy(m_WinMenu);
@@ -56,7 +71,7 @@ public class InGameUI : MonoBehaviourPunCallbacks
 
         if (Input.GetKey(KeyCode.Tab))
         {
-            m_Scoreboard.SetActive(true);
+            m_TabScoreboard.SetActive(true);
         }
         else
         {
@@ -65,7 +80,7 @@ public class InGameUI : MonoBehaviourPunCallbacks
                 return;
             }
 
-            m_Scoreboard.SetActive(false);
+            m_TabScoreboard.SetActive(false);
         }
     }
 
@@ -117,6 +132,16 @@ public class InGameUI : MonoBehaviourPunCallbacks
         m_OnScreenScore.text = "Score: " + score.ToString();
     }
 
+    public void SetItemImageSprite(Sprite sprite)
+    {
+        m_ItemImage.sprite = sprite;
+    }
+
+    public void EmptyItemImageSprite()
+    {
+        m_ItemImage.sprite = m_EmptySprite;
+    }
+
     public void OpenPauseMenu()
     {
         if (m_PauseMenu.activeInHierarchy)
@@ -126,7 +151,7 @@ public class InGameUI : MonoBehaviourPunCallbacks
         else
         {
             m_PauseMenu.SetActive(true);
-            m_Scoreboard.SetActive(true);
+            m_TabScoreboard.SetActive(true);
             m_OnScreenStats.SetActive(false);
 
             Cursor.visible = true;
@@ -137,7 +162,7 @@ public class InGameUI : MonoBehaviourPunCallbacks
     private void ClosePauseMenu()
     {
         m_PauseMenu.SetActive(false);
-        m_Scoreboard.SetActive(false);
+        m_TabScoreboard.SetActive(false);
         m_OnScreenStats.SetActive(true);
 
         Cursor.visible = false;
@@ -159,7 +184,7 @@ public class InGameUI : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
 
         m_WinMenu.SetActive(true);
-        m_Scoreboard.SetActive(true);
+        m_TabScoreboard.SetActive(true);
         m_OnScreenStats.SetActive(false);
 
         if(m_WinnerText)

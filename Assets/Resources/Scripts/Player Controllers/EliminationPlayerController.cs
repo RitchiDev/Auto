@@ -9,37 +9,50 @@ using UnityEngine.UI;
 
 public class EliminationPlayerController : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private PhotonView m_PhotonView;
-    [SerializeField] private GameObject m_Camera;
+    [SerializeField] private ItemController m_ItemController;
     [SerializeField] private CarController m_CarController;
-    [SerializeField] private GameObject m_RespawnEffect;
-    [SerializeField] private GameObject m_EliminateEffect;
-    [SerializeField] private KeyCode m_RespawnKey = KeyCode.F;
-    [SerializeField] private Image m_RespawnImage;
-    [SerializeField] private TMP_Text m_RespawnText;
-    [SerializeField] private float m_MaxRespawnTime = 3f;
-    [SerializeField] private float m_MaxRespawnDelay = 1.1f;
-    [SerializeField] private float m_MaxEliminateDelay = 1.1f;
-    [SerializeField] private List<GameObject> m_ObjectsToHideDuringRespawn = new List<GameObject>();
-    private bool m_DisableRespawning;
-    private float m_RespawnTimer;
-    PlayerManager m_PlayerManager;
+    [SerializeField] private CameraController m_CameraController;
+    [SerializeField] private Collider m_Collider;
+    [SerializeField] private GameObject m_Camera;
+    private Rigidbody m_Rigidbody;
+    private PlayerManager m_PlayerManager;
     private Player m_Player;
     public Player Player => m_Player;
-    private Rigidbody m_Rigidbody;
+
+    [Header("Controls")]
+    [SerializeField] private KeyCode m_RespawnKey = KeyCode.F;
+
+    [Header("Respawn")]
+    [SerializeField] private float m_MaxRespawnTime = 3f;
+    [SerializeField] private float m_MaxRespawnDelay = 1.1f;
+    [SerializeField] private TMP_Text m_RespawnTimeText;
+    [SerializeField] private Image m_RespawnImage;
+    [SerializeField] private GameObject m_RespawnEffect;
+    [SerializeField] private List<GameObject> m_ObjectsToHideDuringRespawn = new List<GameObject>();
     private IEnumerator m_Respawn;
+    private bool m_DisableRespawning;
+    private float m_RespawnTimer;
+
+    [Header("Respawn After KO")]
+    [SerializeField] private float m_MaxRespawnDelayAfterKO = 3f;
+    [SerializeField] private GameObject m_RespawnAfterKOEffect;
+
+    [Header("Eliminated")]
+    [SerializeField] private float m_MaxEliminateDelay = 1.1f;
+    [SerializeField] private GameObject m_EliminateEffect;
     private IEnumerator m_Eliminate;
 
     private void Start()
     {
         m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
-        //PhotonNetwork.LocalPlayer.SetScore(0);
+        m_Rigidbody = GetComponent<Rigidbody>();
 
         if (m_PhotonView.IsMine)
         {
             m_DisableRespawning = false;
             m_RespawnTimer = m_MaxRespawnTime;
-            m_Rigidbody = GetComponent<Rigidbody>();
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All, PhotonNetwork.LocalPlayer);
         }
         else
@@ -73,29 +86,35 @@ public class EliminationPlayerController : MonoBehaviour
             return;
         }
 
-        if(Input.GetKey(m_RespawnKey))
+        CheckForRespawn();
+    }
+
+    private void CheckForRespawn()
+    {
+        if (Input.GetKey(m_RespawnKey))
         {
             m_RespawnImage.SetActive(true);
 
             m_RespawnTimer -= Time.deltaTime;
 
-            if(m_RespawnTimer <= 0)
+            if (m_RespawnTimer <= 0)
             {
                 m_RespawnTimer = m_MaxRespawnTime;
-                m_Respawn = RespawnDelay();
+
+                m_Respawn = RespawnDelay(false);
                 StartCoroutine(m_Respawn);
             }
         }
         else
         {
-            if(m_RespawnTimer <= m_MaxRespawnTime)
+            if (m_RespawnTimer <= m_MaxRespawnTime)
             {
                 m_RespawnTimer += Time.deltaTime * m_MaxRespawnTime;
             }
         }
 
         m_RespawnImage.fillAmount = m_RespawnTimer / m_MaxRespawnTime;
-        m_RespawnText.text = m_RespawnTimer.ToString("0");
+        m_RespawnTimeText.text = m_RespawnTimer.ToString("0");
 
         if (m_RespawnTimer >= m_MaxRespawnTime)
         {
@@ -103,18 +122,21 @@ public class EliminationPlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator RespawnDelay()
+    private IEnumerator RespawnDelay(bool afterKO)
     {
+
         m_DisableRespawning = true;
         m_CarController.Disable(true);
 
-        m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        m_PhotonView.RPC("RPC_InstantiateRespawnEffect", RpcTarget.All, afterKO);
+
+        FreezeRigidbody(true);
+        //m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         m_PhotonView.RPC("RPC_SetActiveObjects", RpcTarget.All, false);
 
-        m_PhotonView.RPC("RPC_InstantiateRespawnEffect", RpcTarget.All);
+        float totalTime = afterKO ? m_MaxRespawnDelayAfterKO : m_MaxRespawnDelay;
 
-        float totalTime = m_MaxRespawnDelay;
         while (totalTime >= 0)
         {
             totalTime -= Time.deltaTime;
@@ -122,9 +144,10 @@ public class EliminationPlayerController : MonoBehaviour
             yield return null;
         }
 
-        m_Rigidbody.constraints = RigidbodyConstraints.None;
+        FreezeRigidbody(false);
+        //m_Rigidbody.constraints = RigidbodyConstraints.None;
 
-        m_PhotonView.RPC("RPC_Respawn", RpcTarget.All);
+        m_PhotonView.RPC("RPC_Respawn", RpcTarget.All, afterKO);
 
         m_CarController.Disable(false);
 
@@ -133,11 +156,51 @@ public class EliminationPlayerController : MonoBehaviour
         m_DisableRespawning = false;
     }
 
+    private void FreezeRigidbody(bool doFreeze)
+    {
+        if(m_CameraController)
+        {
+            m_CameraController.FreezeCameras(doFreeze);
+        }
+
+        if(!m_Rigidbody)
+        {
+            Debug.LogWarning("There is no Rigidbody");
+            return;
+        }
+
+        if(doFreeze)
+        {
+            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            m_Rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+            m_Rigidbody.velocity = Vector3.zero;
+            m_Rigidbody.useGravity = false;
+            m_Rigidbody.freezeRotation = true;
+            gameObject.isStatic = true;
+            m_Camera.isStatic = true;
+        }
+        else
+        {
+            m_Rigidbody.constraints = RigidbodyConstraints.None;
+            m_Rigidbody.useGravity = true;
+            m_Rigidbody.freezeRotation = false;
+            gameObject.isStatic = false;
+            m_Camera.isStatic = false;
+        }
+    }
 
     public void Eliminate()
     {
         m_Eliminate = EliminateDelay();
         StartCoroutine(m_Eliminate);
+    }
+
+    public void KO()
+    {
+        m_RespawnTimer = m_MaxRespawnTime; // Just In Case So You Can't Respawn
+
+        m_Respawn = RespawnDelay(true);
+        StartCoroutine(m_Respawn);
     }
 
     private IEnumerator EliminateDelay()
@@ -154,10 +217,8 @@ public class EliminationPlayerController : MonoBehaviour
             m_CarController.Disable(true);
         }
 
-        if(m_Rigidbody)
-        {
-            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        }
+        FreezeRigidbody(true);
+        //m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         m_PhotonView.RPC("RPC_SetActiveObjects", RpcTarget.All, false);
 
@@ -188,18 +249,29 @@ public class EliminationPlayerController : MonoBehaviour
         {
             m_ObjectsToHideDuringRespawn[i].SetActive(value);
         }
+
+        m_Collider.enabled = value;
+
+        m_ItemController.HideItems();
     }
 
     [PunRPC]
-    private void RPC_Respawn()
+    private void RPC_Respawn(bool afterKO)
     {
-        m_PlayerManager.RespawnPlayer();
+        m_PlayerManager.RespawnPlayer(afterKO);
     }
 
     [PunRPC]
-    private void RPC_InstantiateRespawnEffect()
+    private void RPC_InstantiateRespawnEffect(bool afterKO)
     {
-        Instantiate(m_RespawnEffect, transform.position, Quaternion.identity);
+        if(afterKO)
+        {
+            Instantiate(m_RespawnAfterKOEffect, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(m_RespawnEffect, transform.position, Quaternion.identity);
+        }
     }
 
     [PunRPC]

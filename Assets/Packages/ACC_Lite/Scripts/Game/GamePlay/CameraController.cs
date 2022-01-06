@@ -88,6 +88,14 @@ public class CameraController : MonoBehaviour
 		}
 	}
 
+	public void FreezeCameras(bool doFreeze)
+	{
+		for (int i = 0; i < CamerasPreset.Count; i++)
+		{
+			CamerasPreset[i].CameraHolder.gameObject.isStatic = doFreeze;
+		}
+	}
+
 	public void SetNextCamera ()
 	{
 		ActivePresetIndex = MathExtentions.LoopClamp (ActivePresetIndex + 1, 0, CamerasPreset.Count);

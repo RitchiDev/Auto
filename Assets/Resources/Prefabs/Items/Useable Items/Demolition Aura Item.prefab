@@ -27,7 +27,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5115875840238704114}
+  - {fileID: 5031079876998160236}
   m_Father: {fileID: 3998561919316156195}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40,9 +40,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3998561919316156195}
-  - component: {fileID: 3998561919316156196}
+  - component: {fileID: -3477045290173900564}
+  - component: {fileID: 4008579580139055966}
   m_Layer: 0
-  m_Name: Shield Item
+  m_Name: Demolition Aura Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +64,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3998561919316156196
+--- !u!114 &-3477045290173900564
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,88 +73,96 @@ MonoBehaviour:
   m_GameObject: {fileID: 3998561919316156197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9cf708e9adfcd9408fd0e56a90ef8f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3457b12a6cdcd4e4b8d07047efda4fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemType: 2
-  m_UseTime: 15
---- !u!1001 &3998561918515177168
+  m_ItemType: 3
+  m_UseTime: 10
+--- !u!65 &4008579580139055966
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3998561919316156197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 2, z: 5}
+  m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!1001 &4450375292608806767
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 3998561918211863261}
     m_Modifications:
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.25
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8181712972023639106, guid: 550b2e55fbf50874f9706e136cd5b42e,
+    - target: {fileID: 8654475104451477347, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_Name
-      value: CFX4 Shield Aura Bubble C
-      objectReference: {fileID: 0}
-    - target: {fileID: 8181712972023639106, guid: 550b2e55fbf50874f9706e136cd5b42e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: CFX4 Demolition Aura
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 550b2e55fbf50874f9706e136cd5b42e, type: 3}
---- !u!4 &5115875840238704114 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: e2f7b4c1c5985024898b61bd264ba1b2, type: 3}
+--- !u!4 &5031079876998160236 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8179244019103970082, guid: 550b2e55fbf50874f9706e136cd5b42e,
+  m_CorrespondingSourceObject: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
     type: 3}
-  m_PrefabInstance: {fileID: 3998561918515177168}
+  m_PrefabInstance: {fileID: 4450375292608806767}
   m_PrefabAsset: {fileID: 0}

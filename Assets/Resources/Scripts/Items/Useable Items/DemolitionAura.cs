@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : UseableItem
+public class DemolitionAura : UseableItem
 {
     public override void Use()
     {
-        m_OwnerItemController.SetShielded(true);
         gameObject.SetActive(true);
 
         m_UseTimerCoroutine = UseTimer();
@@ -16,8 +15,6 @@ public class Shield : UseableItem
     private void OnDisable()
     {
         gameObject.SetActive(false);
-
-        m_OwnerItemController.SetShielded(false);
     }
 
     public override IEnumerator UseTimer()
@@ -32,7 +29,5 @@ public class Shield : UseableItem
         }
 
         gameObject.SetActive(false);
-
-        m_OwnerItemController.SetShielded(false);
     }
 }
