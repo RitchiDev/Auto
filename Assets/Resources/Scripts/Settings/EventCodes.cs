@@ -11,5 +11,8 @@ namespace Andrich.UtilityScripts
 
         public const byte DeactivateAllItemBoxesEventCode = 3;
         public const byte ActivateAllItemBoxesEventCode = 4;
+
+        public const byte AddPlayerGotEliminatedToUIEventCode = 5;
+        public const byte AddPlayerRespawnedToUIEventCode = 6;
     }
 }

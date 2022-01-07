@@ -6,8 +6,9 @@ using TMPro;
 using Andrich.UtilityScripts;
 using Photon.Realtime;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
 
-public class InGameUI : MonoBehaviourPunCallbacks
+public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     [Header("Components")]
     [SerializeField] private PhotonView m_PhotonView;
@@ -91,6 +92,16 @@ public class InGameUI : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    public override void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
@@ -117,6 +128,23 @@ public class InGameUI : MonoBehaviourPunCallbacks
         }
 
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        if (photonEvent.Code == EventCodes.AddPlayerGotEliminatedToUIEventCode)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+
+            AddEliminateToUI((string)data[0]);
+        }
+
+        if (photonEvent.Code == EventCodes.AddPlayerRespawnedToUIEventCode)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+
+            AddRespawnToUI((string)data[0], (string)data[1], (bool)data[2]);
+        }
     }
 
     public void AddEliminateToUI(string name)
@@ -226,4 +254,5 @@ public class InGameUI : MonoBehaviourPunCallbacks
     {
         Application.Quit();
     }
+
 }

@@ -141,7 +141,8 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         m_DisableRespawning = true;
         m_CarController.Disable(true);
 
-        m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, deathCause, afterKO);
+        RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
+        //m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, deathCause, afterKO);
         //m_InGameUI.AddRespawnToUI(m_Player.NickName, deathCause, afterKO);
 
         m_PhotonView.RPC("RPC_InstantiateRespawnEffect", RpcTarget.All, afterKO);
@@ -221,7 +222,8 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     private IEnumerator EliminateDelay()
     {
-        m_PhotonView.RPC("RPC_AddEliminateToUI", RpcTarget.All, name);
+        RaiseAddEliminateToUIEvent(m_Player.NickName);
+        //m_PhotonView.RPC("RPC_AddEliminateToUI", RpcTarget.All, name);
         //m_InGameUI.AddEliminateToUI(m_Player.NickName);
 
         if (m_Respawn != null)
@@ -261,16 +263,20 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         m_PhotonView.RPC("RPC_RemovePlayerFromAliveList", RpcTarget.All);
     }
 
-    [PunRPC]
-    private void RPC_AddEliminateToUI(string name)
+    private void RaiseAddEliminateToUIEvent(string name)
     {
-        m_InGameUI.AddEliminateToUI(name);
+        object[] content = new object[] { name };
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerGotEliminatedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
     }
 
-    [PunRPC]
-    private void RPC_AddRespawnToUI(string name, string deathCause, bool afterKO)
+    private void RaiseAddRespawnToUIEvent(string name, string deathCause, bool afterKO)
     {
-        m_InGameUI.AddRespawnToUI(name, deathCause, afterKO);
+        object[] content = new object[] { name, deathCause, afterKO };
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerRespawnedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
     }
 
     [PunRPC]

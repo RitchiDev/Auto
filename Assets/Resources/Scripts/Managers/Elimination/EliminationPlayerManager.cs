@@ -11,18 +11,6 @@ public class EliminationPlayerManager : PlayerManager
     private GameObject m_PlayerGameObject;
     private PhotonView m_PhotonView;
 
-    [Header("UI")]
-    [SerializeField] private Transform m_DeadPlayerListContainer;
-
-    [Header("Respawn")]
-    [SerializeField] private GameObject m_RespawnedPlayerItemPrefab;
-
-    [Header("Respawn After KO")]
-    [SerializeField] private GameObject m_KOdPlayerItemPrefab;
-
-    [Header("Eliminated")]
-    [SerializeField] private GameObject m_EliminatedPlayerItemPrefab;
-
     private void Awake()
     {
         m_PhotonView = GetComponent<PhotonView>();

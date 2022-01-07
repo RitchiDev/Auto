@@ -115,7 +115,7 @@ public class ItemController : MonoBehaviourPunCallbacks
                 yield return new WaitForSeconds(time / count);
             }
 
-            Debug.Log("Looped: " + l);
+            //Debug.Log("Looped: " + l);
         }
 
 
@@ -218,6 +218,8 @@ public class ItemController : MonoBehaviourPunCallbacks
             }
 
             m_PlayerController.KO(aura.Owner.NickName);
+            aura.Owner.AddKO(1);
+            aura.Owner.AddScore(250);
         }
     }
 }

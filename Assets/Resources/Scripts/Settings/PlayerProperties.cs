@@ -8,6 +8,7 @@ namespace Andrich.UtilityScripts
     {
         public const string ScoreProperty = "PlayerScore";
         public const string DeathsProperty = "PlayerDeaths";
+        public const string KOsProperty = "PlayerKOs";
         public const string IsReadyProperty = "PlayerIsReady";
         public const string LoadedLevelProperty = "PlayerLoadedLevel";
         public const string VotedRematchProperty = "PlayerVotedRematch";
@@ -76,6 +77,39 @@ namespace Andrich.UtilityScripts
             if (player.CustomProperties.TryGetValue(PlayerProperties.DeathsProperty, out deaths))
             {
                 return (int)deaths;
+            }
+
+            return 0;
+        }
+    }
+
+    public static class KOsExtensions
+    {
+        public static void SetKOs(this Player player, int newKOs)
+        {
+            PhotonHashtable kOs = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            kOs[PlayerProperties.KOsProperty] = newKOs;
+
+            player.SetCustomProperties(kOs);  // this locally sets the KOs and will sync it in-game asap.
+        }
+
+        public static void AddKO(this Player player, int kOsToAdd)
+        {
+            int current = player.GetKOs();
+            current = current + kOsToAdd;
+
+            PhotonHashtable kOs = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            kOs[PlayerProperties.KOsProperty] = current;
+
+            player.SetCustomProperties(kOs);  // this locally sets the KOs and will sync it in-game asap.
+        }
+
+        public static int GetKOs(this Player player)
+        {
+            object kOs;
+            if (player.CustomProperties.TryGetValue(PlayerProperties.KOsProperty, out kOs))
+            {
+                return (int)kOs;
             }
 
             return 0;
