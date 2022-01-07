@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6311919235464344837}
   - component: {fileID: 7147201535796642059}
   - component: {fileID: 3882775484965537870}
-  - component: {fileID: 5236666219861752102}
-  m_Layer: 0
+  - component: {fileID: 457140855932561847}
+  m_Layer: 15
   m_Name: RocketProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1333e4e34766a994d976c31f0b9316a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExplosionRadius: 1
   m_ExplosionAreaPrefab: {fileID: 5129232849599381089, guid: d9bf03f5e23fdc94bb5986e0113e5171,
     type: 3}
   m_HitEffectPrefab: {fileID: 421918935609344216, guid: 65d1c2619c3ce784a85df66fd9c3ca95,
@@ -83,7 +82,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5236666219861752102
+--- !u!114 &457140855932561847
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,13 +91,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 453504171555344379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bbd9906436c74b409431ac3058d77ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &989705509285340944
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2320377535161672879}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +136,7 @@ GameObject:
   - component: {fileID: 5069952497053893458}
   - component: {fileID: 4216575063031024564}
   - component: {fileID: 6228918239582258093}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,6 +217,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spark
+      objectReference: {fileID: 0}
+    - target: {fileID: 8823783663042039284, guid: 41073e5f8bb0a0a45b4749ffee436c32,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824265898436315456, guid: 41073e5f8bb0a0a45b4749ffee436c32,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8826308197885440488, guid: 41073e5f8bb0a0a45b4749ffee436c32,
         type: 3}

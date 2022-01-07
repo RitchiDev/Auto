@@ -6,9 +6,6 @@ using Andrich.UtilityScripts;
 
 public class RocketProjectile : MonoBehaviour
 {
-    [Header("Misc")]
-    [SerializeField] private float m_ExplosionRadius = 1;
-
     [Header("Prefabs")]
     [SerializeField] private GameObject m_ExplosionAreaPrefab;
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 768994299163079936}
   - component: {fileID: 768994299143680070}
   - component: {fileID: 768994299143768550}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4947,7 +4947,7 @@ GameObject:
   - component: {fileID: 344989757812715055}
   - component: {fileID: 8043395941216623578}
   - component: {fileID: 5459857588135196833}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Small Explosion Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4981,7 +4981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c22161752851646ac2fc7a475ebb69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ActiveTime: 0.99
+  m_ActiveTime: 0.3
 --- !u!135 &5459857588135196833
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5004,7 +5004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3119425683259553907}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}

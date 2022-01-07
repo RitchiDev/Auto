@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2720560245142812294}
   - component: {fileID: 1328144856262277411}
   - component: {fileID: 3858023558405328361}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 8175932910268828264}
   - component: {fileID: 8175932910268828267}
   - component: {fileID: 7186204284098628929}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Fake Item Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}

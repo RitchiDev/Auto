@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3998561918211863261}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 3998561919316156195}
   - component: {fileID: -3477045290173900564}
   - component: {fileID: 4008579580139055966}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Demolition Aura Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,6 +98,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3998561918211863261}
     m_Modifications:
+    - target: {fileID: 7824880230027344625, guid: e2f7b4c1c5985024898b61bd264ba1b2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824880230027344627, guid: e2f7b4c1c5985024898b61bd264ba1b2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824880230027344629, guid: e2f7b4c1c5985024898b61bd264ba1b2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 8652282132162945027, guid: e2f7b4c1c5985024898b61bd264ba1b2,
         type: 3}
       propertyPath: m_RootOrder
@@ -157,6 +172,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CFX4 Demolition Aura
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654475104451477347, guid: e2f7b4c1c5985024898b61bd264ba1b2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2f7b4c1c5985024898b61bd264ba1b2, type: 3}

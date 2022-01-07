@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class SyncRigidbodyPosition : MonoBehaviourPun
+public class SyncRigidbodyPosition : MonoBehaviour, IPunObservable
 {
-    [SerializeField] private float m_Smoothing = 1f;
     private Vector3 m_NetworkPosition;
     private Quaternion m_NetworkRotation;
     private Rigidbody m_Rigidbody;
@@ -15,13 +14,10 @@ public class SyncRigidbodyPosition : MonoBehaviourPun
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (!photonView.IsMine)
-        {
-            m_Rigidbody.position = Vector3.MoveTowards(m_Rigidbody.position, m_NetworkPosition, Time.fixedDeltaTime);
-            m_Rigidbody.rotation = Quaternion.RotateTowards(m_Rigidbody.rotation, m_NetworkRotation, Time.fixedDeltaTime * 100.0f);
-        }
+        m_Rigidbody.position = Vector3.MoveTowards(m_Rigidbody.position, m_NetworkPosition, Time.fixedDeltaTime);
+        m_Rigidbody.rotation = Quaternion.RotateTowards(m_Rigidbody.rotation, m_NetworkRotation, Time.fixedDeltaTime * 100.0f);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -38,7 +34,7 @@ public class SyncRigidbodyPosition : MonoBehaviourPun
             m_NetworkRotation = (Quaternion)stream.ReceiveNext();
             m_Rigidbody.velocity = (Vector3)stream.ReceiveNext();
 
-            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTimestamp));
             m_NetworkPosition += (this.m_Rigidbody.velocity * lag);
         }
     }
