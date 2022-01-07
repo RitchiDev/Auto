@@ -63,7 +63,7 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.15
-  m_Height: 1.5
+  m_Height: 1.8
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3882775484965537870
@@ -217,16 +217,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spark
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823783663042039284, guid: 41073e5f8bb0a0a45b4749ffee436c32,
-        type: 3}
-      propertyPath: m_Layer
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8824265898436315456, guid: 41073e5f8bb0a0a45b4749ffee436c32,
-        type: 3}
-      propertyPath: m_Layer
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8826308197885440488, guid: 41073e5f8bb0a0a45b4749ffee436c32,
         type: 3}

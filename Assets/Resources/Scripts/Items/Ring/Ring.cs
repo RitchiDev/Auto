@@ -14,6 +14,8 @@ public class Ring : MonoBehaviour
     [SerializeField] private AudioSource m_PickUpNoise;
     [SerializeField] private GameObject m_FloatingTextPrefab;
     [SerializeField] private int m_ScoreToAdd = 50;
+    [SerializeField] private GameObject m_Effects;
+
     public int Worth => m_ScoreToAdd;
 
     private IEnumerator m_ReActivate;
@@ -57,12 +59,14 @@ public class Ring : MonoBehaviour
     {
         m_MeshRenderer.enabled = true;
         m_Collider.enabled = true;
+        m_Effects.SetActive(true);
     }
 
     public void Deactivate(bool reActivate = true)
     {
         m_MeshRenderer.enabled = false;
         m_Collider.enabled = false;
+        m_Effects.SetActive(false);
 
         if (reActivate)
         {
