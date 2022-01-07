@@ -39,12 +39,22 @@ public class ItemBox : MonoBehaviour
 
     public void Activate()
     {
+        if (m_ReActivate != null)
+        {
+            StopCoroutine(m_ReActivate);
+        }
+
         m_MeshRenderer.enabled = true;
         m_Collider.enabled = true;
     }
 
     public void Deactivate(bool reActivate = true)
     {
+        if (m_ReActivate != null)
+        {
+            StopCoroutine(m_ReActivate);
+        }
+
         m_MeshRenderer.enabled = false;
         m_Collider.enabled = false;
 

@@ -261,13 +261,13 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     private void RaiseDeactivateAllItemBoxesEvent()
     {
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllItemBoxesEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllItemBoxesEventCode, null, raiseEventOptions, SendOptions.SendReliable);
     }
 
     private void RaiseActivateAllItemBoxesEvent()
     {
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(EventCodes.ActivateAllItemBoxesEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent(EventCodes.ActivateAllItemBoxesEventCode, null, raiseEventOptions, SendOptions.SendReliable);
     }
 
     private void SetTime(double time)

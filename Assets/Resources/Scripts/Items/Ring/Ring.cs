@@ -57,6 +57,11 @@ public class Ring : MonoBehaviour
 
     public void Activate()
     {
+        if (m_ReActivate != null)
+        {
+            StopCoroutine(m_ReActivate);
+        }
+
         m_MeshRenderer.enabled = true;
         m_Collider.enabled = true;
         m_Effects.SetActive(true);
@@ -64,6 +69,11 @@ public class Ring : MonoBehaviour
 
     public void Deactivate(bool reActivate = true)
     {
+        if (m_ReActivate != null)
+        {
+            StopCoroutine(m_ReActivate);
+        }
+
         m_MeshRenderer.enabled = false;
         m_Collider.enabled = false;
         m_Effects.SetActive(false);
