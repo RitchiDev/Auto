@@ -11,11 +11,11 @@ public abstract class Item : MonoBehaviour
         rocket = 1,
         shield = 2,
         demolitionAura = 3,
-
+        fakeItemBox = 4,
     }
 
-    [SerializeField] protected Type m_ItemType;
-    public Type ItemType => m_ItemType;
+    [SerializeField] private ItemData m_ItemData;
+    public ItemData ItemData => m_ItemData;
 
     protected Player m_Owner;
     public Player Owner => m_Owner;

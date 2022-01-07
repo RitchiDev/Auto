@@ -8,7 +8,6 @@ using Photon.Realtime;
 
 public class CarMaterialSelector : MonoBehaviour
 {
-    [SerializeField] private PlayerInRoomItem m_PlayerItem;
     [SerializeField] private Image m_PrimaryColorImage;
     [SerializeField] private Image m_PrimarySpriteColorImage;
     [SerializeField] private Image m_SecondaryColorImage;
@@ -21,16 +20,12 @@ public class CarMaterialSelector : MonoBehaviour
     {
         m_Player = player;
 
-        if (PhotonNetwork.LocalPlayer == player)
-        {
-            ChangePrimaryCarMaterial(PhotonNetwork.LocalPlayer.GetPrimaryMaterialIndex());
-            ChangeSecondaryCarMaterial(PhotonNetwork.LocalPlayer.GetSecondaryMaterialIndex());
-        }
+        UpdateCarSprite(player);
     }
 
     public void UpdateCarSprite(Player player)
     {
-        if (player == m_PlayerItem.Player)
+        if (player == m_Player)
         {
             m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(player.GetPrimaryMaterialIndex());
             m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(player.GetPrimaryMaterialIndex());

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Andrich.UtilityScripts;
+using Photon.Realtime;
 
 public class Ring : MonoBehaviour
 {
@@ -32,11 +33,24 @@ public class Ring : MonoBehaviour
             FloatyText floatyText = Instantiate(m_FloatingTextPrefab, transform.position, Quaternion.identity).GetComponentInChildren<FloatyText>();
             floatyText.SetUp(m_ScoreToAdd.ToString(), m_MeshRenderer.materials[0]);
 
-            playerController.Player.AddScore(m_ScoreToAdd);
-            bool reActivate = m_ScoreToAdd <= 499;
+            playerController.Owner.AddScore(m_ScoreToAdd);
 
-            Deactivate(reActivate);
+            if(m_ScoreToAdd >= 500)
+            {
+                RaiseActivateNew500RingEvent();
+                Deactivate(false);
+            }
+            else
+            {
+                Deactivate(true);
+            }
         }
+    }
+
+    private void RaiseActivateNew500RingEvent()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllItemBoxesEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
     }
 
     public void Activate()

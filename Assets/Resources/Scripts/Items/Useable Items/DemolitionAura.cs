@@ -8,6 +8,11 @@ public class DemolitionAura : UseableItem
     {
         gameObject.SetActive(true);
 
+        if (m_UseTimerCoroutine != null)
+        {
+            StopCoroutine(m_UseTimerCoroutine);
+        }
+
         m_UseTimerCoroutine = UseTimer();
         StartCoroutine(m_UseTimerCoroutine);
     }

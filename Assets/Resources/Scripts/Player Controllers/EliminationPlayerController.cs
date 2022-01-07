@@ -20,7 +20,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     private Rigidbody m_Rigidbody;
     private PlayerManager m_PlayerManager;
     private Player m_Player;
-    public Player Player => m_Player;
+    public Player Owner => m_Player;
 
     [Header("Controls")]
     [SerializeField] private KeyCode m_RespawnKey = KeyCode.F;

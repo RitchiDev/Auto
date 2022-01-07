@@ -33,6 +33,11 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             Instance = this;
         }
 
+        //Restart();
+    }
+
+    private void Start()
+    {
         Restart();
     }
 
@@ -45,6 +50,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             //StopAllCoroutines();
             PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
             RaiseActivateAllItemBoxesEvent();
+            RaiseDeactivateAllRingsEvent();
         }
 
         if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
@@ -266,6 +272,11 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
     private void SetTime(double time)
     {
+        if(!PhotonNetwork.IsConnected)
+        {
+            return;
+        }
+
         if (PhotonNetwork.CurrentRoom != null)
         {
             PhotonNetwork.CurrentRoom.SetTime(time);
@@ -305,7 +316,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         if (m_PlayerControllerToEliminate)
         {
             //Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
-            m_PlayerControllerToEliminate.Player.SetIfEliminated(true);
+            m_PlayerControllerToEliminate.Owner.SetIfEliminated(true);
             m_PlayerControllerToEliminate.Eliminate();
         }
     }
@@ -321,7 +332,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         RaiseDeactivateAllItemBoxesEvent();
         //RingManager.Instance.DeactiveAllRings();
 
-        PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Player);
+        PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Owner);
         PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(true);
     }
 
@@ -345,7 +356,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
             //Debug.Log("The score of current checked player: " + currentPlayerController.Player.NickName + " (" + currentPlayerController.Player.GetScore() + ")" + " and player with lowest score: " + m_PlayerControllerToEliminate.Player.NickName + " (" + m_PlayerControllerToEliminate.Player.GetScore() + ")");
 
-            if (currentPlayerController.Player.GetScore() < m_PlayerControllerToEliminate.Player.GetScore())
+            if (currentPlayerController.Owner.GetScore() < m_PlayerControllerToEliminate.Owner.GetScore())
             {
                 //Debug.Log("The score of: " + currentPlayerController.Player.NickName + " is lower than: " + m_PlayerControllerToEliminate.Player.NickName);
                 m_PlayerControllerToEliminate = currentPlayerController;

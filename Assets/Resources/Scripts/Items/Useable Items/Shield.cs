@@ -9,6 +9,11 @@ public class Shield : UseableItem
         m_OwnerItemController.SetShielded(true);
         gameObject.SetActive(true);
 
+        if(m_UseTimerCoroutine != null)
+        {
+            StopCoroutine(m_UseTimerCoroutine);
+        }
+
         m_UseTimerCoroutine = UseTimer();
         StartCoroutine(m_UseTimerCoroutine);
     }

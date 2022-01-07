@@ -49,6 +49,11 @@ public class RingManager : MonoBehaviour, IOnEventCallback
         {
             DeactiveAllRings();
         }
+
+        if(eventCode == EventCodes.ActivateNew500RingEventCode)
+        {
+            ActivateNew500Ring();
+        }
     }
 
     private void SetRings()
@@ -67,21 +72,25 @@ public class RingManager : MonoBehaviour, IOnEventCallback
             }
         }
 
-        DeactiveAllRings();
+        //DeactiveAllRings();
     }
 
     public void ActivateAllRings()
     {
+        Debug.Log("Activating all rings!");
+
         for (int i = 0; i < m_Rings.Count; i++)
         {
             m_Rings[i].Activate();
         }
 
-        SetNew500RingActive();
+        ActivateNew500Ring();
     }
 
     public void DeactiveAllRings()
     {
+        Debug.Log("Deactivating all rings!");
+
         for (int i = 0; i < m_Rings.Count; i++)
         {
             m_Rings[i].Deactivate(false);
@@ -93,9 +102,11 @@ public class RingManager : MonoBehaviour, IOnEventCallback
         }
     }
 
-    public void SetNew500RingActive()
+    public void ActivateNew500Ring()
     {
-        if(m_RingsWorth500.Count <= 0)
+        Debug.Log("Activating new 500 ring!");
+
+        if (m_RingsWorth500.Count <= 0)
         {
             Debug.Log("There are no rings worth 500 in the scene!");
             return;

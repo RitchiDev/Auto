@@ -35,6 +35,7 @@ public class EliminationPlayerManager : PlayerManager
             Player player = PhotonNetwork.LocalPlayer;
             player.SetScore(0);
             player.SetDeaths(0);
+            player.SetKOs(0);
             player.SetReadyState(false);
             player.SetVotedRematchState(false);
             player.SetIfEliminated(false);
