@@ -6,8 +6,14 @@ using Andrich.UtilityScripts;
 
 public class ItemBox : MonoBehaviour
 {
-    [SerializeField] private float m_TimeBeforeReActivation = 20f;
+    [Header("Components")]
     [SerializeField] private MeshRenderer m_MeshRenderer;
+
+    [Header("Misc")]
+    [SerializeField] private float m_TimeBeforeReActivation = 20f;
+
+    [Header("Effects")]
+    [SerializeField] private GameObject m_PickUpEffect;
 
     //private PhotonView m_PhotonView;
     private Collider m_Collider;
@@ -26,6 +32,7 @@ public class ItemBox : MonoBehaviour
         if(itemController)
         {
             itemController.StartItemRoulette();
+            Instantiate(m_PickUpEffect, transform.position, transform.rotation);
             Deactivate();
         }
     }

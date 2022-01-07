@@ -4899,7 +4899,7 @@ GameObject:
   - component: {fileID: 1381898603274857106}
   - component: {fileID: 1381898603274949426}
   m_Layer: 0
-  m_Name: CFX2 Item Box
+  m_Name: CFX2 Item Box PickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
