@@ -3,18 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FakeItemBox : MonoBehaviour
+public class FakeItemBox : Projectile
 {
-    private Player m_Owner;
-    public Player Owner => m_Owner;
-
     [Header("Effects")]
     [SerializeField] private GameObject m_HitEffectPrefab;
-
-    public void SetOwner(Player owner)
-    {
-        m_Owner = owner;
-    }
 
     private void Deactivate()
     {
@@ -47,6 +39,7 @@ public class FakeItemBox : MonoBehaviour
         //Debug.Log("hoi");
         if (itemController)
         {
+            itemController.HitByProjectile(this);
             Deactivate();
 
             return true;

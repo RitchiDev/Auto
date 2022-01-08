@@ -32,10 +32,18 @@ public class ItemController : MonoBehaviourPunCallbacks
     private List<Item> m_Items = new List<Item>();
     private ItemData m_CurrentItemData;
 
+    [Header("Effects")]
+    [SerializeField] private GameObject m_StaticEffect;
+
+    [Header("Stunned")]
+    [SerializeField] private float m_MaxStunnedTime;
+    private IEnumerator m_StunnedTimer;
+
     [Header("Misc")]
     [SerializeField] private GameObject m_ItemHolder;
     private bool m_IsShielded;
     private bool m_GameHasBeenWon;
+    private bool m_Stunned;
 
     private void Awake()
     {
@@ -44,12 +52,13 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        SetStunned(false);
         InstantiateItems();
     }
 
     private void Update()
     {
-        if(!m_PhotonView.IsMine || m_GameHasBeenWon)
+        if(!m_PhotonView.IsMine || m_GameHasBeenWon || m_Stunned)
         {
             return;
         }
@@ -73,6 +82,33 @@ public class ItemController : MonoBehaviourPunCallbacks
         }
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+    public void SetStunned(bool isStunned)
+    {
+        m_StaticEffect.SetActive(isStunned);
+        m_Stunned = isStunned;
+        m_PlayerController.SetStunned(isStunned);
+
+        if(isStunned)
+        {
+            m_StunnedTimer = StunnedTimer();
+            StartCoroutine(m_StunnedTimer);
+        }
+    }
+
+    private IEnumerator StunnedTimer()
+    {
+        float totalTime = m_MaxStunnedTime;
+
+        while (totalTime >= 0)
+        {
+            totalTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        SetStunned(false);
     }
 
     private void InstantiateItems()
@@ -206,17 +242,52 @@ public class ItemController : MonoBehaviourPunCallbacks
         {
             m_Items[i].SetActive(false);
         }
+
+        SetStunned(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         CheckIfEnteredDemolitionAura(other);
 
-        CheckIfHitByRocket(other);
-
         CheckIfHitByExplosionArea(other);
+    }
 
-        CheckIfHitByFakeItemBox(other);
+    public void HitByProjectile(Projectile projectile)
+    {
+        if (CheckIfShieldGotHit())
+        {
+            return;
+        }
+
+        switch (projectile.ItemType)
+        {
+            case Item.Type.notSet:
+                break;
+            case Item.Type.rocket:
+
+                KO(projectile.Owner.NickName);
+
+                break;
+            case Item.Type.shield:
+
+                break;
+            case Item.Type.demolitionAura:
+
+                break;
+            case Item.Type.fakeItemBox:
+                
+                SetStunned(true);
+
+                break;
+            default:
+                break;
+        }
+
+        if(projectile.Owner != Owner)
+        {
+            projectile.Owner.AddScore(250);
+        }
     }
 
     private void CheckIfEnteredDemolitionAura(Collider other)
@@ -238,47 +309,27 @@ public class ItemController : MonoBehaviourPunCallbacks
             aura.Owner.AddKO(1);
             aura.Owner.AddScore(250);
 
-            if(m_PhotonView.IsMine)
-            {
-                KO(aura.Owner.NickName);
-            }
+            KO(aura.Owner.NickName);
         }
     }
 
-    private void CheckIfHitByRocket(Collider other)
+    private bool CheckIfShieldGotHit()
     {
-        RocketProjectile rocket = other.GetComponent<RocketProjectile>();
-
-        if (rocket)
+        if (m_IsShielded)
         {
-            if (rocket.Owner == m_PlayerController.Owner)
+            for (int i = 0; i < m_Items.Count; i++)
             {
-                return;
-            }
-
-            if (m_IsShielded)
-            {
-                for (int i = 0; i < m_Items.Count; i++)
+                if (m_Items[i].ItemData.ItemType == Item.Type.shield)
                 {
-                    if (m_Items[i].ItemData.ItemType == Item.Type.shield)
-                    {
-                        m_Items[i].SetActive(false);
-                        m_IsShielded = false;
-                        break;
-                    }
+                    m_Items[i].SetActive(false);
+                    m_IsShielded = false;
+
+                    return true;
                 }
-
-                return;
-            }
-
-            rocket.Owner.AddScore(250);
-            rocket.Owner.AddKO(1);
-
-            if(m_PhotonView.IsMine)
-            {
-                KO(rocket.Owner.NickName);
             }
         }
+
+        return false;
     }
 
     private void CheckIfHitByExplosionArea(Collider other)
@@ -308,49 +359,15 @@ public class ItemController : MonoBehaviourPunCallbacks
                 explosionArea.Owner.AddKO(1);
             }
 
-            if (m_PhotonView.IsMine)
-            {
-                KO(explosionArea.Owner.NickName);
-            }
-        }
-    }
-
-    private void CheckIfHitByFakeItemBox(Collider other)
-    {
-        FakeItemBox fakeItemBox = other.GetComponent<FakeItemBox>();
-
-        if (fakeItemBox)
-        {
-            if (m_IsShielded)
-            {
-                for (int i = 0; i < m_Items.Count; i++)
-                {
-                    if (m_Items[i].ItemData.ItemType == Item.Type.shield)
-                    {
-                        m_Items[i].SetActive(false);
-                        m_IsShielded = false;
-                        break;
-                    }
-                }
-
-                return;
-            }
-
-            if (fakeItemBox.Owner != m_PlayerController.Owner)
-            {
-                fakeItemBox.Owner.AddScore(250);
-                fakeItemBox.Owner.AddKO(1);
-            }
-
-            if (m_PhotonView.IsMine)
-            {
-                KO(fakeItemBox.Owner.NickName);
-            }
+            KO(explosionArea.Owner.NickName);
         }
     }
 
     public void KO(string deathcause)
     {
-        m_PlayerController.KO(deathcause);
+        if(m_PhotonView.IsMine)
+        {
+            m_PlayerController.KO(deathcause);
+        }
     }
 }

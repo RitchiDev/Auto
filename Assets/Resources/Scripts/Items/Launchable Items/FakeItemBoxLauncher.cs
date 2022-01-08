@@ -11,7 +11,7 @@ public class FakeItemBoxLauncher : LaunchableItem
 
     private void SetFakeItemBoxActive()
     {
-        FakeItemBox fakeItemBox = Instantiate(m_ProjectilePrefab, m_OwnerItemController.CurrentFirepoint.position, transform.rotation).GetComponent<FakeItemBox>();
+        FakeItemBox fakeItemBox = Instantiate(m_ProjectilePrefab, m_OwnerItemController.CurrentFirepoint.position, Quaternion.identity).GetComponent<FakeItemBox>();
         fakeItemBox.SetOwner(m_Owner);
     }
 }

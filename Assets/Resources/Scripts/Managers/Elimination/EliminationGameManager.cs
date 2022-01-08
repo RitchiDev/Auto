@@ -21,6 +21,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     private EliminationPlayerController m_PlayerControllerToEliminate;
     private double m_CurrentTime;
 
+    private IEnumerator m_CountdownCoroutine;
+
     private void Awake()
     {
         if (Instance)
@@ -43,6 +45,11 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
     public void Restart()
     {
+        if(m_CountdownCoroutine != null)
+        {
+            StopCoroutine(m_CountdownCoroutine);
+        }
+
         m_AlivePlayers.Clear();
 
         if (PhotonNetwork.IsMasterClient)
@@ -159,7 +166,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log("Started Game");
                 //Debug.Log("Alive Players: " + m_AlivePlayers.Count);
-                StartCoroutine(TimeBeforeEliminateStartsCountdown());
+                m_CountdownCoroutine = TimeBeforeEliminateStartsCountdown();
+                StartCoroutine(m_CountdownCoroutine);
             }
         }
 
@@ -177,12 +185,14 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         {
             if(PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
             {
-                StartCoroutine(TimeBeforeEliminateStartsCountdown());
+                m_CountdownCoroutine = TimeBeforeEliminateStartsCountdown();
             }
             else
             {
-                StartCoroutine(EliminateCountdown());
+                m_CountdownCoroutine = EliminateCountdown();
             }
+
+            StartCoroutine(m_CountdownCoroutine);
         }
 
         base.OnMasterClientSwitched(newMasterClient);
@@ -212,7 +222,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
         if (m_AlivePlayers.Count >= 2)
         {
-            StartCoroutine(EliminateCountdown());
+            m_CountdownCoroutine = EliminateCountdown();
+            StartCoroutine(m_CountdownCoroutine);
         }
     }
 
@@ -239,7 +250,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
         CheckForElimination();
 
-        StartCoroutine(TimeBeforeEliminateStartsCountdown());
+        m_CountdownCoroutine = TimeBeforeEliminateStartsCountdown();
+        StartCoroutine(m_CountdownCoroutine);
     }
 
     private void RaiseActivateAllRingsEvent()

@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Andrich.UtilityScripts;
 
-public class RocketProjectile : MonoBehaviour
+public class RocketProjectile : Projectile
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject m_ExplosionAreaPrefab;
@@ -13,17 +13,10 @@ public class RocketProjectile : MonoBehaviour
     [SerializeField] private GameObject m_HitEffectPrefab;
 
     private Rigidbody m_Rigidbody;
-    private Player m_Owner;
-    public Player Owner => m_Owner;
 
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-    }
-
-    public void SetOwner(Player owner)
-    {
-        m_Owner = owner;
     }
 
     public void Launch(Vector3 launchDirection, float LaunchPower)
@@ -70,6 +63,7 @@ public class RocketProjectile : MonoBehaviour
                 return true;
             }
 
+            itemController.HitByProjectile(this);
             Deactivate();
 
             return true;

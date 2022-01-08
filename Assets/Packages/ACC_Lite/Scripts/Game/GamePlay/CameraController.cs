@@ -20,7 +20,8 @@ public class CameraController : MonoBehaviour
 	CameraPreset ActivePreset;
 
 	float SqrMinDistance;
-	
+	private bool m_Freeze;
+
 	private void Awake()
 	{
 		if (transform.parent)
@@ -47,8 +48,9 @@ public class CameraController : MonoBehaviour
 
 	private void Update()
 	{
-		if (!m_PhotonView.IsMine)
+		if (!m_PhotonView.IsMine || m_Freeze)
 		{
+			Debug.Log("Froze");
 			return;
 		}
 
@@ -72,10 +74,7 @@ public class CameraController : MonoBehaviour
 			CamerasPreset[i].CameraHolder.gameObject.isStatic = doFreeze;
 		}
 
-		if(!doFreeze)
-		{
-			UpdateRotation();
-		}
+		m_Freeze = doFreeze;
 	}
 
 	public void SetNextCamera()

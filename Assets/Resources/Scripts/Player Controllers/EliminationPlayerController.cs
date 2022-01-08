@@ -45,6 +45,9 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject m_EliminateEffect;
     private IEnumerator m_Eliminate;
 
+    [Header("UI")]
+    [SerializeField] private GameObject m_UsernameText;
+
     [Header("Misc")]
     private bool m_GameHasBeenWon;
 
@@ -138,6 +141,8 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     private IEnumerator RespawnDelay(string deathCause, bool afterKO)
     {
+        Vector3 freezePoisition = transform.position;
+
         m_DisableRespawning = true;
         m_CarController.Disable(true);
 
@@ -156,6 +161,8 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
         while (totalTime >= 0)
         {
+            transform.position = freezePoisition;
+
             totalTime -= Time.deltaTime;
 
             yield return null;
@@ -189,21 +196,27 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         if(doFreeze)
         {
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            m_Rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
             m_Rigidbody.velocity = Vector3.zero;
             m_Rigidbody.useGravity = false;
             m_Rigidbody.freezeRotation = true;
-            gameObject.isStatic = true;
-            m_Camera.isStatic = true;
         }
         else
         {
             m_Rigidbody.constraints = RigidbodyConstraints.None;
             m_Rigidbody.useGravity = true;
             m_Rigidbody.freezeRotation = false;
-            gameObject.isStatic = false;
-            m_Camera.isStatic = false;
         }
+    }
+
+    public void SetStunned(bool isStunned)
+    {
+        if(m_DisableRespawning)
+        {
+            return;
+        }
+
+        FreezeRigidbody(isStunned);
+        m_CarController.Disable(isStunned);
     }
 
     public void Eliminate()
@@ -285,6 +298,14 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         for (int i = 0; i < m_ObjectsToHideDuringRespawn.Count; i++)
         {
             m_ObjectsToHideDuringRespawn[i].SetActive(value);
+        }
+
+        if (m_UsernameText)
+        {
+            if (m_PhotonView.IsMine && m_Player != PhotonNetwork.LocalPlayer)
+            {
+                m_UsernameText.SetActive(value);
+            }
         }
 
         m_Collider.enabled = value;
