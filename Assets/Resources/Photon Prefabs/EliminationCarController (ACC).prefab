@@ -7719,12 +7719,12 @@ PrefabInstance:
     - target: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8935410329842561349, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
@@ -7786,6 +7786,11 @@ PrefabInstance:
       propertyPath: m_PhotonView
       value: 
       objectReference: {fileID: 5544605212539157620}
+    - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
+        type: 3}
+      propertyPath: CamerasPreset.Array.data[0].MinDistanceForRotation
+      value: 0.01
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee550c520d95334e84e4c4437f67df3, type: 3}
 --- !u!4 &2976214869963246165 stripped

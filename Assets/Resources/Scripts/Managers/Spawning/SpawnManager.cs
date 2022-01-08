@@ -5,8 +5,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private LayerMask m_LayerMask;
     [SerializeField] private Vector3 m_PlayerDetectionSize = new Vector3(6f, 6f, 6f);
     private List<Spawnpoint> m_Spawnpoints  = new List<Spawnpoint>();
-    private List<Spawnpoint> m_AvailableSpawnPoints = new List<Spawnpoint>();
-    private int m_PreviousIndex;
     public static SpawnManager Instance { get; private set; }
 
     private void Awake()
@@ -27,20 +25,16 @@ public class SpawnManager : MonoBehaviour
         {
             m_Spawnpoints.Add(spawnpoint);
         }
-
-        m_AvailableSpawnPoints = m_Spawnpoints;
     }
 
-    public Transform GetSpawnPoint()
+    public Transform GetSpawnPoint(int index)
     {
-        int index = Random.Range(0, m_Spawnpoints.Count- 1);
-
-        while (index == m_PreviousIndex)
+        if(index > m_Spawnpoints.Count || index < 0)
         {
-            index = Random.Range(0, m_Spawnpoints.Count - 1);
+            Debug.LogWarning("Index is out of range!");
+            return GetRandomSpawnPoint();
         }
 
-        m_PreviousIndex = index;
         return m_Spawnpoints[index].transform;
     }
 

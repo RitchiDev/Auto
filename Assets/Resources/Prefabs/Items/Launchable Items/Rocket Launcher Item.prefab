@@ -47,4 +47,4 @@ MonoBehaviour:
   m_ProjectilePrefab: {fileID: 453504171555344379, guid: dd27ecc4ac1a17f43a5d7d77ce2e0e55,
     type: 3}
   m_LaunchDirection: {x: 0, y: 0, z: 1}
-  m_LaunchPower: 80
+  m_LaunchPower: 90

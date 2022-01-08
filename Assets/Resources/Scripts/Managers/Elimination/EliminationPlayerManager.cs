@@ -14,13 +14,12 @@ public class EliminationPlayerManager : PlayerManager
     private void Awake()
     {
         m_PhotonView = GetComponent<PhotonView>();
-
-        Restart();
+        //Restart();
     }
 
     private void Start()
     {
-        //Restart();   
+        Restart();
     }
 
     public override void Restart()
@@ -46,7 +45,7 @@ public class EliminationPlayerManager : PlayerManager
 
     public override void CreatePlayerController()
     {
-        Transform spawnPoint = SpawnManager.Instance.GetRandomSpawnPoint();
+        Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint(PhotonNetwork.LocalPlayer.ActorNumber - 1);
 
         object[] data = new object[] { m_PhotonView.ViewID };
         byte group = 0;

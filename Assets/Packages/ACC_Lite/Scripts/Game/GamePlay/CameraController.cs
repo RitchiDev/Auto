@@ -36,12 +36,7 @@ public class CameraController : MonoBehaviour
 
 		CamerasPreset.ForEach (c => c.CameraHolder.SetActive (false));
 
-		UpdateActiveCamera ();
-
-		//CamerasPreset[0].CameraHolder.transform.localPosition = Vector3.zero;
-		//Quaternion rotation = Quaternion.LookRotation(TargetPoint - transform.position, Vector3.up);
-		//ActivePreset.CameraHolder.rotation = rotation;
-		//CamerasPreset[0].CameraHolder.transform.localRotation = new Quaternion(0, -198, 0, 0);
+		UpdateActiveCamera();
 
 		if (NextCameraButton)
 		{
@@ -50,23 +45,6 @@ public class CameraController : MonoBehaviour
 	}
 
 
-	//The target point is calculated from velocity of car.
-	Vector3 TargetPoint
-	{
-		get
-		{
-			if (m_CarSetUp == null || m_TargetCar == null)
-			{
-				return transform.position;
-			}
-
-			Vector3 result = m_TargetCar.RB.velocity * ActivePreset.VelocityMultiplier;
-			result += m_TargetCar.transform.position;
-			//result.y = 0;
-			return result;
-		}
-	}
-
 	private void Update()
 	{
 		if (!m_PhotonView.IsMine)
@@ -74,13 +52,12 @@ public class CameraController : MonoBehaviour
 			return;
 		}
 
-		if (ActivePreset.EnableRotation && (TargetPoint - transform.position).sqrMagnitude >= SqrMinDistance)
+		if (ActivePreset.EnableRotation && (TargetPoint() - transform.position).sqrMagnitude >= SqrMinDistance)
 		{
-			Quaternion rotation = Quaternion.LookRotation (TargetPoint - transform.position, Vector3.up);
-			ActivePreset.CameraHolder.rotation = Quaternion.Lerp (ActivePreset.CameraHolder.rotation, rotation, Time.deltaTime * ActivePreset.SetRotationSpeed);
+			UpdateRotation();
 		}
 
-		transform.position = Vector3.LerpUnclamped (transform.position, TargetPoint, Time.deltaTime * ActivePreset.SetPositionSpeed);
+		transform.position = Vector3.LerpUnclamped (transform.position, TargetPoint(), Time.deltaTime * ActivePreset.SetPositionSpeed);
 
 		if (Input.GetKeyDown (SetCameraKey))
 		{
@@ -94,12 +71,17 @@ public class CameraController : MonoBehaviour
 		{
 			CamerasPreset[i].CameraHolder.gameObject.isStatic = doFreeze;
 		}
+
+		if(!doFreeze)
+		{
+			UpdateRotation();
+		}
 	}
 
-	public void SetNextCamera ()
+	public void SetNextCamera()
 	{
 		ActivePresetIndex = MathExtentions.LoopClamp (ActivePresetIndex + 1, 0, CamerasPreset.Count);
-		UpdateActiveCamera ();
+		UpdateActiveCamera();
 	}
 
 	public void UpdateActiveCamera ()
@@ -112,24 +94,45 @@ public class CameraController : MonoBehaviour
 		ActivePreset = CamerasPreset[ActivePresetIndex];
 		ActivePreset.CameraHolder.SetActive (true);
 
-		SqrMinDistance = ActivePreset.MinDistanceForRotation * 2;
+		SqrMinDistance = ActivePreset.MinDistanceForRotation;
 
-		if (ActivePreset.EnableRotation && (TargetPoint - transform.position).sqrMagnitude >= SqrMinDistance)
+		if (ActivePreset.EnableRotation && (TargetPoint() - transform.position).sqrMagnitude >= SqrMinDistance)
 		{
-			Quaternion rotation = Quaternion.LookRotation (TargetPoint - transform.position, Vector3.up);
-			ActivePreset.CameraHolder.rotation = rotation;
+			UpdateRotation();
 		}
+	}
+
+	private void UpdateRotation()
+	{
+		Quaternion rotation = Quaternion.LookRotation(TargetPoint() - transform.position, Vector3.up);
+		rotation.z = 0;
+		rotation.x = 0;
+		ActivePreset.CameraHolder.rotation = Quaternion.Lerp(ActivePreset.CameraHolder.rotation, rotation, Time.deltaTime * ActivePreset.SetRotationSpeed);
+	}
+
+	//The target point is calculated from the velocity of the car.
+	private Vector3 TargetPoint()
+	{
+		if (m_CarSetUp == null || m_TargetCar == null)
+		{
+			return transform.position;
+		}
+
+		Vector3 result = m_TargetCar.RB.velocity * ActivePreset.VelocityMultiplier;
+		result += m_TargetCar.transform.position;
+		//result.y = 0;
+		return result;
 	}
 
 	[System.Serializable]
 	class CameraPreset
 	{
-		public Transform CameraHolder;                  //Parent fo camera.
+		public Transform CameraHolder;                  //Parent for camera.
 		public float SetPositionSpeed = 1;              //Change position speed.
 		public float VelocityMultiplier;                //Velocity of car multiplier.
 
 		public bool EnableRotation;
-		public float MinDistanceForRotation = 0.1f;     //Min distance for potation, To avoid uncontrolled rotation.
+		public float MinDistanceForRotation = 0.1f;     //Min distance for rotation, To avoid uncontrolled rotation.
 		public float SetRotationSpeed = 1;              //Change rotation speed.
 	}
 }
