@@ -54,13 +54,27 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         //PhotonNetwork.OfflineMode = true;
         m_PlayerNameInputField.onValueChanged.AddListener(text => EditingPlayerName(text));
+
+        if(PlayerPrefs.HasKey(SettingsProperties.UsernameProperty))
+        {
+            string savedUsername = PlayerPrefs.GetString(SettingsProperties.UsernameProperty);
+            savedUsername = savedUsername.Replace(" ", "_");
+            savedUsername = savedUsername.ReplaceCurseWords();
+
+            PhotonNetwork.NickName = savedUsername;
+            m_PlayerNameInputField.text = savedUsername;
+        }
     }
 
     private void EditingPlayerName(string value)
     {
         value = value.Replace(" ", "_");
+        value = value.ReplaceCurseWords();
+
+        PlayerPrefs.SetString(SettingsProperties.UsernameProperty, value);
+
         m_PlayerNameInputField.text = value;
-        PhotonNetwork.NickName = m_PlayerNameInputField.text;
+        PhotonNetwork.NickName = value;
     }
 
     public void PlayOnline()
@@ -160,11 +174,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         m_RoomNameInputField.text = m_RoomNameInputField.text.Replace(" ", "_");
+        m_RoomNameInputField.text = m_RoomNameInputField.text.ReplaceCurseWords();
 
         if (string.IsNullOrEmpty(m_RoomNameInputField.text))
         {
             m_RoomNameInputField.text = PhotonNetwork.NickName + "'s Room";
         }
+
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = (byte)GameModeManager.Instance.MaxPlayers;

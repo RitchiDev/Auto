@@ -37,9 +37,7 @@ namespace Andrich.Audio
                 DontDestroyOnLoad(gameObject);
             }
 
-            m_CurrentMasterVolume = 1f;
-            m_CurrentMusicVolume = 1f;
-            m_CurrentSFXVolume = 1f;
+            GetAudioVolumes();
 
             foreach (Audio audio in m_AudioList)
             {
@@ -72,6 +70,36 @@ namespace Andrich.Audio
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void GetAudioVolumes()
+        {
+            if(PlayerPrefs.HasKey(SettingsProperties.MasterVolumeProperty))
+            {
+                m_CurrentMasterVolume = PlayerPrefs.GetFloat(SettingsProperties.MasterVolumeProperty);
+            }
+            else
+            {
+                m_CurrentMasterVolume = 1f;
+            }
+
+            if (PlayerPrefs.HasKey(SettingsProperties.MusicVolumeProperty))
+            {
+                m_CurrentMusicVolume = PlayerPrefs.GetFloat(SettingsProperties.MusicVolumeProperty);
+            }
+            else
+            {
+                m_CurrentMusicVolume = 1f;
+            }
+
+            if (PlayerPrefs.HasKey(SettingsProperties.SFXVolumeProperty))
+            {
+                m_CurrentSFXVolume = PlayerPrefs.GetFloat(SettingsProperties.SFXVolumeProperty);
+            }
+            else
+            {
+                m_CurrentSFXVolume = 1f;
+            }
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -221,19 +249,24 @@ namespace Andrich.Audio
         public void SetAudioMixerVolume(AudioMixerGroup group, float volume)
         {
             //Instead of setting the slider min / max values to -80 and 20, set them to min 0.0001 and max 1.
-            if(group == m_Master)
+            float valueToSet = Mathf.Log10(volume) * 20f;
+
+            if (group == m_Master)
             {
-                m_Master.audioMixer.SetFloat(m_MasterKey, Mathf.Log10(volume) * 20f);
+                m_Master.audioMixer.SetFloat(m_MasterKey, valueToSet);
+                PlayerPrefs.SetFloat(SettingsProperties.MasterVolumeProperty, volume);
                 m_CurrentMasterVolume = volume;
             }
             else if(group == m_Music)
             {
-                m_Music.audioMixer.SetFloat(m_MusicKey, Mathf.Log10(volume) * 20f);
+                m_Music.audioMixer.SetFloat(m_MusicKey, valueToSet);
+                PlayerPrefs.SetFloat(SettingsProperties.MusicVolumeProperty, volume);
                 m_CurrentMusicVolume = volume;
             }
             else if(group == m_SFX)
             {
-                m_SFX.audioMixer.SetFloat(m_SFXKey, Mathf.Log10(volume) * 20f);
+                m_SFX.audioMixer.SetFloat(m_SFXKey, valueToSet);
+                PlayerPrefs.SetFloat(SettingsProperties.SFXVolumeProperty, volume);
                 m_CurrentSFXVolume = volume;
             }
             else
