@@ -37,8 +37,6 @@ namespace Andrich.Audio
                 DontDestroyOnLoad(gameObject);
             }
 
-            GetAudioVolumes();
-
             foreach (Audio audio in m_AudioList)
             {
                 audio.SetAudioSource(gameObject.AddComponent<AudioSource>());
@@ -62,6 +60,11 @@ namespace Andrich.Audio
             }
         }
 
+        private void Start()
+        {
+            GetAudioVolumes();   
+        }
+
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -74,9 +77,11 @@ namespace Andrich.Audio
 
         private void GetAudioVolumes()
         {
-            if(PlayerPrefs.HasKey(SettingsProperties.MasterVolumeProperty))
+
+            if (PlayerPrefs.HasKey(SettingsProperties.MasterVolumeProperty))
             {
                 m_CurrentMasterVolume = PlayerPrefs.GetFloat(SettingsProperties.MasterVolumeProperty);
+                SetAudioMixerVolume(m_Master, m_CurrentMasterVolume);
             }
             else
             {
@@ -86,6 +91,7 @@ namespace Andrich.Audio
             if (PlayerPrefs.HasKey(SettingsProperties.MusicVolumeProperty))
             {
                 m_CurrentMusicVolume = PlayerPrefs.GetFloat(SettingsProperties.MusicVolumeProperty);
+                SetAudioMixerVolume(m_Music, m_CurrentMusicVolume);
             }
             else
             {
@@ -95,11 +101,16 @@ namespace Andrich.Audio
             if (PlayerPrefs.HasKey(SettingsProperties.SFXVolumeProperty))
             {
                 m_CurrentSFXVolume = PlayerPrefs.GetFloat(SettingsProperties.SFXVolumeProperty);
+                SetAudioMixerVolume(m_SFX, m_CurrentSFXVolume);
             }
             else
             {
                 m_CurrentSFXVolume = 1f;
             }
+
+            //Debug.Log(m_CurrentMasterVolume);
+            //Debug.Log(m_CurrentMusicVolume);
+            //Debug.Log(m_CurrentSFXVolume);
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -253,21 +264,22 @@ namespace Andrich.Audio
 
             if (group == m_Master)
             {
+                //Debug.Log(volume);
                 m_Master.audioMixer.SetFloat(m_MasterKey, valueToSet);
-                PlayerPrefs.SetFloat(SettingsProperties.MasterVolumeProperty, volume);
                 m_CurrentMasterVolume = volume;
+                PlayerPrefs.SetFloat(SettingsProperties.MasterVolumeProperty, volume);
             }
             else if(group == m_Music)
             {
                 m_Music.audioMixer.SetFloat(m_MusicKey, valueToSet);
-                PlayerPrefs.SetFloat(SettingsProperties.MusicVolumeProperty, volume);
                 m_CurrentMusicVolume = volume;
+                PlayerPrefs.SetFloat(SettingsProperties.MusicVolumeProperty, volume);
             }
             else if(group == m_SFX)
             {
                 m_SFX.audioMixer.SetFloat(m_SFXKey, valueToSet);
-                PlayerPrefs.SetFloat(SettingsProperties.SFXVolumeProperty, volume);
                 m_CurrentSFXVolume = volume;
+                PlayerPrefs.SetFloat(SettingsProperties.SFXVolumeProperty, volume);
             }
             else
             {
@@ -281,15 +293,15 @@ namespace Andrich.Audio
 
             if (group == m_Master)
             {
-                currentVolume = m_CurrentMasterVolume;
+                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.MasterVolumeProperty);
             }
             else if (group == m_Music)
             {
-                currentVolume = m_CurrentMusicVolume;
+                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.MusicVolumeProperty);
             }
             else if (group == m_SFX)
             {
-                currentVolume = m_CurrentSFXVolume;
+                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.SFXVolumeProperty);
             }
             else
             {

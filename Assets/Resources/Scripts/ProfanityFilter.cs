@@ -8,6 +8,7 @@ public static class ProfanityFilter
 
     private static string[] m_CurseWords = new string[]
     {
+        //English
         "anus",
         "arse",
         "ass",
@@ -158,6 +159,36 @@ public static class ProfanityFilter
         "wetback",
         "whore",
         "wop",
+
+        //Dutch
+        "kut",
+        "piemel",
+        "kanker",
+        "tering",
+        "homo",
+        "slet",
+        "neuk",
+        "eikel",
+        "lul",
+        "neger",
+        "hufter",
+        "hoer",
+        "kloten",
+        "kloot",
+        "kolere",
+        "klooi",
+        "klootzak",
+        "testikels",
+        "lijer",
+        "mof",
+        "mietje",
+        "etter",
+        "natzi",
+        "kkr",
+        "k_k_r",
+
+        //Meme
+        "car",
     };
 
     public static string ReplaceCurseWords(this string value)
