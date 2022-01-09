@@ -1040,7 +1040,7 @@ GameObject:
   - component: {fileID: 5492058622775042840}
   - component: {fileID: 5485179414223693138}
   - component: {fileID: 5544605212539157620}
-  - component: {fileID: 5544605212539157622}
+  - component: {fileID: -9027810197396593746}
   - component: {fileID: 5544605212539157623}
   - component: {fileID: 3603483175455184266}
   - component: {fileID: 2868265449088974522}
@@ -1049,7 +1049,6 @@ GameObject:
   - component: {fileID: 5575897378455495342}
   - component: {fileID: 5576468204437449922}
   - component: {fileID: 5576454160317889022}
-  - component: {fileID: 6529796596664941512}
   - component: {fileID: 5608377579443773226}
   m_Layer: 3
   m_Name: EliminationCarController (ACC)
@@ -1131,8 +1130,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5544605212539157622}
-  - {fileID: 6529796596664941512}
+  - {fileID: -9027810197396593746}
   - {fileID: 1131917690511258835}
   - {fileID: 3974227825792131951}
   - {fileID: 1209437022272579510}
@@ -1140,7 +1138,7 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5544605212539157622
+--- !u!114 &-9027810197396593746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1432,18 +1430,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PhotonView: {fileID: 5544605212539157620}
---- !u!114 &6529796596664941512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5544605212539157626}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bbd9906436c74b409431ac3058d77ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!81 &5608377579443773226
 AudioListener:
   m_ObjectHideFlags: 0
@@ -7527,15 +7513,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb022383ad77a464ea27c74a6a3d013c, type: 3}
---- !u!224 &8996565958901342689 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5826227445916624864, guid: cb022383ad77a464ea27c74a6a3d013c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3170767151134033409}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8852227836394858574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6258241773566537295, guid: cb022383ad77a464ea27c74a6a3d013c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3170767151134033409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &8996565958901342689 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5826227445916624864, guid: cb022383ad77a464ea27c74a6a3d013c,
     type: 3}
   m_PrefabInstance: {fileID: 3170767151134033409}
   m_PrefabAsset: {fileID: 0}

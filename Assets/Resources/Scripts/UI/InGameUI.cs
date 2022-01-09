@@ -104,13 +104,16 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
-        if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        if(propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
         {
-            UpdateOnScreenPlayersWhoVotedRematch();
-
-            if(PhotonNetwork.CurrentRoom.GetPlayerWhoWon() != null)
+            if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
             {
-                OpenWinMenu(PhotonNetwork.CurrentRoom.GetPlayerWhoWon().NickName);
+                UpdateOnScreenPlayersWhoVotedRematch();
+
+                if(PhotonNetwork.CurrentRoom.GetPlayerWhoWon() != null)
+                {
+                    OpenWinMenu(PhotonNetwork.CurrentRoom.GetPlayerWhoWon().NickName);
+                }
             }
         }
 

@@ -42,6 +42,11 @@ public class FakeItemBox : Projectile
 
     private void OnTriggerEnter(Collider other)
     {
+        //if(!m_PhotonView.IsMine)
+        //{
+        //    return;
+        //}
+
         PhotonView otherPhotonView = other.GetComponent<PhotonView>();
         if (otherPhotonView)
         {

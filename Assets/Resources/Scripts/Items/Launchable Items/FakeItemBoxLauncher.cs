@@ -19,8 +19,8 @@ public class FakeItemBoxLauncher : LaunchableItem
         object[] data = new object[] { m_Owner, m_LaunchDirection, m_LaunchPower };
         byte group = 0;
 
-        FakeItemBox fakeItemBox = PhotonPoolManager.Instance.NetworkInstantiate(m_ProjectilePrefab.name, m_OwnerItemController.CurrentFirepoint.position, Quaternion.identity, group, data).GetComponent<FakeItemBox>();
-        //FakeItemBox fakeItemBox = Instantiate(m_ProjectilePrefab, m_OwnerItemController.CurrentFirepoint.position, Quaternion.identity).GetComponent<FakeItemBox>();
+        //FakeItemBox fakeItemBox = PhotonPoolManager.Instance.NetworkInstantiate(m_ProjectilePrefab.name, m_OwnerItemController.CurrentFirepoint.position, Quaternion.identity, group, data).GetComponent<FakeItemBox>();
+        FakeItemBox fakeItemBox = PhotonPool.Instantiate(m_ProjectilePrefab.name, m_OwnerItemController.CurrentFirepoint.position, Quaternion.identity, group, data).GetComponent<FakeItemBox>();
         fakeItemBox.SetOwner(m_Owner);
     }
 }

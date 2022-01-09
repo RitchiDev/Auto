@@ -20,7 +20,6 @@ public class RocketProjectile : Projectile
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-
     public void Launch(Vector3 launchDirection, float LaunchPower)
     {
         m_Rigidbody.AddForce(transform.forward * LaunchPower, ForceMode.Impulse);
@@ -28,14 +27,19 @@ public class RocketProjectile : Projectile
 
     private void OnTriggerEnter(Collider other)
     {
-        PhotonView otherPhotonView = other.GetComponent<PhotonView>();
-        if (otherPhotonView)
+        if(!PhotonNetwork.IsMasterClient)
         {
-            if (!otherPhotonView.IsMine)
-            {
-                return;
-            }
+            return;
         }
+
+        //PhotonView otherPhotonView = other.GetComponent<PhotonView>();
+        //if (otherPhotonView)
+        //{
+        //    if (!otherPhotonView.IsMine)
+        //    {
+        //        return;
+        //    }
+        //}
 
         ItemController itemController = other.GetComponent<ItemController>();
         if(InteractingWithItemController(itemController))

@@ -197,7 +197,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     public virtual void UseItem(Item.Type itemType)
     {
-        if (PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        if (m_GameHasBeenWon)
         {
             return;
         }
@@ -207,7 +207,9 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     public void SetShielded(bool isShielded)
     {
-        m_PhotonView.RPC("RPC_SetShielded", RpcTarget.All, isShielded);
+        m_IsShielded = isShielded;
+
+        //m_PhotonView.RPC("RPC_SetShielded", RpcTarget.All, isShielded);
     }
 
     [PunRPC]
@@ -280,18 +282,6 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     private void OnTriggerStay(Collider other)
     {
-        //if (!m_PhotonView.IsMine)
-        //{
-        //    return;
-        //}
-
-        //CheckIfEnteredDemolitionAura(other);
-
-        //CheckIfHitByExplosionArea(other);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
         if (!m_PhotonView.IsMine)
         {
             return;
@@ -322,10 +312,10 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     public void HitByProjectile(Projectile projectile)
     {
-        if(!m_PhotonView.IsMine)
-        {
-            return;
-        }
+        //if(!m_PhotonView.IsMine)
+        //{
+        //    return;
+        //}
 
         Debug.Log("Projectile Hit");
 

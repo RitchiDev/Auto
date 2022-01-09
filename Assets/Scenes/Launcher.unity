@@ -14743,6 +14743,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MenuName: 2
+--- !u!1 &1817021774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1817021776}
+  - component: {fileID: 1817021775}
+  m_Layer: 0
+  m_Name: PhotonPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1817021775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817021774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a007bc99ca1f9843918f0c8893dc303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Prefabs:
+  - {fileID: 5544605212539157626, guid: 6f3e521ba655c964986be4fdec300ee8, type: 3}
+  - {fileID: 8175932910268828269, guid: 7ac05a87b1983d449a220903aa142c43, type: 3}
+  - {fileID: 8374214441363495508, guid: c9b3dfb50c6408b4399c1f1bbe0ad57b, type: 3}
+  - {fileID: 453504171555344379, guid: dd27ecc4ac1a17f43a5d7d77ce2e0e55, type: 3}
+  - {fileID: 4461610069916562489, guid: c982773aa9f4e7e4587a0dbae6a6ea76, type: 3}
+--- !u!4 &1817021776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817021774}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1824636654
 GameObject:
   m_ObjectHideFlags: 0

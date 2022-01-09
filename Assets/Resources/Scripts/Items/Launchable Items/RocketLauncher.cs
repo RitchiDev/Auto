@@ -19,9 +19,9 @@ public class RocketLauncher : LaunchableItem
         //Debug.Log("Test");
         object[] data = new object[] { m_Owner, m_LaunchDirection, m_LaunchPower};
         byte group = 0;
-        //RocketProjectile rocket = Instantiate(m_ProjectilePrefab, m_OwnerItemController.CurrentFirepoint.position, transform.rotation).GetComponent<RocketProjectile>();
 
-        RocketProjectile rocket = PhotonPoolManager.Instance.NetworkInstantiate(m_ProjectilePrefab.name, m_OwnerItemController.CurrentFirepoint.position, transform.rotation, group, data).GetComponent<RocketProjectile>();
+        //RocketProjectile rocket = PhotonPoolManager.Instance.NetworkInstantiate(m_ProjectilePrefab.name, m_OwnerItemController.CurrentFirepoint.position, transform.rotation, group, data).GetComponent<RocketProjectile>();
+        RocketProjectile rocket = PhotonPool.Instantiate(m_ProjectilePrefab.name, m_OwnerItemController.CurrentFirepoint.position, transform.rotation, group, data).GetComponent<RocketProjectile>();
         rocket.SetOwner(m_Owner);
         rocket.Launch(m_LaunchDirection, m_LaunchPower);
     }

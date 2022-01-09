@@ -54,7 +54,7 @@ public class EliminationPlayerManager : PlayerManager
         //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
 
         string prefabName = RoomManager.Instance.GameModeSettings.PlayerControllerString;
-        m_PlayerGameObject = PhotonPoolManager.Instance.NetworkInstantiate(prefabName, spawnPoint.position, spawnPoint.rotation, group, data);
+        m_PlayerGameObject = PhotonPool.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation, group, data);
 
         DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
     }
@@ -70,7 +70,7 @@ public class EliminationPlayerManager : PlayerManager
         //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
 
         string prefabName = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
-        m_PlayerGameObject = PhotonPoolManager.Instance.NetworkInstantiate(prefabName, spawnPoint.position, spawnPoint.rotation, group, data);
+        m_PlayerGameObject = PhotonPool.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation, group, data);
 
         DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
     }

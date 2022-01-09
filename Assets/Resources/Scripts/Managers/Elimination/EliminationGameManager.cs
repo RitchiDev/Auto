@@ -116,13 +116,13 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(PhotonHashtable propertiesThatChanged)
     {
-        if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
-        {
-            return;
-        }
-
         if(propertiesThatChanged.ContainsKey(RoomProperties.TimeProperty))
         {
+            if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+            {
+                return;
+            }
+
             m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
 
             float maxTime = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? m_TimeBeforeNextElimination : m_MaxEliminationTime;
@@ -177,12 +177,6 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
-        {
-            Stop();
-            return;
-        }
-
         if (PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
         {
             return;
@@ -190,7 +184,18 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.LocalPlayer == newMasterClient)
         {
-            if(PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+            if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+            {
+                Stop();
+                return;
+            }
+
+            if(m_CountdownCoroutine != null)
+            {
+                StopCoroutine(m_CountdownCoroutine);
+            }
+
+            if (PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
             {
                 m_CountdownCoroutine = TimeBeforeEliminateStartsCountdown();
             }
