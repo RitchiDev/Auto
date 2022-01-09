@@ -40,6 +40,12 @@ public class ItemController : MonoBehaviourPunCallbacks
     [SerializeField] private float m_MaxStunnedTime;
     private IEnumerator m_StunnedTimer;
 
+    [Header("Shield")]
+    [SerializeField] private float m_MaxIgnoreExplosionAreaTime;
+    private IEnumerator m_IgnoreExplosionAreaCoroutine;
+    private Player m_LastProjectileOwner;
+    private bool m_IgnoreExplosionArea;
+
     [Header("Misc")]
     [SerializeField] private GameObject m_ItemHolder;
     private bool m_IsShielded;
@@ -266,12 +272,47 @@ public class ItemController : MonoBehaviourPunCallbacks
         SetStunned(false);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        //if (!m_PhotonView.IsMine)
+        //{
+        //    return;
+        //}
+
+        //CheckIfEnteredDemolitionAura(other);
+
+        //CheckIfHitByExplosionArea(other);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        if (!m_PhotonView.IsMine)
+        {
+            return;
+        }
+
         CheckIfEnteredDemolitionAura(other);
 
         CheckIfHitByExplosionArea(other);
     }
+
+    private IEnumerator IgnoreExplosionAreaTimer()
+    {
+        m_IgnoreExplosionArea = true;
+
+        float totalTime = m_MaxIgnoreExplosionAreaTime;
+
+        while(totalTime >= 0)
+        {
+            totalTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        m_LastProjectileOwner = null;
+        m_IgnoreExplosionArea = false;
+    }
+
 
     public void HitByProjectile(Projectile projectile)
     {
@@ -280,9 +321,23 @@ public class ItemController : MonoBehaviourPunCallbacks
             return;
         }
 
+        Debug.Log("Projectile Hit");
+
         if (m_IsShielded)
         {
-            CheckIfShieldGotHit();
+            m_LastProjectileOwner = projectile.Owner;
+
+            if(m_IgnoreExplosionAreaCoroutine != null)
+            {
+                StopCoroutine(m_IgnoreExplosionAreaCoroutine);
+            }
+
+            m_IgnoreExplosionAreaCoroutine = IgnoreExplosionAreaTimer();
+            StartCoroutine(m_IgnoreExplosionAreaCoroutine);
+
+            m_PhotonView.RPC("RPC_ShieldGotHit", RpcTarget.All);
+
+            //CheckIfShieldGotHit();
             return;
         }
 
@@ -293,6 +348,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             case Item.Type.notSet:
                 break;
             case Item.Type.rocket:
+                Debug.Log("Projectile Killed");
 
                 KO(projectile.Owner.NickName);
 
@@ -328,7 +384,9 @@ public class ItemController : MonoBehaviourPunCallbacks
                 m_Items[i].SetActive(false);
                 m_IsShielded = false;
 
-                //Debug.Log("Shield removed");
+                Debug.Log("Shield removed");
+
+                break;
             }
         }
     }
@@ -377,6 +435,14 @@ public class ItemController : MonoBehaviourPunCallbacks
 
         if (explosionArea)
         {
+            if(explosionArea.Owner == m_LastProjectileOwner)
+            {
+                if(m_IgnoreExplosionArea)
+                {
+                    return;
+                }
+            }
+
             if (m_IsShielded)
             {
                 for (int i = 0; i < m_Items.Count; i++)

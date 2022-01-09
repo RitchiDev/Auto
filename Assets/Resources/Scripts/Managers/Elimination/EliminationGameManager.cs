@@ -214,7 +214,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
         m_CurrentTime = m_TimeBeforeNextElimination;
 
-        while (m_CurrentTime > 0)
+        while (m_CurrentTime >= 0)
         {
             m_CurrentTime -= Time.deltaTime;
 

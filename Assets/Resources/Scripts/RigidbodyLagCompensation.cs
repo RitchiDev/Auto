@@ -39,7 +39,7 @@ public class RigidbodyLagCompensation : MonoBehaviour, IPunObservable
             m_NetworkRotation = (Quaternion)stream.ReceiveNext();
             m_Rigidbody.velocity = (Vector3)stream.ReceiveNext();
 
-            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTimestamp));
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             m_NetworkPosition += (this.m_Rigidbody.velocity * lag);
         }
     }
