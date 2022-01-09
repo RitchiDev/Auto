@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
+using Photon.Pun;
 
 public abstract class Item : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public abstract class Item : MonoBehaviour
     protected ItemController m_OwnerItemController;
     public ItemController OwnerItemController => m_OwnerItemController;
 
+    protected PhotonView m_ChildPhotonView;
+
     public abstract void Use();
 
     public virtual void SetOwner(Player owner)
@@ -34,5 +37,6 @@ public abstract class Item : MonoBehaviour
     {
         m_Owner = owner;
         m_OwnerItemController = itemController;
+        m_ChildPhotonView = itemController.ControllerPhotonView;
     }
 }

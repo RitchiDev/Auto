@@ -50,7 +50,7 @@ public class CameraController : MonoBehaviour
 	{
 		if (!m_PhotonView.IsMine || m_Freeze)
 		{
-			Debug.Log("Froze");
+			//Debug.Log("Froze");
 			return;
 		}
 

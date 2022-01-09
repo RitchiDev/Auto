@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Andrich.UtilityScripts;
+using Photon.Pun;
 
 public class RocketProjectile : Projectile
 {
@@ -19,6 +20,7 @@ public class RocketProjectile : Projectile
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
+
     public void Launch(Vector3 launchDirection, float LaunchPower)
     {
         m_Rigidbody.AddForce(transform.forward * LaunchPower, ForceMode.Impulse);
@@ -26,6 +28,15 @@ public class RocketProjectile : Projectile
 
     private void OnTriggerEnter(Collider other)
     {
+        PhotonView otherPhotonView = other.GetComponent<PhotonView>();
+        if (otherPhotonView)
+        {
+            if (!otherPhotonView.IsMine)
+            {
+                return;
+            }
+        }
+
         ItemController itemController = other.GetComponent<ItemController>();
         if(InteractingWithItemController(itemController))
         {
@@ -44,18 +55,41 @@ public class RocketProjectile : Projectile
 
     private void Deactivate()
     {
+        m_PhotonView.RPC("RPC_Deactivate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RPC_Deactivate()
+    {
         Instantiate(m_HitEffectPrefab, transform.position, transform.rotation);
 
         ExplosionArea explosionArea = Instantiate(m_ExplosionAreaPrefab, transform.position, transform.rotation).GetComponent<ExplosionArea>();
         explosionArea.SetOwner(m_Owner);
 
-        Destroy(gameObject);
-        //gameObject.SetActive(false);
+        if (m_PhotonView.IsMine)
+        {
+            DestroyGlobally();
+        }
+        else
+        {
+            DestroyLocally();
+        }
+    }
+
+    private void DestroyGlobally()
+    {
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    private void DestroyLocally()
+    {
+        gameObject.SetActive(false);
     }
 
     private bool InteractingWithItemController(ItemController itemController)
     {
         //Debug.Log("hoi");
+
         if (itemController)
         {
             if(m_Owner == itemController.Owner)
@@ -63,6 +97,7 @@ public class RocketProjectile : Projectile
                 return true;
             }
 
+            //Debug.Log(itemController.Owner.NickName);
             itemController.HitByProjectile(this);
             Deactivate();
 

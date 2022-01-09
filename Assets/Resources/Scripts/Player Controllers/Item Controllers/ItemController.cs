@@ -12,6 +12,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     [SerializeField] private InGameUI m_InGameUI;
     [SerializeField] private EliminationPlayerController m_PlayerController;
     public Player Owner => m_PlayerController.Owner;
+    public PhotonView ControllerPhotonView => m_PhotonView;
 
     [Header("Firepoints")]
     [SerializeField] private Transform m_FrontFirepoint;
@@ -52,8 +53,8 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        SetStunned(false);
         InstantiateItems();
+        SetStunned(false);
     }
 
     private void Update()
@@ -86,11 +87,22 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     public void SetStunned(bool isStunned)
     {
+        if(!m_PhotonView.IsMine)
+        {
+            return;
+        }
+
+        m_PhotonView.RPC("RPC_SetStunned", RpcTarget.All, isStunned);
+    }
+
+    [PunRPC]
+    private void RPC_SetStunned(bool isStunned)
+    {
         m_StaticEffect.SetActive(isStunned);
         m_Stunned = isStunned;
         m_PlayerController.SetStunned(isStunned);
 
-        if(isStunned)
+        if (isStunned)
         {
             m_StunnedTimer = StunnedTimer();
             StartCoroutine(m_StunnedTimer);
@@ -181,6 +193,17 @@ public class ItemController : MonoBehaviourPunCallbacks
         m_PhotonView.RPC("RPC_UseItem", RpcTarget.All, itemType);
     }
 
+    public void SetShielded(bool isShielded)
+    {
+        m_PhotonView.RPC("RPC_SetShielded", RpcTarget.All, isShielded);
+    }
+
+    [PunRPC]
+    private void RPC_SetShielded(bool isShielded)
+    {
+        m_IsShielded = isShielded;
+    }
+
     [PunRPC]
     private void RPC_UseItem(Item.Type itemType)
     {
@@ -204,6 +227,8 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     private void SetFirepoint(Item.Type itemType)
     {
+        m_CurrentFirepoint = m_MiddleFirepoint;
+
         switch (itemType)
         {
             case Item.Type.notSet:
@@ -231,11 +256,6 @@ public class ItemController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SetShielded(bool value)
-    {
-        m_IsShielded = value;
-    }
-
     public void HideItems()
     {
         for (int i = 0; i < m_Items.Count; i++)
@@ -255,10 +275,18 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     public void HitByProjectile(Projectile projectile)
     {
-        if (CheckIfShieldGotHit())
+        if(!m_PhotonView.IsMine)
         {
             return;
         }
+
+        if (m_IsShielded)
+        {
+            CheckIfShieldGotHit();
+            return;
+        }
+
+        //Debug.Log(projectile.ItemType + " Hit " + Owner.NickName);
 
         switch (projectile.ItemType)
         {
@@ -276,7 +304,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
                 break;
             case Item.Type.fakeItemBox:
-                
+
                 SetStunned(true);
 
                 break;
@@ -284,15 +312,30 @@ public class ItemController : MonoBehaviourPunCallbacks
                 break;
         }
 
-        if(projectile.Owner != Owner)
+        if (projectile.Owner != Owner)
         {
             projectile.Owner.AddScore(250);
         }
     }
 
+    [PunRPC]
+    public void RPC_ShieldGotHit()
+    {
+        for (int i = 0; i < m_Items.Count; i++)
+        {
+            if (m_Items[i].ItemData.ItemType == Item.Type.shield)
+            {
+                m_Items[i].SetActive(false);
+                m_IsShielded = false;
+
+                //Debug.Log("Shield removed");
+            }
+        }
+    }
+
     private void CheckIfEnteredDemolitionAura(Collider other)
     {
-        if(m_IsShielded)
+        if(!m_PhotonView.IsMine || m_IsShielded)
         {
             return;
         }
@@ -317,17 +360,13 @@ public class ItemController : MonoBehaviourPunCallbacks
     {
         if (m_IsShielded)
         {
-            for (int i = 0; i < m_Items.Count; i++)
-            {
-                if (m_Items[i].ItemData.ItemType == Item.Type.shield)
-                {
-                    m_Items[i].SetActive(false);
-                    m_IsShielded = false;
+            //Debug.Log("Is Shielded");
+            m_PhotonView.RPC("RPC_ShieldGotHit", RpcTarget.All);
 
-                    return true;
-                }
-            }
+            return true;
         }
+
+        //Debug.Log("Is NOOOT Shielded");
 
         return false;
     }
@@ -365,9 +404,6 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     public void KO(string deathcause)
     {
-        if(m_PhotonView.IsMine)
-        {
-            m_PlayerController.KO(deathcause);
-        }
+        m_PlayerController.KO(deathcause);
     }
 }

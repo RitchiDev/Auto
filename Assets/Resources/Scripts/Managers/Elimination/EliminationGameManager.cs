@@ -43,6 +43,25 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         Restart();
     }
 
+    private void Stop()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            RaiseDeactivateAllRingsEvent();
+        }
+
+        if (m_CountDownImage)
+        {
+            m_CountDownImage.transform.parent.SetActive(false);
+            m_CountDownImage.SetActive(false);
+        }
+
+        if (m_CountDownText)
+        {
+            m_CountDownText.SetActive(false);
+        }
+    }
+
     public void Restart()
     {
         if(m_CountdownCoroutine != null)
@@ -62,15 +81,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
         if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
-            if (m_CountDownImage)
-            {
-                m_CountDownImage.SetActive(false);
-            }
-
-            if (m_CountDownText)
-            {
-                m_CountDownText.SetActive(false);
-            }
+            Stop();
 
             return;
         }
@@ -107,16 +118,6 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     {
         if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
-            if(m_CountDownImage)
-            {
-                m_CountDownImage.SetActive(false);
-            }
-
-            if(m_CountDownText)
-            {
-                m_CountDownText.SetActive(false);
-            }
-
             return;
         }
 
@@ -176,7 +177,13 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+        {
+            Stop();
+            return;
+        }
+
+        if (PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
         {
             return;
         }

@@ -1050,6 +1050,7 @@ GameObject:
   - component: {fileID: 5576468204437449922}
   - component: {fileID: 5576454160317889022}
   - component: {fileID: 5608377579443773226}
+  - component: {fileID: 6529796596664941512}
   m_Layer: 3
   m_Name: EliminationCarController (ACC)
   m_TagString: Car
@@ -1131,6 +1132,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5544605212539157622}
+  - {fileID: 6529796596664941512}
   - {fileID: 1131917690511258835}
   - {fileID: 3974227825792131951}
   - {fileID: 1209437022272579510}
@@ -1216,8 +1218,6 @@ MonoBehaviour:
   m_Loops: 10
   m_LoopTime: 0.2
   m_ItemPrefabs:
-  - {fileID: 3998561919316156196, guid: e6da08b7416243745baebba30f4997a6, type: 3}
-  - {fileID: -3477045290173900564, guid: 389871cf18829fa43b45b00d8d7e20de, type: 3}
   - {fileID: 9040374127612177983, guid: caae2a5bc19a58e4f8528c90575e9326, type: 3}
   - {fileID: -1943931487497499660, guid: c87b515e364940242a62f676188f1265, type: 3}
   m_StaticEffect: {fileID: 6027220523039457617}
@@ -1437,6 +1437,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544605212539157626}
   m_Enabled: 1
+--- !u!114 &6529796596664941512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5544605212539157626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bbd9906436c74b409431ac3058d77ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5544649180299387334
 GameObject:
   m_ObjectHideFlags: 0
@@ -7512,15 +7524,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb022383ad77a464ea27c74a6a3d013c, type: 3}
---- !u!1 &8852227836394858574 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6258241773566537295, guid: cb022383ad77a464ea27c74a6a3d013c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3170767151134033409}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8996565958901342689 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5826227445916624864, guid: cb022383ad77a464ea27c74a6a3d013c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3170767151134033409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8852227836394858574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6258241773566537295, guid: cb022383ad77a464ea27c74a6a3d013c,
     type: 3}
   m_PrefabInstance: {fileID: 3170767151134033409}
   m_PrefabAsset: {fileID: 0}

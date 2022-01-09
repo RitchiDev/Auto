@@ -67,6 +67,12 @@ MonoBehaviour:
   - RPC_SetActiveObjects
   - RPC_RemovePlayerFromAliveList
   - RPC_UseItem
+  - RPC_HitByProjectile
+  - HitByProjectile
+  - RPC_SetStunned
+  - RPC_ShieldGotHit
+  - RPC_SetShielded
+  - RPC_SetFirepoint
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

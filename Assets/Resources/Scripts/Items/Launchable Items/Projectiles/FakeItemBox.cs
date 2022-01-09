@@ -2,30 +2,57 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class FakeItemBox : Projectile
 {
     [Header("Effects")]
     [SerializeField] private GameObject m_HitEffectPrefab;
 
+
     private void Deactivate()
+    {
+        m_PhotonView.RPC("RPC_Deactivate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RPC_Deactivate()
     {
         Instantiate(m_HitEffectPrefab, transform.position, transform.rotation);
 
-        Destroy(gameObject);
-        //gameObject.SetActive(false);
+        if (m_PhotonView.IsMine)
+        {
+            DestroyGlobally();
+        }
+        else
+        {
+            DestroyLocally();
+        }
+    }
+
+    private void DestroyGlobally()
+    {
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    private void DestroyLocally()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        ItemController itemController = other.GetComponent<ItemController>();
-        if (InteractingWithItemController(itemController))
+        PhotonView otherPhotonView = other.GetComponent<PhotonView>();
+        if (otherPhotonView)
         {
-            return;
+            if (!otherPhotonView.IsMine)
+            {
+                return;
+            }
         }
 
-        DemolitionAura demolitionAura = other.GetComponent<DemolitionAura>();
-        if (InteractingWithDemolitionAura(demolitionAura))
+        ItemController itemController = other.GetComponent<ItemController>();
+        if (InteractingWithItemController(itemController))
         {
             return;
         }
@@ -42,16 +69,6 @@ public class FakeItemBox : Projectile
             itemController.HitByProjectile(this);
             Deactivate();
 
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool InteractingWithDemolitionAura(DemolitionAura demolitionAura)
-    {
-        if (demolitionAura)
-        {
             return true;
         }
 

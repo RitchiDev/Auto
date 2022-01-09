@@ -51,11 +51,14 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     [Header("Misc")]
     private bool m_GameHasBeenWon;
 
-    private void Start()
+    private void Awake()
     {
         m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
         m_Rigidbody = GetComponent<Rigidbody>();
+    }
 
+    private void Start()
+    {
         if (m_PhotonView.IsMine)
         {
             m_DisableRespawning = false;
@@ -147,6 +150,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         m_CarController.Disable(true);
 
         RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
+
         //m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, deathCause, afterKO);
         //m_InGameUI.AddRespawnToUI(m_Player.NickName, deathCause, afterKO);
 

@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class SyncRigidbodyPosition : MonoBehaviour, IPunObservable
+public class RigidbodyLagCompensation : MonoBehaviour, IPunObservable
 {
+    private PhotonView m_Photonview;
     private Vector3 m_NetworkPosition;
     private Quaternion m_NetworkRotation;
     private Rigidbody m_Rigidbody;
 
     private void Awake()
     {
+        m_Photonview = GetComponent<PhotonView>();
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        m_Rigidbody.position = Vector3.MoveTowards(m_Rigidbody.position, m_NetworkPosition, Time.fixedDeltaTime);
-        m_Rigidbody.rotation = Quaternion.RotateTowards(m_Rigidbody.rotation, m_NetworkRotation, Time.fixedDeltaTime * 100.0f);
+        if(!m_Photonview.IsMine)
+        {
+            m_Rigidbody.position = Vector3.MoveTowards(m_Rigidbody.position, m_NetworkPosition, Time.fixedDeltaTime);
+            m_Rigidbody.rotation = Quaternion.RotateTowards(m_Rigidbody.rotation, m_NetworkRotation, Time.fixedDeltaTime * 100.0f);
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

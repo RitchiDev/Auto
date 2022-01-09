@@ -4,7 +4,7 @@ using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Andrich.UtilityScripts
 {
-    public class PlayerProperties : MonoBehaviour
+    public class PlayerProperties
     {
         public const string ScoreProperty = "PlayerScore";
         public const string DeathsProperty = "PlayerDeaths";

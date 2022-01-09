@@ -49,9 +49,12 @@ public class EliminationPlayerManager : PlayerManager
 
         object[] data = new object[] { m_PhotonView.ViewID };
         byte group = 0;
-        string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
-        string path2 = RoomManager.Instance.GameModeSettings.PlayerControllerString;
-        m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+        //string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
+        //string path2 = RoomManager.Instance.GameModeSettings.PlayerControllerString;
+        //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+
+        string prefabName = RoomManager.Instance.GameModeSettings.PlayerControllerString;
+        m_PlayerGameObject = PhotonPoolManager.Instance.NetworkInstantiate(prefabName, spawnPoint.position, spawnPoint.rotation, group, data);
 
         DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
     }
@@ -62,9 +65,12 @@ public class EliminationPlayerManager : PlayerManager
 
         object[] data = new object[] { m_PhotonView.ViewID };
         byte group = 0;
-        string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
-        string path2 = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
-        m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+        //string path1 = RoomManager.Instance.GameModeSettings.PhotonPrefabsFolder;
+        //string path2 = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
+        //m_PlayerGameObject = PhotonNetwork.Instantiate(Path.Combine(path1, path2), spawnPoint.position, spawnPoint.rotation, group, data);
+
+        string prefabName = RoomManager.Instance.GameModeSettings.PlayerSpectatorString;
+        m_PlayerGameObject = PhotonPoolManager.Instance.NetworkInstantiate(prefabName, spawnPoint.position, spawnPoint.rotation, group, data);
 
         DisconnectPlayerManager.Instance.SetPlayerGameObject(m_PlayerGameObject);
     }

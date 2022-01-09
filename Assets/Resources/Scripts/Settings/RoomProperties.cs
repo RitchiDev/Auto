@@ -6,7 +6,7 @@ using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Andrich.UtilityScripts
 {
-    public class RoomProperties : MonoBehaviour
+    public class RoomProperties
     {
         public const string GameModeNameProperty = "GameModeName";
         public const string TimeProperty = "CurrentEliminateTime";

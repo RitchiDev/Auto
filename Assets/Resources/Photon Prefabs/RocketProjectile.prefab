@@ -9,10 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1818278637599817135}
+  - component: {fileID: 5968270407577750972}
   - component: {fileID: 6311919235464344837}
+  - component: {fileID: 1504839926163210849}
   - component: {fileID: 7147201535796642059}
   - component: {fileID: 3882775484965537870}
-  - component: {fileID: 457140855932561847}
+  - component: {fileID: -3435663481338292436}
   m_Layer: 15
   m_Name: RocketProjectile
   m_TagString: Untagged
@@ -36,6 +38,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5968270407577750972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453504171555344379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1504839926163210849}
+  - {fileID: -3435663481338292436}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &6311919235464344837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,11 +74,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1333e4e34766a994d976c31f0b9316a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_IgnoreOwnerDelay: 0.2
+  m_PhotonView: {fileID: 5968270407577750972}
   m_ItemType: 1
   m_ExplosionAreaPrefab: {fileID: 5129232849599381089, guid: d9bf03f5e23fdc94bb5986e0113e5171,
     type: 3}
   m_HitEffectPrefab: {fileID: 421918935609344216, guid: 65d1c2619c3ce784a85df66fd9c3ca95,
     type: 3}
+--- !u!114 &1504839926163210849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453504171555344379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!136 &7147201535796642059
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -83,7 +127,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &457140855932561847
+--- !u!114 &-3435663481338292436
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

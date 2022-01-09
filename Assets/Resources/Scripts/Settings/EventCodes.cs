@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Andrich.UtilityScripts
 {
-    public class EventCodes : MonoBehaviour
+    public class EventCodes
     {
         public const byte DeactivateAllRingsEventCode = 1;
         public const byte ActivateAllRingsEventCode = 2;
