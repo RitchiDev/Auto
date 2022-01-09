@@ -191,6 +191,11 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             m_CameraController.FreezeCameras(doFreeze);
         }
 
+        if(m_ItemController)
+        {
+            m_ItemController.Disabled(doFreeze);
+        }
+
         if(!m_Rigidbody)
         {
             Debug.LogWarning("There is no Rigidbody");

@@ -51,6 +51,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     private bool m_IsShielded;
     private bool m_GameHasBeenWon;
     private bool m_Stunned;
+    private bool m_Disable;
 
     private void Awake()
     {
@@ -65,7 +66,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if(!m_PhotonView.IsMine || m_GameHasBeenWon || m_Stunned)
+        if(!m_PhotonView.IsMine || m_GameHasBeenWon || m_Stunned || m_Disable)
         {
             return;
         }
@@ -89,6 +90,11 @@ public class ItemController : MonoBehaviourPunCallbacks
         }
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+    public void Disabled(bool isDisabled)
+    {
+        m_Disable = isDisabled;
     }
 
     public void SetStunned(bool isStunned)

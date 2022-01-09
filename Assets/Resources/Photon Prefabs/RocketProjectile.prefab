@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1504839926163210849}
   - component: {fileID: 7147201535796642059}
   - component: {fileID: 3882775484965537870}
-  - component: {fileID: -3435663481338292436}
   m_Layer: 15
   m_Name: RocketProjectile
   m_TagString: Untagged
@@ -58,7 +57,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1504839926163210849}
-  - {fileID: -3435663481338292436}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -127,18 +126,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &-3435663481338292436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453504171555344379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bbd9906436c74b409431ac3058d77ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &989705509285340944
 GameObject:
   m_ObjectHideFlags: 0
