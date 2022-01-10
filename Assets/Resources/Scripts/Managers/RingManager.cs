@@ -89,7 +89,7 @@ public class RingManager : MonoBehaviour, IOnEventCallback
 
     public void DeactiveAllRings()
     {
-        Debug.Log("Deactivating all rings!");
+        //Debug.Log("Deactivating all rings!");
 
         for (int i = 0; i < m_Rings.Count; i++)
         {
@@ -104,7 +104,7 @@ public class RingManager : MonoBehaviour, IOnEventCallback
 
     public void ActivateNew500Ring()
     {
-        Debug.Log("Activating new 500 ring!");
+        //Debug.Log("Activating new 500 ring!");
 
         if (m_RingsWorth500.Count <= 0)
         {

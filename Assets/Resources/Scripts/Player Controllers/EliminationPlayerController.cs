@@ -128,9 +128,10 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             //Debug.Log("Can't be put in danger");
 
             m_InDangerEffect.SetActive(false);
+            return;
         }
 
-        Debug.Log((float)PhotonNetwork.CurrentRoom.GetTime());
+        //Debug.Log((float)PhotonNetwork.CurrentRoom.GetTime());
         if(m_IsInDanger)
         {
             if ((float)PhotonNetwork.CurrentRoom.GetTime() <= m_TimeBeforeInDanger && !PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())

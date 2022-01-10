@@ -317,7 +317,7 @@ public class ItemController : MonoBehaviourPunCallbacks
         //    return;
         //}
 
-        Debug.Log("Projectile Hit");
+        //Debug.Log("Projectile Hit");
 
         if (m_IsShielded)
         {
@@ -344,7 +344,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             case Item.Type.notSet:
                 break;
             case Item.Type.rocket:
-                Debug.Log("Projectile Killed");
+                //Debug.Log("Projectile Killed");
 
                 KO(projectile.Owner.NickName);
 
