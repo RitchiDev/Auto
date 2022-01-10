@@ -24,8 +24,6 @@ public class OnScreenScoreboardItem : MonoBehaviour
         SetUsername(player.NickName);
         SetScore(0);
 
-        Debug.Log("SetUp Scoreboard Item!!!!!!!!!!! " + player.NickName);
-
         m_BackgroundImage.color = player == PhotonNetwork.LocalPlayer ? m_IsMineColor : m_IsNotMineColor;
     }
 

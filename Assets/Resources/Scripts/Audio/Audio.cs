@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Andrich.UtilityScripts
+namespace Andrich.Audio
 {
     [System.Serializable]
     public class Audio

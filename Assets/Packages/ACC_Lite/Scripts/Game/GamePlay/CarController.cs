@@ -165,7 +165,7 @@ public class CarController :MonoBehaviour
 
 	public void UpdateControls (float horizontal, float vertical, bool drift)
 	{
-		if(!m_PhotonView.IsMine)
+		if(!m_PhotonView.IsMine || m_Disable)
 		{
 			return;
 		}

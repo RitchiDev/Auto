@@ -6,6 +6,7 @@ using TMPro;
 using Photon.Realtime;
 using Photon.Pun;
 using Andrich.UtilityScripts;
+using ExitGames.Client.Photon;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 public class EliminationGameManager : MonoBehaviourPunCallbacks
@@ -20,6 +21,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     private EliminationPlayerController m_PlayerControllerToEliminate;
     private double m_CurrentTime;
 
+    private IEnumerator m_CountdownCoroutine;
+
     private void Awake()
     {
         if (Instance)
@@ -32,22 +35,54 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             Instance = this;
         }
 
+        //Restart();
+    }
+
+    private void Start()
+    {
         Restart();
+    }
+
+    private void Stop()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            RaiseDeactivateAllRingsEvent();
+        }
+
+        if (m_CountDownImage)
+        {
+            m_CountDownImage.transform.parent.SetActive(false);
+            m_CountDownImage.SetActive(false);
+        }
+
+        if (m_CountDownText)
+        {
+            m_CountDownText.SetActive(false);
+        }
     }
 
     public void Restart()
     {
+        if(m_CountdownCoroutine != null)
+        {
+            StopCoroutine(m_CountdownCoroutine);
+        }
+
         m_AlivePlayers.Clear();
 
         if (PhotonNetwork.IsMasterClient)
         {
             //StopAllCoroutines();
             PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
+            RaiseActivateAllItemBoxesEvent();
+            RaiseDeactivateAllRingsEvent();
         }
 
         if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
         {
-            m_CountDownImage.transform.parent.gameObject.SetActive(false);
+            Stop();
+
             return;
         }
 
@@ -81,23 +116,13 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(PhotonHashtable propertiesThatChanged)
     {
-        if(RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
-        {
-            if(m_CountDownImage)
-            {
-                m_CountDownImage.SetActive(false);
-            }
-
-            if(m_CountDownText)
-            {
-                m_CountDownText.SetActive(false);
-            }
-
-            return;
-        }
-
         if(propertiesThatChanged.ContainsKey(RoomProperties.TimeProperty))
         {
+            if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+            {
+                return;
+            }
+
             m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
 
             float maxTime = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? m_TimeBeforeNextElimination : m_MaxEliminationTime;
@@ -109,6 +134,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         {
             if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
             {
+                RaiseDeactivateAllItemBoxesEvent();
+
                 m_CountDownImage.SetActive(false);
 
                 if(BackgroundMusicStarter.Instance)
@@ -139,8 +166,9 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             if(GetIfAllPlayersLoadedLevel())
             {
                 Debug.Log("Started Game");
-                Debug.Log(m_AlivePlayers.Count);
-                StartCoroutine(TimeBeforeEliminateStartsCountdown());
+                //Debug.Log("Alive Players: " + m_AlivePlayers.Count);
+                m_CountdownCoroutine = TimeBeforeEliminateStartsCountdown();
+                StartCoroutine(m_CountdownCoroutine);
             }
         }
 
@@ -149,21 +177,34 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+        if (PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
         {
             return;
         }
 
         if (PhotonNetwork.LocalPlayer == newMasterClient)
         {
-            if(PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+            if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
             {
-                StartCoroutine(TimeBeforeEliminateStartsCountdown());
+                Stop();
+                return;
+            }
+
+            if(m_CountdownCoroutine != null)
+            {
+                StopCoroutine(m_CountdownCoroutine);
+            }
+
+            if (PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+            {
+                m_CountdownCoroutine = TimeBeforeEliminateStartsCountdown();
             }
             else
             {
-                StartCoroutine(EliminateCountdown());
+                m_CountdownCoroutine = EliminateCountdown();
             }
+
+            StartCoroutine(m_CountdownCoroutine);
         }
 
         base.OnMasterClientSwitched(newMasterClient);
@@ -173,22 +214,28 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
 
-        RingManager.Instance.DeactiveAllRings();
+        RaiseDeactivateAllRingsEvent();
+        //RingManager.Instance.DeactiveAllRings();
 
         m_CurrentTime = m_TimeBeforeNextElimination;
 
-        while (m_CurrentTime > 0)
+        while (m_CurrentTime >= 0)
         {
             m_CurrentTime -= Time.deltaTime;
-            PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
+
+            SetTime(m_CurrentTime);
+
             yield return null;
         }
+
+        CleanUpAlivePlayerList();
 
         CheckForWin();
 
         if (m_AlivePlayers.Count >= 2)
         {
-            StartCoroutine(EliminateCountdown());
+            m_CountdownCoroutine = EliminateCountdown();
+            StartCoroutine(m_CountdownCoroutine);
         }
     }
 
@@ -196,34 +243,86 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(false);
 
-        RingManager.Instance.ActivateAllRings();
-        RingManager.Instance.SetNew500RingActive();
+        RaiseActivateAllRingsEvent();
+        //RingManager.Instance.ActivateAllRings();
+        //RingManager.Instance.SetNew500RingActive();
 
         m_CurrentTime = m_MaxEliminationTime;
+
         while (m_CurrentTime >= 0)
         {
             m_CurrentTime -= Time.deltaTime;
-            PhotonNetwork.CurrentRoom.SetTime(m_CurrentTime);
+
+            SetTime(m_CurrentTime);
+
             yield return null;
         }
 
-        if (m_AlivePlayers.Count <= 1)
-        {
-            Debug.Log("Not Enough Alive Players To Eliminate One");
+        CleanUpAlivePlayerList();
 
-            CheckForWin();
+        CheckForElimination();
+
+        m_CountdownCoroutine = TimeBeforeEliminateStartsCountdown();
+        StartCoroutine(m_CountdownCoroutine);
+    }
+
+    private void RaiseActivateAllRingsEvent()
+    {
+        //Debug.Log("Raise Activate All Rings Event");
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.ActivateAllRingsEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void RaiseDeactivateAllRingsEvent()
+    {
+        //Debug.Log("Raise Deactivate All Rings Event");
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllRingsEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+
+    private void RaiseDeactivateAllItemBoxesEvent()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllItemBoxesEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void RaiseActivateAllItemBoxesEvent()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.ActivateAllItemBoxesEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void SetTime(double time)
+    {
+        if(!PhotonNetwork.IsConnected)
+        {
+            return;
         }
-        else
-        {
-            CheckForElimination();
 
-            if(!PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
-            {
-                StartCoroutine(TimeBeforeEliminateStartsCountdown());
-            }
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            PhotonNetwork.CurrentRoom.SetTime(time);
         }
     }
 
+    private void CleanUpAlivePlayerList()
+    {
+        int indexToRemove = 0;
+        for (int i = 0; i < m_AlivePlayers.Count; i++)
+        {
+            if(m_AlivePlayers[i] == null)
+            {
+                indexToRemove = i;
+            }
+        }
+
+        if(indexToRemove > 0)
+        {
+            m_AlivePlayers.RemoveAt(indexToRemove);
+        }
+    }
 
     public void AddAlivePlayer(EliminationPlayerController playerController, Player player)
     {
@@ -241,7 +340,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         if (m_PlayerControllerToEliminate)
         {
             //Debug.Log(m_PlayerControllerToEliminate.Player.NickName + ": Eliminated");
-            m_PlayerControllerToEliminate.Player.SetIfEliminated(true);
+            m_PlayerControllerToEliminate.Owner.SetIfEliminated(true);
             m_PlayerControllerToEliminate.Eliminate();
         }
     }
@@ -253,16 +352,21 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Player);
+        RaiseDeactivateAllRingsEvent();
+        RaiseDeactivateAllItemBoxesEvent();
+        //RingManager.Instance.DeactiveAllRings();
+
+        PhotonNetwork.CurrentRoom.SetPlayerWhoWon(m_AlivePlayers[0].Owner);
         PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(true);
     }
 
     private void CheckForElimination()
     {
-        Debug.Log("Check for elimination");
+        //Debug.Log("Check for elimination");
 
         if(m_AlivePlayers.Count <= 1)
         {
+            Debug.Log("Not enough players for elimination");
             return;
         }
 
@@ -276,7 +380,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
 
             //Debug.Log("The score of current checked player: " + currentPlayerController.Player.NickName + " (" + currentPlayerController.Player.GetScore() + ")" + " and player with lowest score: " + m_PlayerControllerToEliminate.Player.NickName + " (" + m_PlayerControllerToEliminate.Player.GetScore() + ")");
 
-            if (currentPlayerController.Player.GetScore() < m_PlayerControllerToEliminate.Player.GetScore())
+            if (currentPlayerController.Owner.GetScore() < m_PlayerControllerToEliminate.Owner.GetScore())
             {
                 //Debug.Log("The score of: " + currentPlayerController.Player.NickName + " is lower than: " + m_PlayerControllerToEliminate.Player.NickName);
                 m_PlayerControllerToEliminate = currentPlayerController;

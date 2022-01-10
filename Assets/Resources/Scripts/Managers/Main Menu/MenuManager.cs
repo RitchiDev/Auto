@@ -62,6 +62,16 @@ public class MenuManager : MonoBehaviour
         menu.Close();
     }
 
+    public void SaveGameSettings()
+    {
+        //if(Application.isEditor)
+        //{
+        //    return;
+        //}
+
+        PlayerPrefs.Save();
+    }
+
     public void QuitGame()
     {
         Application.Quit();

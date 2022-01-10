@@ -68,7 +68,7 @@ public class TabScoreboard : MonoBehaviourPunCallbacks
                 item.SetUsernameColor(player.GetIfEliminated());
                 item.SetScore(player.GetScore());
                 item.SetDeaths(player.GetDeaths());
-                item.SetKOs(0);
+                item.SetKOs(player.GetKOs());
             }
 
             //m_ScoreboardItems.Sort(SortByScore());
