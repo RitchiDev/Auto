@@ -103,6 +103,16 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if(m_GameHasBeenWon)
+        {
+            UpdateOnScreenPlayersWhoVotedRematch();
+        }
+
+        base.OnPlayerLeftRoom(otherPlayer);
+    }
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if(changedProps.ContainsKey(PlayerProperties.IsReadyProperty))
