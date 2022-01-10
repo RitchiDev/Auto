@@ -69,7 +69,7 @@ public class MenuManager : MonoBehaviour
         //    return;
         //}
 
-        PlayerPrefs.Save();
+        GameSettings.SaveSettings();
     }
 
     public void QuitGame()

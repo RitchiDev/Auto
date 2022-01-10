@@ -55,15 +55,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.OfflineMode = true;
         m_PlayerNameInputField.onValueChanged.AddListener(text => EditingPlayerName(text));
 
-        if(PlayerPrefs.HasKey(SettingsProperties.UsernameProperty))
-        {
-            string savedUsername = PlayerPrefs.GetString(SettingsProperties.UsernameProperty);
-            savedUsername = savedUsername.Replace(" ", "_");
-            savedUsername = savedUsername.ReplaceCurseWords();
+        string savedUsername = PlayerPrefs.GetString(SettingsProperties.UsernameProperty, SettingsProperties.DefaultUsername);
+        savedUsername = savedUsername.Replace(" ", "_");
+        savedUsername = savedUsername.ReplaceCurseWords();
 
-            PhotonNetwork.NickName = savedUsername;
-            m_PlayerNameInputField.text = savedUsername;
-        }
+        PhotonNetwork.NickName = savedUsername;
+        m_PlayerNameInputField.text = savedUsername;
     }
 
     private void EditingPlayerName(string value)

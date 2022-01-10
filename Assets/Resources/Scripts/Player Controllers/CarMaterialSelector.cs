@@ -20,7 +20,17 @@ public class CarMaterialSelector : MonoBehaviour
     {
         m_Player = player;
 
+        if(player == PhotonNetwork.LocalPlayer)
+        {
+            byte primaryIndex = (byte)PlayerPrefs.GetInt(SettingsProperties.SelectedPrimaryCarColorIndexProperty, SettingsProperties.DefaultCarColorIndex);
+            PhotonNetwork.LocalPlayer.SetPrimaryMaterialIndex(primaryIndex);
+
+            byte secondaryIndex = (byte)PlayerPrefs.GetInt(SettingsProperties.SelectedSecondaryCarColorIndexProperty, SettingsProperties.DefaultCarColorIndex);
+            PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex(secondaryIndex);
+        }
+
         UpdateCarSprite(player);
+
     }
 
     public void UpdateCarSprite(Player player)
@@ -45,9 +55,9 @@ public class CarMaterialSelector : MonoBehaviour
         int index = PhotonNetwork.LocalPlayer.GetPrimaryMaterialIndex();
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxPrimaryIndex);
 
-        //m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
-        //m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(index);
-        PhotonNetwork.LocalPlayer.SetPrimaryMaterialIndex(index);
+        PhotonNetwork.LocalPlayer.SetPrimaryMaterialIndex((byte)index);
+
+        PlayerPrefs.SetInt(SettingsProperties.SelectedPrimaryCarColorIndexProperty, index);
     }
 
     public void ChangeSecondaryCarMaterial(int amount)
@@ -60,8 +70,8 @@ public class CarMaterialSelector : MonoBehaviour
         int index = PhotonNetwork.LocalPlayer.GetSecondaryMaterialIndex();
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxSecondaryIndex);
 
-        //m_SecondaryColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
-        //m_SecondarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(index);
-        PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex(index);
+        PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex((byte)index);
+
+        PlayerPrefs.SetInt(SettingsProperties.SelectedSecondaryCarColorIndexProperty, index);
     }
 }

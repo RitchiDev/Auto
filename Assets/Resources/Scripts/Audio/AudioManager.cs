@@ -77,36 +77,14 @@ namespace Andrich.Audio
 
         private void GetAudioVolumes()
         {
+            m_CurrentMasterVolume = PlayerPrefs.GetFloat(SettingsProperties.MasterVolumeProperty, SettingsProperties.DefaultVolume);
+            SetAudioMixerVolume(m_Master, m_CurrentMasterVolume);
 
-            if (PlayerPrefs.HasKey(SettingsProperties.MasterVolumeProperty))
-            {
-                m_CurrentMasterVolume = PlayerPrefs.GetFloat(SettingsProperties.MasterVolumeProperty);
-                SetAudioMixerVolume(m_Master, m_CurrentMasterVolume);
-            }
-            else
-            {
-                m_CurrentMasterVolume = 1f;
-            }
+            m_CurrentMusicVolume = PlayerPrefs.GetFloat(SettingsProperties.MusicVolumeProperty, SettingsProperties.DefaultVolume);
+            SetAudioMixerVolume(m_Music, m_CurrentMusicVolume);
 
-            if (PlayerPrefs.HasKey(SettingsProperties.MusicVolumeProperty))
-            {
-                m_CurrentMusicVolume = PlayerPrefs.GetFloat(SettingsProperties.MusicVolumeProperty);
-                SetAudioMixerVolume(m_Music, m_CurrentMusicVolume);
-            }
-            else
-            {
-                m_CurrentMusicVolume = 1f;
-            }
-
-            if (PlayerPrefs.HasKey(SettingsProperties.SFXVolumeProperty))
-            {
-                m_CurrentSFXVolume = PlayerPrefs.GetFloat(SettingsProperties.SFXVolumeProperty);
-                SetAudioMixerVolume(m_SFX, m_CurrentSFXVolume);
-            }
-            else
-            {
-                m_CurrentSFXVolume = 1f;
-            }
+            m_CurrentSFXVolume = PlayerPrefs.GetFloat(SettingsProperties.SFXVolumeProperty, SettingsProperties.DefaultVolume);
+            SetAudioMixerVolume(m_SFX, m_CurrentSFXVolume);
 
             //Debug.Log(m_CurrentMasterVolume);
             //Debug.Log(m_CurrentMusicVolume);
@@ -293,15 +271,15 @@ namespace Andrich.Audio
 
             if (group == m_Master)
             {
-                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.MasterVolumeProperty);
+                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.MasterVolumeProperty, SettingsProperties.DefaultVolume);
             }
             else if (group == m_Music)
             {
-                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.MusicVolumeProperty);
+                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.MusicVolumeProperty, SettingsProperties.DefaultVolume);
             }
             else if (group == m_SFX)
             {
-                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.SFXVolumeProperty);
+                currentVolume = PlayerPrefs.GetFloat(SettingsProperties.SFXVolumeProperty, SettingsProperties.DefaultVolume);
             }
             else
             {
