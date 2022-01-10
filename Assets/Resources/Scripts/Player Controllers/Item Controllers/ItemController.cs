@@ -362,7 +362,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
         if (projectile.Owner != Owner)
         {
-            projectile.Owner.AddScore(250);
+            projectile.Owner.AddScore(ScoreProperties.KOWorth);
         }
     }
 
@@ -400,7 +400,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             }
 
             aura.Owner.AddKO(1);
-            aura.Owner.AddScore(250);
+            aura.Owner.AddScore(ScoreProperties.KOWorth);
 
             KO(aura.Owner.NickName);
         }
@@ -452,7 +452,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
             if (explosionArea.Owner != m_PlayerController.Owner)
             {
-                explosionArea.Owner.AddScore(250);
+                explosionArea.Owner.AddScore(ScoreProperties.KOWorth);
                 explosionArea.Owner.AddKO(1);
             }
 

@@ -80,7 +80,7 @@ public class EliminationPlayerManager : PlayerManager
         if (m_PhotonView.IsMine)
         {
             PhotonNetwork.LocalPlayer.AddDeath(1);
-            PhotonNetwork.LocalPlayer.AddScore(-250);
+            PhotonNetwork.LocalPlayer.AddScore(-ScoreProperties.ScoreReductionOnRespawn);
 
             //AddRespawnToUI(PhotonNetwork.LocalPlayer.NickName, deathCause, afterKO);
 
