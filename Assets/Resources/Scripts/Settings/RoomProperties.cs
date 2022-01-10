@@ -10,6 +10,7 @@ namespace Andrich.UtilityScripts
     {
         public const string TimeProperty = "CurrentEliminateTime";
         public const string TimerIsPausedProperty = "TimerIsPaused";
+        public const string GameModeNameProperty = "GameModeName";
         //public const string GameHasBeenWonProperty = "GameHasBeenWon";
         //public const string PlayerWhoWonProperty = "PlayerWhoWon";
     }
