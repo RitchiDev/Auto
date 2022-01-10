@@ -75,6 +75,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         {
             //StopAllCoroutines();
             PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
+            PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
+
             RaiseActivateAllItemBoxesEvent();
             RaiseDeactivateAllRingsEvent();
         }
@@ -94,6 +96,20 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks
         if (m_CountDownText)
         {
             m_CountDownText.SetActive(true);
+        }
+    }
+
+    public void UpdatePlayerWhoIsInDanger(Player playerInDanger)
+    {
+        //Debug.Log("Player In Danger: " + playerInDanger);
+
+        for (int i = 0; i < m_AlivePlayers.Count; i++)
+        {
+            Player owner = m_AlivePlayers[i].Owner;
+
+            //Debug.Log("Update In Danger: " + (owner == playerInDanger));
+
+            m_AlivePlayers[i].SetInDanger(owner == playerInDanger);
         }
     }
 

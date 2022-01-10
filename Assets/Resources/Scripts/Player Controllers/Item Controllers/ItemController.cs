@@ -184,7 +184,7 @@ public class ItemController : MonoBehaviourPunCallbacks
         m_CurrentItemData = GetRandomItemData();
         m_InGameUI.SetItemImageSprite(m_CurrentItemData.ItemSprite);
 
-        Debug.Log("Item Set: " + m_CurrentItemData.ItemType);
+        //Debug.Log("Item Set: " + m_CurrentItemData.ItemType);
         // Item Image = m_CurrentItem Image
 
     }
@@ -221,7 +221,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_UseItem(Item.Type itemType)
     {
-        Debug.Log("Used: " + itemType);
+        //Debug.Log("Used: " + itemType);
 
         SetFirepoint(itemType);
 

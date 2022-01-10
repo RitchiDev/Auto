@@ -116,7 +116,7 @@ namespace Andrich.UtilityScripts
         }
     }
 
-    public static class ReadyToggleExtensions
+    public static class ReadyExtensions
     {
         public static void SetReadyState(this Player player, bool isReady)
         {

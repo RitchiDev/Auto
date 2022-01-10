@@ -48,6 +48,12 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     [Header("UI")]
     [SerializeField] private GameObject m_UsernameText;
 
+    [Header("UI Effect")]
+    [SerializeField] private float m_TimeBeforeInDanger = 10f;
+    [SerializeField] private GameObject m_UIEffectCamera;
+    [SerializeField] private GameObject m_InDangerEffect;
+    private bool m_IsInDanger;
+
     [Header("Misc")]
     private bool m_GameHasBeenWon;
 
@@ -64,9 +70,12 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             m_DisableRespawning = false;
             m_RespawnTimer = m_MaxRespawnTime;
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All, PhotonNetwork.LocalPlayer);
+            m_InDangerEffect.SetActive(false);
         }
         else
         {
+            //m_UIEffectCamera.SetActive(false);
+            Destroy(m_UIEffectCamera);
             Destroy(GetComponent<AudioListener>());
         }
     }
@@ -96,7 +105,41 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             return;
         }
 
+        CheckIfInDanger();
         CheckForRespawn();
+    }
+
+
+    public void SetInDanger(bool isInDanger)
+    {
+        m_IsInDanger = isInDanger;
+    }
+
+    private void CheckIfInDanger()
+    {
+        if (!m_UIEffectCamera)
+        {
+            //Debug.Log("No Camera");
+            return;
+        }
+
+        if (!m_IsInDanger || GameModeManager.Instance.SelectedGameMode.GameModeName != "Elimination" || PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+        {
+            //Debug.Log("Can't be put in danger");
+
+            m_InDangerEffect.SetActive(false);
+        }
+
+        Debug.Log((float)PhotonNetwork.CurrentRoom.GetTime());
+        if(m_IsInDanger)
+        {
+            if ((float)PhotonNetwork.CurrentRoom.GetTime() <= m_TimeBeforeInDanger && !PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+            {
+                //Debug.Log("Effect active");
+
+                m_InDangerEffect.SetActive(true);
+            }
+        }
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -106,6 +149,12 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
         }
 
+        if(m_GameHasBeenWon || !m_PhotonView.IsMine)
+        {
+            return;
+        }
+
+        
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 

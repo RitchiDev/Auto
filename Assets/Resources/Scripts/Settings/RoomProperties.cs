@@ -10,7 +10,7 @@ namespace Andrich.UtilityScripts
     {
         public const string GameModeNameProperty = "GameModeName";
         public const string TimeProperty = "CurrentEliminateTime";
-        public const string TimeColorProperty = "EliminateTimeColor";
+        public const string TimerIsPausedProperty = "TimerIsPaused";
         public const string GameHasBeenWonProperty = "GameHasBeenWon";
         public const string PlayerWhoWonProperty = "PlayerWhoWon";
     }
@@ -42,7 +42,7 @@ namespace Andrich.UtilityScripts
         public static void SetIfEliminateTimerPaused(this Room room, bool isPaused)
         {
             PhotonHashtable paused = new PhotonHashtable();  // using PUN's implementation of Hashtable
-            paused[RoomProperties.TimeColorProperty] = isPaused;
+            paused[RoomProperties.TimerIsPausedProperty] = isPaused;
 
             room.SetCustomProperties(paused);  // this locally sets the color and will sync it in-game asap.
         }
@@ -50,7 +50,7 @@ namespace Andrich.UtilityScripts
         public static bool GetIfEliminateTimerPaused(this Room room)
         {
             object paused;
-            if (room.CustomProperties.TryGetValue(RoomProperties.TimeColorProperty, out paused))
+            if (room.CustomProperties.TryGetValue(RoomProperties.TimerIsPausedProperty, out paused))
             {
                 return (bool)paused;
             }
