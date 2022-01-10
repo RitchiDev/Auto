@@ -95,7 +95,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             return;
         }
 
-        m_PhotonView.RPC("RPC_SetStunned", RpcTarget.All, isStunned);
+        m_PhotonView.RPC("RPC_SetStunned", RpcTarget.AllBuffered, isStunned);
     }
 
     [PunRPC]
@@ -423,21 +423,6 @@ public class ItemController : MonoBehaviourPunCallbacks
 
             SetStunned(true);
         }
-    }
-
-    private bool CheckIfShieldGotHit()
-    {
-        if (m_IsShielded)
-        {
-            //Debug.Log("Is Shielded");
-            m_PhotonView.RPC("RPC_ShieldGotHit", RpcTarget.All);
-
-            return true;
-        }
-
-        //Debug.Log("Is NOOOT Shielded");
-
-        return false;
     }
 
     private void CheckIfHitByExplosionArea(Collider other)

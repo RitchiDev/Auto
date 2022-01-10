@@ -28,6 +28,8 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
     private Player m_PlayerWhoWon;
     public Player PlayerWhoWon => m_PlayerWhoWon;
 
+    private string m_GameModeName;
+
     private void Awake()
     {
         if (Instance)
@@ -45,6 +47,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
     private void Start()
     {
+        m_GameModeName = (string)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperties.GameModeNameProperty];
         Restart();
     }
 
@@ -56,6 +59,27 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
     public override void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (m_GameModeName != "Elimination")
+        {
+            PhotonEvents.RaiseActivateAllItemBoxesEvent();
+            Stop();
+        }
+
+        base.OnPlayerEnteredRoom(newPlayer);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (m_GameModeName != "Elimination")
+        {
+            Stop();
+        }
+
+        base.OnPlayerLeftRoom(otherPlayer);
     }
 
     private void Stop()
@@ -101,7 +125,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
             //RaiseDeactivateAllRingsEvent();
         }
 
-        if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+        if (m_GameModeName != "Elimination")
         {
             Stop();
 
@@ -154,7 +178,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
     {
         if(propertiesThatChanged.ContainsKey(RoomProperties.TimeProperty))
         {
-            if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+            if (m_GameModeName != "Elimination")
             {
                 return;
             }
@@ -173,7 +197,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, PhotonHashtable changedProps)
     {
-        if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+        if (m_GameModeName != "Elimination")
         {
             return;
         }
@@ -207,7 +231,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
         if (PhotonNetwork.LocalPlayer == newMasterClient)
         {
-            if (RoomManager.Instance.GameModeSettings.GameModeName != "Elimination")
+            if (m_GameModeName != "Elimination")
             {
                 Stop();
                 return;
