@@ -1225,6 +1225,7 @@ MonoBehaviour:
   - {fileID: -3477045290173900564, guid: 389871cf18829fa43b45b00d8d7e20de, type: 3}
   - {fileID: 9040374127612177983, guid: caae2a5bc19a58e4f8528c90575e9326, type: 3}
   - {fileID: -1943931487497499660, guid: c87b515e364940242a62f676188f1265, type: 3}
+  - {fileID: 1463467802190457315, guid: 4610405c3b0055f4ca7c370e76476068, type: 3}
   m_StaticEffect: {fileID: 6027220523039457617}
   m_OnScreenStaticEffect: {fileID: 8251669190442556554}
   m_MaxStunnedTime: 6

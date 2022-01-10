@@ -249,7 +249,7 @@ public class ItemController : MonoBehaviourPunCallbacks
                 m_CurrentFirepoint = m_FrontFirepoint;
 
                 break;
-            case Item.Type.shield:
+            case Item.Type.shieldAura:
                 m_CurrentFirepoint = m_MiddleFirepoint;
 
                 break;
@@ -284,6 +284,8 @@ public class ItemController : MonoBehaviourPunCallbacks
         }
 
         CheckIfEnteredDemolitionAura(other);
+
+        CheckIfEnteredStunAura(other);
 
         CheckIfHitByExplosionArea(other);
     }
@@ -345,12 +347,6 @@ public class ItemController : MonoBehaviourPunCallbacks
                 KO(projectile.Owner.NickName);
 
                 break;
-            case Item.Type.shield:
-
-                break;
-            case Item.Type.demolitionAura:
-
-                break;
             case Item.Type.fakeItemBox:
 
                 SetStunned(true);
@@ -371,7 +367,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < m_Items.Count; i++)
         {
-            if (m_Items[i].ItemData.ItemType == Item.Type.shield)
+            if (m_Items[i].ItemData.ItemType == Item.Type.shieldAura)
             {
                 m_Items[i].SetActive(false);
                 m_IsShielded = false;
@@ -403,6 +399,29 @@ public class ItemController : MonoBehaviourPunCallbacks
             aura.Owner.AddScore(ScoreProperties.KOWorth);
 
             KO(aura.Owner.NickName);
+        }
+    }
+
+    private void CheckIfEnteredStunAura(Collider other)
+    {
+        if (!m_PhotonView.IsMine || m_IsShielded)
+        {
+            return;
+        }
+
+        StunAura aura = other.GetComponent<StunAura>();
+
+        if (aura)
+        {
+            if (aura.Owner == m_PlayerController.Owner)
+            {
+                return;
+            }
+
+            //aura.Owner.AddKO(1);
+            //aura.Owner.AddScore(ScoreProperties.KOWorth);
+
+            SetStunned(true);
         }
     }
 
@@ -439,7 +458,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             {
                 for (int i = 0; i < m_Items.Count; i++)
                 {
-                    if (m_Items[i].ItemData.ItemType == Item.Type.shield)
+                    if (m_Items[i].ItemData.ItemType == Item.Type.shieldAura)
                     {
                         m_Items[i].SetActive(false);
                         m_IsShielded = false;

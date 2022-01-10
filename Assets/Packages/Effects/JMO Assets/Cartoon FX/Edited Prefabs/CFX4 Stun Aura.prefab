@@ -28875,7 +28875,7 @@ GameObject:
   - component: {fileID: 8853565347376946969}
   - component: {fileID: 8853947428263515435}
   m_Layer: 0
-  m_Name: CFX4 Electrify Aura
+  m_Name: CFX4 Stun Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
