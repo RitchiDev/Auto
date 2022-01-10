@@ -1193,7 +1193,7 @@ MonoBehaviour:
   m_EliminateEffect: {fileID: 6885216261473019790, guid: 42734c1fac82c394ab64bad94c6842fb,
     type: 3}
   m_UsernameText: {fileID: 8852227836394858574}
-  m_TimeBeforeInDanger: 45
+  m_TimeBeforeInDanger: 15
   m_UIEffectCamera: {fileID: 1827600444192364002}
   m_InDangerEffect: {fileID: 8489492513206619828}
 --- !u!114 &3603483175455184266

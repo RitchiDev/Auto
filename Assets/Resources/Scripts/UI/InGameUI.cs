@@ -122,7 +122,7 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if(changedProps.ContainsKey(PlayerProperties.VotedRematchProperty))
+        if(changedProps.ContainsKey(PlayerProperties.IsReadyProperty))
         {
             if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
             {
@@ -172,7 +172,8 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
         if(m_PhotonView.IsMine)
         {
             Player player = PhotonNetwork.LocalPlayer;
-            player.SetVotedRematchState(!player.GetIfVotedRematch());
+            player.SetReadyState(!player.GetIfReady());
+            //player.SetVotedRematchState(!player.GetIfVotedRematch());
             //Debug.Log("Voted: " + player.GetIfVotedRematch());
         }
     }

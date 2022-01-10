@@ -28,7 +28,7 @@ public class RematchManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if (changedProps.ContainsKey(PlayerProperties.VotedRematchProperty))
+        if (changedProps.ContainsKey(PlayerProperties.IsReadyProperty))
         {
             m_NumberOfPlayersWhoVotedRematch = GetAmountOfPlayersWhoAreReady();
 
@@ -88,7 +88,8 @@ public class RematchManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < playersInroom.Length; i++)
         {
-            if (playersInroom[i].GetIfVotedRematch())
+            //if (playersInroom[i].GetIfVotedRematch())
+            if (playersInroom[i].GetIfReady())
             {
                 amountOfPlayersWhoVotedRematch++;
             }
