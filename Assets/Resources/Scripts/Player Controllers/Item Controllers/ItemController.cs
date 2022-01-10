@@ -35,6 +35,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     [Header("Effects")]
     [SerializeField] private GameObject m_StaticEffect;
+    [SerializeField] private GameObject m_OnScreenStaticEffect;
 
     [Header("Stunned")]
     [SerializeField] private float m_MaxStunnedTime;
@@ -100,6 +101,11 @@ public class ItemController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_SetStunned(bool isStunned)
     {
+        if(m_PhotonView.IsMine)
+        {
+            m_OnScreenStaticEffect.SetActive(isStunned);
+        }
+
         m_StaticEffect.SetActive(isStunned);
         m_Stunned = isStunned;
         m_PlayerController.SetStunned(isStunned);

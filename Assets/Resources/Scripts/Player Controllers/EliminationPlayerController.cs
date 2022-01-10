@@ -333,7 +333,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
         if (m_UsernameText)
         {
-            if (m_PhotonView.IsMine && m_Player != PhotonNetwork.LocalPlayer)
+            if (!m_PhotonView.IsMine)
             {
                 m_UsernameText.SetActive(value);
             }
