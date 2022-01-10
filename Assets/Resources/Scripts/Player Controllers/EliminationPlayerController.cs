@@ -179,6 +179,11 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     private IEnumerator RespawnDelay(string deathCause, bool afterKO)
     {
+        if(m_PhotonView.IsMine)
+        {
+            m_Player.AddScore(-ScoreProperties.ScoreReductionOnRespawn);
+        }
+
         Vector3 freezePoisition = transform.position;
 
         m_DisableRespawning = true;
