@@ -8,10 +8,16 @@ public class PlayerDiedItem : MonoBehaviour
 {
     [SerializeField] private float m_TimeActive = 3f;
     [SerializeField] private TMP_Text m_PlayerNameText;
+    [SerializeField] private TMP_Text m_DeathCauseText;
 
-    public void SetUp(string name)
+    public void SetUp(string name, string deathCause)
     {
         m_PlayerNameText.text = name;
+
+        if(m_DeathCauseText)
+        {
+            m_DeathCauseText.text = deathCause;
+        }
     }
 
     private void OnEnable()

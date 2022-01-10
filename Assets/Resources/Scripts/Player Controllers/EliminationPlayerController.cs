@@ -7,39 +7,62 @@ using Andrich.UtilityScripts;
 using TMPro;
 using UnityEngine.UI;
 
-public class EliminationPlayerController : MonoBehaviour
+public class EliminationPlayerController : MonoBehaviourPunCallbacks
 {
+    [Header("Components")]
     [SerializeField] private PhotonView m_PhotonView;
-    [SerializeField] private GameObject m_Camera;
+    [SerializeField] private ItemController m_ItemController;
+    [SerializeField] private InGameUI m_InGameUI;
     [SerializeField] private CarController m_CarController;
-    [SerializeField] private GameObject m_RespawnEffect;
-    [SerializeField] private GameObject m_EliminateEffect;
+    [SerializeField] private CameraController m_CameraController;
+    [SerializeField] private Collider m_Collider;
+    [SerializeField] private GameObject m_Camera;
+    private Rigidbody m_Rigidbody;
+    private PlayerManager m_PlayerManager;
+    private Player m_Player;
+    public Player Owner => m_Player;
+
+    [Header("Controls")]
     [SerializeField] private KeyCode m_RespawnKey = KeyCode.F;
-    [SerializeField] private Image m_RespawnImage;
-    [SerializeField] private TMP_Text m_RespawnText;
+
+    [Header("Respawn")]
     [SerializeField] private float m_MaxRespawnTime = 3f;
     [SerializeField] private float m_MaxRespawnDelay = 1.1f;
-    [SerializeField] private float m_MaxEliminateDelay = 1.1f;
+    [SerializeField] private TMP_Text m_RespawnTimeText;
+    [SerializeField] private Image m_RespawnImage;
+    [SerializeField] private GameObject m_RespawnEffect;
     [SerializeField] private List<GameObject> m_ObjectsToHideDuringRespawn = new List<GameObject>();
+    private IEnumerator m_Respawn;
     private bool m_DisableRespawning;
     private float m_RespawnTimer;
-    PlayerManager m_PlayerManager;
-    private Player m_Player;
-    public Player Player => m_Player;
-    private Rigidbody m_Rigidbody;
-    private IEnumerator m_Respawn;
+
+    [Header("Respawn After KO")]
+    [SerializeField] private float m_MaxRespawnDelayAfterKO = 3f;
+    [SerializeField] private GameObject m_RespawnAfterKOEffect;
+
+    [Header("Eliminated")]
+    [SerializeField] private float m_MaxEliminateDelay = 1.1f;
+    [SerializeField] private GameObject m_EliminateEffect;
     private IEnumerator m_Eliminate;
+
+    [Header("UI")]
+    [SerializeField] private GameObject m_UsernameText;
+
+    [Header("Misc")]
+    private bool m_GameHasBeenWon;
+
+    private void Awake()
+    {
+        m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
+        m_Rigidbody = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
-        m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<PlayerManager>();
-        //PhotonNetwork.LocalPlayer.SetScore(0);
-
         if (m_PhotonView.IsMine)
         {
             m_DisableRespawning = false;
             m_RespawnTimer = m_MaxRespawnTime;
-            m_Rigidbody = GetComponent<Rigidbody>();
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All, PhotonNetwork.LocalPlayer);
         }
         else
@@ -63,7 +86,7 @@ public class EliminationPlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(!m_PhotonView.IsMine || PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon() || m_DisableRespawning)
+        if(!m_PhotonView.IsMine || m_DisableRespawning || m_GameHasBeenWon)
         {
             if(m_RespawnImage)
             {
@@ -73,29 +96,45 @@ public class EliminationPlayerController : MonoBehaviour
             return;
         }
 
-        if(Input.GetKey(m_RespawnKey))
+        CheckForRespawn();
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if(propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
+        {
+            m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
+        }
+
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+    private void CheckForRespawn()
+    {
+        if (Input.GetKey(m_RespawnKey))
         {
             m_RespawnImage.SetActive(true);
 
             m_RespawnTimer -= Time.deltaTime;
 
-            if(m_RespawnTimer <= 0)
+            if (m_RespawnTimer <= 0)
             {
                 m_RespawnTimer = m_MaxRespawnTime;
-                m_Respawn = RespawnDelay();
+
+                m_Respawn = RespawnDelay("Respawned", false);
                 StartCoroutine(m_Respawn);
             }
         }
         else
         {
-            if(m_RespawnTimer <= m_MaxRespawnTime)
+            if (m_RespawnTimer <= m_MaxRespawnTime)
             {
                 m_RespawnTimer += Time.deltaTime * m_MaxRespawnTime;
             }
         }
 
         m_RespawnImage.fillAmount = m_RespawnTimer / m_MaxRespawnTime;
-        m_RespawnText.text = m_RespawnTimer.ToString("0");
+        m_RespawnTimeText.text = m_RespawnTimer.ToString("0");
 
         if (m_RespawnTimer >= m_MaxRespawnTime)
         {
@@ -103,26 +142,38 @@ public class EliminationPlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator RespawnDelay()
+    private IEnumerator RespawnDelay(string deathCause, bool afterKO)
     {
+        Vector3 freezePoisition = transform.position;
+
         m_DisableRespawning = true;
         m_CarController.Disable(true);
 
-        m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
+
+        //m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, deathCause, afterKO);
+        //m_InGameUI.AddRespawnToUI(m_Player.NickName, deathCause, afterKO);
+
+        m_PhotonView.RPC("RPC_InstantiateRespawnEffect", RpcTarget.All, afterKO);
+
+        FreezeRigidbody(true);
+        //m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         m_PhotonView.RPC("RPC_SetActiveObjects", RpcTarget.All, false);
 
-        m_PhotonView.RPC("RPC_InstantiateRespawnEffect", RpcTarget.All);
+        float totalTime = afterKO ? m_MaxRespawnDelayAfterKO : m_MaxRespawnDelay;
 
-        float totalTime = m_MaxRespawnDelay;
         while (totalTime >= 0)
         {
+            transform.position = freezePoisition;
+
             totalTime -= Time.deltaTime;
 
             yield return null;
         }
 
-        m_Rigidbody.constraints = RigidbodyConstraints.None;
+        FreezeRigidbody(false);
+        //m_Rigidbody.constraints = RigidbodyConstraints.None;
 
         m_PhotonView.RPC("RPC_Respawn", RpcTarget.All);
 
@@ -133,6 +184,49 @@ public class EliminationPlayerController : MonoBehaviour
         m_DisableRespawning = false;
     }
 
+    private void FreezeRigidbody(bool doFreeze)
+    {
+        if(m_CameraController)
+        {
+            m_CameraController.FreezeCameras(doFreeze);
+        }
+
+        if(m_ItemController)
+        {
+            m_ItemController.Disabled(doFreeze);
+        }
+
+        if(!m_Rigidbody)
+        {
+            Debug.LogWarning("There is no Rigidbody");
+            return;
+        }
+
+        if(doFreeze)
+        {
+            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            m_Rigidbody.velocity = Vector3.zero;
+            m_Rigidbody.useGravity = false;
+            m_Rigidbody.freezeRotation = true;
+        }
+        else
+        {
+            m_Rigidbody.constraints = RigidbodyConstraints.None;
+            m_Rigidbody.useGravity = true;
+            m_Rigidbody.freezeRotation = false;
+        }
+    }
+
+    public void SetStunned(bool isStunned)
+    {
+        if(m_DisableRespawning)
+        {
+            return;
+        }
+
+        FreezeRigidbody(isStunned);
+        m_CarController.Disable(isStunned);
+    }
 
     public void Eliminate()
     {
@@ -140,9 +234,21 @@ public class EliminationPlayerController : MonoBehaviour
         StartCoroutine(m_Eliminate);
     }
 
+    public void KO(string deathCause)
+    {
+        m_RespawnTimer = m_MaxRespawnTime; // Just In Case So You Can't Respawn
+
+        m_Respawn = RespawnDelay(deathCause, true);
+        StartCoroutine(m_Respawn);
+    }
+
     private IEnumerator EliminateDelay()
     {
-        if(m_Respawn != null)
+        RaiseAddEliminateToUIEvent(m_Player.NickName);
+        //m_PhotonView.RPC("RPC_AddEliminateToUI", RpcTarget.All, name);
+        //m_InGameUI.AddEliminateToUI(m_Player.NickName);
+
+        if (m_Respawn != null)
         {
             StopCoroutine(m_Respawn);
         }
@@ -154,10 +260,8 @@ public class EliminationPlayerController : MonoBehaviour
             m_CarController.Disable(true);
         }
 
-        if(m_Rigidbody)
-        {
-            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        }
+        FreezeRigidbody(true);
+        //m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         m_PhotonView.RPC("RPC_SetActiveObjects", RpcTarget.All, false);
 
@@ -181,6 +285,22 @@ public class EliminationPlayerController : MonoBehaviour
         m_PhotonView.RPC("RPC_RemovePlayerFromAliveList", RpcTarget.All);
     }
 
+    private void RaiseAddEliminateToUIEvent(string name)
+    {
+        object[] content = new object[] { name };
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerGotEliminatedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+    }
+
+    private void RaiseAddRespawnToUIEvent(string name, string deathCause, bool afterKO)
+    {
+        object[] content = new object[] { name, deathCause, afterKO };
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerRespawnedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+    }
+
     [PunRPC]
     private void RPC_SetActiveObjects(bool value)
     {
@@ -188,6 +308,18 @@ public class EliminationPlayerController : MonoBehaviour
         {
             m_ObjectsToHideDuringRespawn[i].SetActive(value);
         }
+
+        if (m_UsernameText)
+        {
+            if (m_PhotonView.IsMine && m_Player != PhotonNetwork.LocalPlayer)
+            {
+                m_UsernameText.SetActive(value);
+            }
+        }
+
+        m_Collider.enabled = value;
+
+        m_ItemController.HideItems();
     }
 
     [PunRPC]
@@ -197,9 +329,16 @@ public class EliminationPlayerController : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_InstantiateRespawnEffect()
+    private void RPC_InstantiateRespawnEffect(bool afterKO)
     {
-        Instantiate(m_RespawnEffect, transform.position, Quaternion.identity);
+        if(afterKO)
+        {
+            Instantiate(m_RespawnAfterKOEffect, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(m_RespawnEffect, transform.position, Quaternion.identity);
+        }
     }
 
     [PunRPC]
@@ -207,6 +346,8 @@ public class EliminationPlayerController : MonoBehaviour
     {
         EliminationGameManager.Instance.RemoveAlivePlayer(this);
         //Debug.Log("Eliminate Called");
+
+        
         m_PlayerManager.RespawnPlayerAsSpectator();
     }
 

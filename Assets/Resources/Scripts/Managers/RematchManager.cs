@@ -60,7 +60,11 @@ public class RematchManager : MonoBehaviourPunCallbacks
                 playersInroom[i].SetLoadedAndReadyState(false);
             }
 
-            RingManager.Instance.Restart();
+            Projectile[] projectiles = FindObjectsOfType<Projectile>();
+            for (int i = 0; i < projectiles.Length; i++)
+            {
+                PhotonNetwork.Destroy(projectiles[i].gameObject);
+            }
         }
 
         if(EliminationGameManager.Instance)

@@ -5,8 +5,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private LayerMask m_LayerMask;
     [SerializeField] private Vector3 m_PlayerDetectionSize = new Vector3(6f, 6f, 6f);
     private List<Spawnpoint> m_Spawnpoints  = new List<Spawnpoint>();
-    private List<Spawnpoint> m_AvailableSpawnPoints = new List<Spawnpoint>();
-    private int m_PreviousIndex;
     public static SpawnManager Instance { get; private set; }
 
     private void Awake()
@@ -19,40 +17,25 @@ public class SpawnManager : MonoBehaviour
         else
         {
             Instance = this;
-            
-            Spawnpoint[] spawnpoints = GetComponentsInChildren<Spawnpoint>();
-
-            foreach (Spawnpoint spawnpoint in spawnpoints)
-            {
-                m_Spawnpoints.Add(spawnpoint);
-            }
-
-            m_AvailableSpawnPoints = m_Spawnpoints;
         }
-    }
 
-    public Transform GetSpawnPoint()
-    {
-        int index = Random.Range(0, m_Spawnpoints.Count- 1);
+        Spawnpoint[] spawnpoints = GetComponentsInChildren<Spawnpoint>();
 
-        while (index == m_PreviousIndex)
+        foreach (Spawnpoint spawnpoint in spawnpoints)
         {
-            index = Random.Range(0, m_Spawnpoints.Count - 1);
+            m_Spawnpoints.Add(spawnpoint);
         }
-
-        m_PreviousIndex = index;
-        return m_Spawnpoints[index].transform;
     }
 
-    public Transform GetUntakenSpawnpoints()
+    public Transform GetSpawnPoint(int index)
     {
-        if (m_AvailableSpawnPoints.Count == 0)
-            m_AvailableSpawnPoints = m_Spawnpoints;
+        if(index > m_Spawnpoints.Count || index < 0)
+        {
+            Debug.LogWarning("Index is out of range!");
+            return GetRandomSpawnPoint();
+        }
 
-        int index = Random.Range(0, m_AvailableSpawnPoints.Count - 1);
-        Transform Location = m_AvailableSpawnPoints[index].transform;
-        m_AvailableSpawnPoints.RemoveAt(index);
-        return Location;
+        return m_Spawnpoints[index].transform;
     }
 
     public Transform GetRandomSpawnPoint()

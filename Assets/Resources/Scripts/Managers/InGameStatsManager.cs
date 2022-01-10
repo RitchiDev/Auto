@@ -25,24 +25,19 @@ public class InGameStatsManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if(!changedProps.ContainsKey(PlayerProperties.ScoreProperty))
-        {
-            return;
-        }
-
         for (int i = 0; i < m_TabScoreboards.Count; i++)
         {
             TabScoreboard scoreboard = m_TabScoreboards[i];
             scoreboard.UpdateScoreboardItemText(targetPlayer);
 
-            if(targetPlayer == scoreboard.Player) // Old for checking to set the on screen score
-            {
-                InGameUI inGameUI = scoreboard.GetComponentInParent<InGameUI>();
-                if (inGameUI)
-                {
-                    inGameUI.SetOnscreenScore(targetPlayer.GetScore());
-                }
-            }
+            //if(targetPlayer == scoreboard.Player) // Old for checking to set the on screen score
+            //{
+            //    InGameUI inGameUI = scoreboard.GetComponentInParent<InGameUI>();
+            //    if (inGameUI)
+            //    {
+            //        inGameUI.SetOnscreenScore(targetPlayer.GetScore());
+            //    }
+            //}
         }
 
         for (int i = 0; i < m_OnScreenScoreboards.Count; i++)

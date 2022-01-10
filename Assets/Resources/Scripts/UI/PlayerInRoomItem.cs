@@ -26,11 +26,6 @@ public class PlayerInRoomItem : MonoBehaviourPunCallbacks
         m_PlayerNameText.text = name;
     }
 
-    public void SetUp(string name)
-    {
-        m_PlayerNameText.text = name;
-    }
-
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if (m_Player != otherPlayer)
