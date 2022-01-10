@@ -40,19 +40,28 @@ public class RingManager : MonoBehaviour, IOnEventCallback
     public void OnEvent(EventData photonEvent)
     {
         byte eventCode = photonEvent.Code;
-        if (eventCode == EventCodes.ActivateAllRingsEventCode)
-        {
-            ActivateAllRings();
-        }
 
-        if(eventCode == EventCodes.DeactivateAllRingsEventCode)
+        switch (eventCode)
         {
-            DeactiveAllRings();
-        }
+            case PhotonEventCodes.ActivateAllRingsEventCode:
 
-        if(eventCode == EventCodes.ActivateNew500RingEventCode)
-        {
-            ActivateNew500Ring();
+                ActivateAllRings();
+
+                break;
+
+            case PhotonEventCodes.DeactivateAllRingsEventCode:
+
+                DeactiveAllRings();
+
+                break;
+
+            case PhotonEventCodes.ActivateNew500RingEventCode:
+
+                ActivateNew500Ring();
+
+                break;
+            default:
+                break;
         }
     }
 
@@ -77,7 +86,7 @@ public class RingManager : MonoBehaviour, IOnEventCallback
 
     public void ActivateAllRings()
     {
-        Debug.Log("Activating all rings!");
+        //Debug.Log("Activating all rings!");
 
         for (int i = 0; i < m_Rings.Count; i++)
         {

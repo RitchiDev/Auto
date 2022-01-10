@@ -8,11 +8,10 @@ namespace Andrich.UtilityScripts
 {
     public class RoomProperties
     {
-        public const string GameModeNameProperty = "GameModeName";
         public const string TimeProperty = "CurrentEliminateTime";
         public const string TimerIsPausedProperty = "TimerIsPaused";
-        public const string GameHasBeenWonProperty = "GameHasBeenWon";
-        public const string PlayerWhoWonProperty = "PlayerWhoWon";
+        //public const string GameHasBeenWonProperty = "GameHasBeenWon";
+        //public const string PlayerWhoWonProperty = "PlayerWhoWon";
     }
 
     public static class TimerExtensions
@@ -59,44 +58,44 @@ namespace Andrich.UtilityScripts
         }
     }
 
-    public static class HasWonExtensions
-    {
-        public static void SetIfGameHasBeenWon(this Room room, bool gameHasBeenWon)
-        {
-            PhotonHashtable won = new PhotonHashtable();  // using PUN's implementation of Hashtable
-            won[RoomProperties.GameHasBeenWonProperty] = gameHasBeenWon;
+    //public static class HasWonExtensions
+    //{
+    //    public static void SetIfGameHasBeenWon(this Room room, bool gameHasBeenWon)
+    //    {
+    //        PhotonHashtable won = new PhotonHashtable();  // using PUN's implementation of Hashtable
+    //        won[RoomProperties.GameHasBeenWonProperty] = gameHasBeenWon;
 
-            room.SetCustomProperties(won);  // this locally sets whether the game has been won and will sync it in-game asap.
-        }
+    //        room.SetCustomProperties(won);  // this locally sets whether the game has been won and will sync it in-game asap.
+    //    }
 
-        public static bool GetIfGameHasBeenWon(this Room room)
-        {
-            object won;
-            if (room.CustomProperties.TryGetValue(RoomProperties.GameHasBeenWonProperty, out won))
-            {
-                return (bool)won;
-            }
+    //    public static bool GetIfGameHasBeenWon(this Room room)
+    //    {
+    //        object won;
+    //        if (room.CustomProperties.TryGetValue(RoomProperties.GameHasBeenWonProperty, out won))
+    //        {
+    //            return (bool)won;
+    //        }
 
-            return false;
-        }
+    //        return false;
+    //    }
 
-        public static void SetPlayerWhoWon(this Room room, Player playerWhoWon)
-        {
-            PhotonHashtable player = new PhotonHashtable();  // using PUN's implementation of Hashtable
-            player[RoomProperties.PlayerWhoWonProperty] = playerWhoWon;
+    //    public static void SetPlayerWhoWon(this Room room, Player playerWhoWon)
+    //    {
+    //        PhotonHashtable player = new PhotonHashtable();  // using PUN's implementation of Hashtable
+    //        player[RoomProperties.PlayerWhoWonProperty] = playerWhoWon;
 
-            room.SetCustomProperties(player);  // this locally the name of the player who won and will sync it in-game asap.
-        }
+    //        room.SetCustomProperties(player);  // this locally the name of the player who won and will sync it in-game asap.
+    //    }
 
-        public static Player GetPlayerWhoWon(this Room room)
-        {
-            object player;
-            if (room.CustomProperties.TryGetValue(RoomProperties.PlayerWhoWonProperty, out player))
-            {
-                return (Player)player;
-            }
+    //    public static Player GetPlayerWhoWon(this Room room)
+    //    {
+    //        object player;
+    //        if (room.CustomProperties.TryGetValue(RoomProperties.PlayerWhoWonProperty, out player))
+    //        {
+    //            return (Player)player;
+    //        }
 
-            return null;
-        }
-    }
+    //        return null;
+    //    }
+    //}
 }

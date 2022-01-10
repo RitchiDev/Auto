@@ -49,9 +49,9 @@ public class ItemController : MonoBehaviourPunCallbacks
     [Header("Misc")]
     [SerializeField] private GameObject m_ItemHolder;
     private bool m_IsShielded;
-    private bool m_GameHasBeenWon;
     private bool m_Stunned;
     private bool m_Disable;
+    private bool m_GameHasBeenWon => m_PlayerController.GameHasBeenWon;
 
     private void Awake()
     {
@@ -80,16 +80,6 @@ public class ItemController : MonoBehaviourPunCallbacks
 
             UseItem(m_CurrentItemData.ItemType);
         }
-    }
-
-    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
-    {
-        if (propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
-        {
-            m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
-        }
-
-        base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 
     public void Disabled(bool isDisabled)

@@ -56,6 +56,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     [Header("Misc")]
     private bool m_GameHasBeenWon;
+    public bool GameHasBeenWon => m_GameHasBeenWon;
 
     private void Awake()
     {
@@ -143,22 +144,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
-    {
-        if(propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
-        {
-            m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
-        }
-
-        if(m_GameHasBeenWon || !m_PhotonView.IsMine)
-        {
-            return;
-        }
-
-        
-        base.OnRoomPropertiesUpdate(propertiesThatChanged);
-    }
-
     private void CheckForRespawn()
     {
         if (Input.GetKey(m_RespawnKey))
@@ -199,7 +184,8 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         m_DisableRespawning = true;
         m_CarController.Disable(true);
 
-        RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
+        PhotonEvents.RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
+        //RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
 
         //m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, deathCause, afterKO);
         //m_InGameUI.AddRespawnToUI(m_Player.NickName, deathCause, afterKO);
@@ -294,7 +280,9 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     private IEnumerator EliminateDelay()
     {
-        RaiseAddEliminateToUIEvent(m_Player.NickName);
+        PhotonEvents.RaiseAddEliminateToUIEvent(m_Player.NickName);
+        //RaiseAddEliminateToUIEvent(m_Player.NickName);
+
         //m_PhotonView.RPC("RPC_AddEliminateToUI", RpcTarget.All, name);
         //m_InGameUI.AddEliminateToUI(m_Player.NickName);
 
@@ -333,22 +321,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     public void RemovePlayerFromAliveList()
     {
         m_PhotonView.RPC("RPC_RemovePlayerFromAliveList", RpcTarget.All);
-    }
-
-    private void RaiseAddEliminateToUIEvent(string name)
-    {
-        object[] content = new object[] { name };
-
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerGotEliminatedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-    }
-
-    private void RaiseAddRespawnToUIEvent(string name, string deathCause, bool afterKO)
-    {
-        object[] content = new object[] { name, deathCause, afterKO };
-
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerRespawnedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
     }
 
     [PunRPC]

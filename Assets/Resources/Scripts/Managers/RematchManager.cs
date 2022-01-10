@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Andrich.UtilityScripts;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
-public class RematchManager : MonoBehaviourPunCallbacks
+public class RematchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     public static RematchManager Instance { get; private set; }
     private int m_NumberOfPlayersWhoVotedRematch;
     public int NumberOfPlayersWhoVotedRematch => m_NumberOfPlayersWhoVotedRematch;
+
+    private bool m_GameHasBeenWon;
 
     private void Awake()
     {
@@ -32,7 +35,7 @@ public class RematchManager : MonoBehaviourPunCallbacks
         {
             m_NumberOfPlayersWhoVotedRematch = GetAmountOfPlayersWhoAreReady();
 
-            if (PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+            if (m_GameHasBeenWon)
             {
                 if (m_NumberOfPlayersWhoVotedRematch >= PhotonNetwork.CurrentRoom.PlayerCount)
                 {
@@ -96,6 +99,25 @@ public class RematchManager : MonoBehaviourPunCallbacks
         }
 
         return amountOfPlayersWhoVotedRematch;
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+
+        switch (photonEvent.Code)
+        {
+            case PhotonEventCodes.CheckIfGameHasBeenWonEventCode:
+
+                object[] winData = (object[])photonEvent.CustomData;
+
+                m_GameHasBeenWon = (bool)winData[0];
+
+                break;
+
+            default:
+                break;
+        }
     }
 }
 
