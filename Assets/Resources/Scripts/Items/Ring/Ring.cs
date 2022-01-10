@@ -39,7 +39,10 @@ public class Ring : MonoBehaviour
 
             if(m_ScoreToAdd >= 500)
             {
-                PhotonEvents.RaiseActivateNew500RingEvent();
+                if(PhotonNetwork.IsMasterClient)
+                {
+                    PhotonEvents.RaiseActivateNew500RingEvent(RingManager.Instance.GetNew500RingListIndex());
+                }
                 //RaiseActivateNew500RingEvent();
                 Deactivate(false);
             }

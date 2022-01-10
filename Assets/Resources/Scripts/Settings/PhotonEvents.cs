@@ -47,12 +47,6 @@ namespace Andrich.UtilityScripts
             PhotonNetwork.RaiseEvent(PhotonEventCodes.ActivateAllRingsEventCode, null, raiseEventOptions, SendOptions.SendReliable);
         }
 
-        public static void RaiseActivateNew500RingEvent()
-        {
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(PhotonEventCodes.ActivateNew500RingEventCode, null, raiseEventOptions, SendOptions.SendReliable);
-        }
-
         public static void RaiseActivateNew500RingEvent(int ringToSetActive)
         {
             object[] eventContent = new object[] { ringToSetActive };
