@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_Loops: 10
   m_LoopTime: 0.2
   m_ItemPrefabs:
-  - {fileID: 3998561919316156196, guid: e6da08b7416243745baebba30f4997a6, type: 3}
+  - {fileID: 3998561919316156196, guid: 9e88273df2d51e74ea7c4ef8d326300d, type: 3}
   - {fileID: -3477045290173900564, guid: 389871cf18829fa43b45b00d8d7e20de, type: 3}
   - {fileID: 9040374127612177983, guid: caae2a5bc19a58e4f8528c90575e9326, type: 3}
   - {fileID: -1943931487497499660, guid: c87b515e364940242a62f676188f1265, type: 3}
