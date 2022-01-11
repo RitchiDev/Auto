@@ -36,7 +36,7 @@ public class EliminationPlayerManager : PlayerManager
             player.SetDeaths(0);
             player.SetKOs(0);
             player.SetReadyState(false);
-            //player.SetVotedRematchState(false);
+            player.SetVotedRematchState(false);
             player.SetIfEliminated(false);
             player.SetLoadedAndReadyState(true);
             CreatePlayerController();
@@ -80,7 +80,7 @@ public class EliminationPlayerManager : PlayerManager
         if (m_PhotonView.IsMine)
         {
             PhotonNetwork.LocalPlayer.AddDeath(1);
-            //PhotonNetwork.LocalPlayer.AddScore(-ScoreProperties.ScoreReductionOnRespawn);
+            PhotonNetwork.LocalPlayer.AddScore(-250);
 
             //AddRespawnToUI(PhotonNetwork.LocalPlayer.NickName, deathCause, afterKO);
 

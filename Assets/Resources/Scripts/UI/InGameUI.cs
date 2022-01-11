@@ -41,14 +41,13 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField] private Sprite m_QuestionMarkSprite;
 
     [Header("Misc")]
-    private bool m_GameHasBeenWon;
-    private Player m_PlayerWhoWon;
+    private bool m_GameIsWon;
 
     private void Start()
     {
         if(m_PhotonView.IsMine)
         {
-            //m_GameHasBeenWon = false;
+            m_GameIsWon = false;
             m_PlayerManager = PhotonView.Find((int)m_PhotonView.InstantiationData[0]).GetComponent<EliminationPlayerManager>();
 
             Cursor.visible = false;
@@ -68,7 +67,7 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private void Update()
     {
-        if(!m_PhotonView.IsMine || m_GameHasBeenWon)
+        if(!m_PhotonView.IsMine || m_GameIsWon)
         {
             return;
         }
@@ -103,21 +102,29 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
-        if(m_GameHasBeenWon)
+        if(propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
         {
-            UpdateOnScreenPlayersWhoVotedRematch();
+            if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
+            {
+                UpdateOnScreenPlayersWhoVotedRematch();
+
+                if(PhotonNetwork.CurrentRoom.GetPlayerWhoWon() != null)
+                {
+                    OpenWinMenu(PhotonNetwork.CurrentRoom.GetPlayerWhoWon().NickName);
+                }
+            }
         }
 
-        base.OnPlayerLeftRoom(otherPlayer);
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if(changedProps.ContainsKey(PlayerProperties.IsReadyProperty))
+        if(changedProps.ContainsKey(PlayerProperties.VotedRematchProperty))
         {
-            if(m_GameHasBeenWon)
+            if(PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
             {
                 UpdateOnScreenPlayersWhoVotedRematch();
             }
@@ -128,43 +135,18 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void OnEvent(EventData photonEvent)
     {
-        byte eventCode = photonEvent.Code;
-
-        switch (eventCode)
+        if (photonEvent.Code == EventCodes.AddPlayerGotEliminatedToUIEventCode)
         {
-            case PhotonEventCodes.CheckIfGameHasBeenWonEventCode:
+            object[] data = (object[])photonEvent.CustomData;
 
-                object[] winData = (object[])photonEvent.CustomData;
+            AddEliminateToUI((string)data[0]);
+        }
 
-                m_GameHasBeenWon = (bool)winData[0];
-                m_PlayerWhoWon = (Player)winData[1];
+        if (photonEvent.Code == EventCodes.AddPlayerRespawnedToUIEventCode)
+        {
+            object[] data = (object[])photonEvent.CustomData;
 
-                UpdateOnScreenPlayersWhoVotedRematch();
-
-                if (m_PlayerWhoWon != null)
-                {
-                    OpenWinMenu(m_PlayerWhoWon.NickName);
-                }
-
-                break;
-
-            case PhotonEventCodes.AddPlayerRespawnedToUIEventCode:
-
-                object[] respawnData = (object[])photonEvent.CustomData;
-
-                AddRespawnToUI((string)respawnData[0], (string)respawnData[1], (bool)respawnData[2]);
-
-                break;
-            case PhotonEventCodes.AddPlayerGotEliminatedToUIEventCode:
-
-                object[] eliminateData = (object[])photonEvent.CustomData;
-
-                AddEliminateToUI((string)eliminateData[0]);
-
-                break;
-
-            default:
-                break;
+            AddRespawnToUI((string)data[0], (string)data[1], (bool)data[2]);
         }
     }
 
@@ -190,8 +172,7 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
         if(m_PhotonView.IsMine)
         {
             Player player = PhotonNetwork.LocalPlayer;
-            player.SetReadyState(!player.GetIfReady());
-            //player.SetVotedRematchState(!player.GetIfVotedRematch());
+            player.SetVotedRematchState(!player.GetIfVotedRematch());
             //Debug.Log("Voted: " + player.GetIfVotedRematch());
         }
     }
@@ -252,7 +233,7 @@ public class InGameUI : MonoBehaviourPunCallbacks, IOnEventCallback
 
         ClosePauseMenu();
 
-        //m_GameHasBeenWon = true;
+        m_GameIsWon = true;
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

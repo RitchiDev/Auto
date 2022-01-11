@@ -15,7 +15,6 @@ public class UsernameDisplay : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-
         m_Username.text = m_PhotonView.Owner.NickName;
     }
 }

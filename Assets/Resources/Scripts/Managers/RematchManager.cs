@@ -4,15 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Andrich.UtilityScripts;
 using Photon.Realtime;
-using ExitGames.Client.Photon;
 
-public class RematchManager : MonoBehaviourPunCallbacks, IOnEventCallback
+public class RematchManager : MonoBehaviourPunCallbacks
 {
     public static RematchManager Instance { get; private set; }
     private int m_NumberOfPlayersWhoVotedRematch;
     public int NumberOfPlayersWhoVotedRematch => m_NumberOfPlayersWhoVotedRematch;
-
-    private bool m_GameHasBeenWon;
 
     private void Awake()
     {
@@ -31,11 +28,11 @@ public class RematchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if (changedProps.ContainsKey(PlayerProperties.IsReadyProperty))
+        if (changedProps.ContainsKey(PlayerProperties.VotedRematchProperty))
         {
             m_NumberOfPlayersWhoVotedRematch = GetAmountOfPlayersWhoAreReady();
 
-            if (m_GameHasBeenWon)
+            if (PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
             {
                 if (m_NumberOfPlayersWhoVotedRematch >= PhotonNetwork.CurrentRoom.PlayerCount)
                 {
@@ -91,33 +88,13 @@ public class RematchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         for (int i = 0; i < playersInroom.Length; i++)
         {
-            //if (playersInroom[i].GetIfVotedRematch())
-            if (playersInroom[i].GetIfReady())
+            if (playersInroom[i].GetIfVotedRematch())
             {
                 amountOfPlayersWhoVotedRematch++;
             }
         }
 
         return amountOfPlayersWhoVotedRematch;
-    }
-
-    public void OnEvent(EventData photonEvent)
-    {
-        byte eventCode = photonEvent.Code;
-
-        switch (photonEvent.Code)
-        {
-            case PhotonEventCodes.CheckIfGameHasBeenWonEventCode:
-
-                object[] winData = (object[])photonEvent.CustomData;
-
-                m_GameHasBeenWon = (bool)winData[0];
-
-                break;
-
-            default:
-                break;
-        }
     }
 }
 

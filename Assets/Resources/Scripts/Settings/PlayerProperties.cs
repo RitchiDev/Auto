@@ -11,6 +11,7 @@ namespace Andrich.UtilityScripts
         public const string KOsProperty = "PlayerKOs";
         public const string IsReadyProperty = "PlayerIsReady";
         public const string LoadedLevelProperty = "PlayerLoadedLevel";
+        public const string VotedRematchProperty = "PlayerVotedRematch";
         public const string IsEliminatedProperty = "PlayerIsEliminated";
         public const string SelectedPrimaryMaterialProperty = "PlayerSelectedPrimaryMaterial";
         public const string SelectedSecondaryMaterialProperty = "PlayerSelectedSecondaryMaterial";
@@ -115,7 +116,7 @@ namespace Andrich.UtilityScripts
         }
     }
 
-    public static class ReadyExtensions
+    public static class ReadyToggleExtensions
     {
         public static void SetReadyState(this Player player, bool isReady)
         {
@@ -159,6 +160,28 @@ namespace Andrich.UtilityScripts
         }
     }
 
+    public static class VotedRematchExtensions
+    {
+        public static void SetVotedRematchState(this Player player, bool isReady)
+        {
+            PhotonHashtable ready = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            ready[PlayerProperties.VotedRematchProperty] = isReady;
+
+            player.SetCustomProperties(ready);  // this locally sets if the player voted rematch state and will sync it in-game asap.
+        }
+
+        public static bool GetIfVotedRematch(this Player player)
+        {
+            object ready;
+            if (player.CustomProperties.TryGetValue(PlayerProperties.VotedRematchProperty, out ready))
+            {
+                return (bool)ready;
+            }
+
+            return false;
+        }
+    }
+
     public static class EliminatedExtensions
     {
         public static void SetIfEliminated(this Player player, bool isEliminated)
@@ -183,7 +206,7 @@ namespace Andrich.UtilityScripts
 
     public static class CarMaterialExtensions
     {
-        public static void SetPrimaryMaterialIndex(this Player player, byte index)
+        public static void SetPrimaryMaterialIndex(this Player player, int index)
         {
             PhotonHashtable primaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
             primaryIndex[PlayerProperties.SelectedPrimaryMaterialProperty] = index;
@@ -191,10 +214,10 @@ namespace Andrich.UtilityScripts
             player.SetCustomProperties(primaryIndex);  // this locally sets the primary material index and will sync it in-game asap.
         }
 
-        public static void ChangePrimaryMaterialIndex(this Player player, byte amount)
+        public static void ChangePrimaryMaterialIndex(this Player player, int amount)
         {
-            byte current = player.GetPrimaryMaterialIndex();
-            current = (byte)(current + amount);
+            int current = player.GetPrimaryMaterialIndex();
+            current = current + amount;
 
             PhotonHashtable primaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
             primaryIndex[PlayerProperties.SelectedPrimaryMaterialProperty] = current;
@@ -202,18 +225,18 @@ namespace Andrich.UtilityScripts
             player.SetCustomProperties(primaryIndex);  // this locally sets the primary index and will sync it in-game asap.
         }
 
-        public static byte GetPrimaryMaterialIndex(this Player player)
+        public static int GetPrimaryMaterialIndex(this Player player)
         {
             object primaryIndex;
             if (player.CustomProperties.TryGetValue(PlayerProperties.SelectedPrimaryMaterialProperty, out primaryIndex))
             {
-                return (byte)primaryIndex;
+                return (int)primaryIndex;
             }
 
             return 0;
         }
 
-        public static void SetSecondaryMaterialIndex(this Player player, byte index)
+        public static void SetSecondaryMaterialIndex(this Player player, int index)
         {
             PhotonHashtable secondaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
             secondaryIndex[PlayerProperties.SelectedSecondaryMaterialProperty] = index;
@@ -221,10 +244,10 @@ namespace Andrich.UtilityScripts
             player.SetCustomProperties(secondaryIndex);  // this locally sets the secondary material index and will sync it in-game asap.
         }
 
-        public static void ChangeSecondaryMaterialIndex(this Player player, byte amount)
+        public static void ChangeSecondaryMaterialIndex(this Player player, int amount)
         {
-            byte current = player.GetSecondaryMaterialIndex();
-            current = (byte)(current + amount);
+            int current = player.GetSecondaryMaterialIndex();
+            current = current + amount;
 
             PhotonHashtable secondaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
             secondaryIndex[PlayerProperties.SelectedSecondaryMaterialProperty] = current;
@@ -233,12 +256,12 @@ namespace Andrich.UtilityScripts
 
         }
 
-        public static byte GetSecondaryMaterialIndex(this Player player)
+        public static int GetSecondaryMaterialIndex(this Player player)
         {
             object secondaryIndex;
             if (player.CustomProperties.TryGetValue(PlayerProperties.SelectedSecondaryMaterialProperty, out secondaryIndex))
             {
-                return (byte)secondaryIndex;
+                return (int)secondaryIndex;
             }
 
             return 0;
