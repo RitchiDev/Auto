@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Andrich.UtilityScripts;
-using ExitGames.Client.Photon;
-using Photon.Realtime;
 
-public class ItemBox : MonoBehaviour, IOnEventCallback
+public class ItemBox : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private MeshRenderer m_MeshRenderer;
-    private Collider m_Collider;
-    private IEnumerator m_ReActivate;
 
     [Header("Misc")]
     [SerializeField] private float m_TimeBeforeReActivation = 20f;
@@ -20,22 +16,13 @@ public class ItemBox : MonoBehaviour, IOnEventCallback
     [SerializeField] private GameObject m_PickUpEffect;
 
     //private PhotonView m_PhotonView;
-    private bool m_GameHasBeenWon;
+    private Collider m_Collider;
+    private IEnumerator m_ReActivate;
 
     private void Awake()
     {
         //m_PhotonView = GetComponentInParent<PhotonView>();
         m_Collider = GetComponent<Collider>();
-    }
-
-    private void OnEnable()
-    {
-        PhotonNetwork.AddCallbackTarget(this);
-    }
-
-    private void OnDisable()
-    {
-        PhotonNetwork.RemoveCallbackTarget(this);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -88,28 +75,9 @@ public class ItemBox : MonoBehaviour, IOnEventCallback
             yield return null;
         }
 
-        if (!m_GameHasBeenWon)
+        if (!PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon())
         {
             Activate();
-        }
-    }
-
-    public void OnEvent(EventData photonEvent)
-    {
-        byte eventCode = photonEvent.Code;
-
-        switch (eventCode)
-        {
-            case PhotonEventCodes.CheckIfGameHasBeenWonEventCode:
-
-                object[] data = (object[])photonEvent.CustomData;
-
-                m_GameHasBeenWon = (bool)data[0];
-
-                break;
-
-            default:
-                break;
         }
     }
 }

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Elimination/Elimination Map 1.unity
     guid: 3f57e7342ccb263459584cfe263dc629
+  - enabled: 1
+    path: Assets/Scenes/Elimination/Elimination Map 2.unity
+    guid: b5b20bc5b8e9ff244b7bed760f04227c
   m_configObjects: {}

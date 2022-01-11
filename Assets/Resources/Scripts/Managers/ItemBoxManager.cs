@@ -51,23 +51,14 @@ public class ItemBoxManager : MonoBehaviour, IOnEventCallback
     public void OnEvent(EventData photonEvent)
     {
         byte eventCode = photonEvent.Code;
-
-        switch (eventCode)
+        if (eventCode == EventCodes.ActivateAllItemBoxesEventCode)
         {
-            case PhotonEventCodes.ActivateAllItemBoxesEventCode:
+            ActivateAllItemBoxes();
+        }
 
-                ActivateAllItemBoxes();
-
-                break;
-
-            case PhotonEventCodes.DeactivateAllItemBoxesEventCode:
-
-                DeactivateAllItemBoxes();
-
-                break;
-
-            default:
-                break;
+        if (eventCode == EventCodes.DeactivateAllItemBoxesEventCode)
+        {
+            DeactivateAllItemBoxes();
         }
     }
 

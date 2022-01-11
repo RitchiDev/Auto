@@ -296,6 +296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PickUpNoise
       objectReference: {fileID: 0}
+    - target: {fileID: 7364903126649849520, guid: 64cc370ceb82b2b408a94eaf878b0c3b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64cc370ceb82b2b408a94eaf878b0c3b, type: 3}
 --- !u!4 &2855258926978548793 stripped

@@ -32,7 +32,7 @@ public class ExplosionArea : MonoBehaviour
             yield return null;
         }
 
-        //Debug.Log("Deactivated Explosion");
+        Debug.Log("Deactivated Explosion");
 
         Destroy(gameObject);
         //gameObject.SetActive(false);
