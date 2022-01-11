@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ItemData: {fileID: 11400000, guid: 7553472468452be4987f8e40dcba02ef, type: 2}
-  m_UseTime: 10
+  m_UseTime: 8
 --- !u!65 &4008579580139055966
 BoxCollider:
   m_ObjectHideFlags: 0

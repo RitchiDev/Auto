@@ -21,7 +21,8 @@ namespace Andrich.UtilityScripts
         public const byte AddPlayerRespawnedToUIEventCode = 7;
 
         public const byte CheckIfGameHasBeenWonEventCode = 8;
-        public const byte RaisePlayerEditedCarColorEventCode = 9;
+        public const byte RaisePlayerEditedPrimaryCarColorEventCode = 9;
+        public const byte RaisePlayerEditedSecondaryCarColorEventCode = 10;
     }
 
     public static class PhotonEvents
@@ -88,18 +89,18 @@ namespace Andrich.UtilityScripts
 
         public static void RaisePlayerEditedPrimaryCarControllerEvent(byte primaryIndex, Player playerWhoEdited)
         {
-            //object[] eventContent = new object[] { primaryIndex, secondaryIndex, playerWhoEdited };
+            object[] eventContent = new object[] { primaryIndex, playerWhoEdited };
 
-            //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            //PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedPrimaryCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
         }
 
         public static void RaisePlayerEditedSecondaryCarControllerEvent(byte secondaryIndex, Player playerWhoEdited)
         {
-            //object[] eventContent = new object[] { primaryIndex, secondaryIndex, playerWhoEdited };
+            object[] eventContent = new object[] { secondaryIndex, playerWhoEdited };
 
-            //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            //PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedSecondaryCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 }

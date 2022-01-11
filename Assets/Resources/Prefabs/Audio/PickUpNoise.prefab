@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1996773686298232295}
   - component: {fileID: 8331265811160516179}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PickUpNoise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 2803444968037680251, guid: 3006ef23ebf93d3418815eed405f9037,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 257ad41856c414a4fa83c51d7778725c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ff22e943da24249f79b9254243475586, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1

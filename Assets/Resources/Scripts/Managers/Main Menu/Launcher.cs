@@ -55,15 +55,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.OfflineMode = true;
         m_PlayerNameInputField.onValueChanged.AddListener(text => EditingPlayerName(text));
 
-        if(PlayerPrefs.HasKey(SettingsProperties.UsernameProperty))
-        {
-            string savedUsername = PlayerPrefs.GetString(SettingsProperties.UsernameProperty);
-            savedUsername = savedUsername.Replace(" ", "_");
-            savedUsername = savedUsername.ReplaceCurseWords();
+        string savedUsername = PlayerPrefs.GetString(SettingsProperties.UsernameProperty, SettingsProperties.DefaultUsername);
+        savedUsername = savedUsername.Replace(" ", "_");
+        savedUsername = savedUsername.ReplaceCurseWords();
 
-            PhotonNetwork.NickName = savedUsername;
-            m_PlayerNameInputField.text = savedUsername;
-        }
+        PhotonNetwork.NickName = savedUsername;
+        m_PlayerNameInputField.text = savedUsername;
     }
 
     private void EditingPlayerName(string value)
@@ -183,6 +180,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
 
         RoomOptions roomOptions = new RoomOptions();
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { RoomProperties.GameModeNameProperty};
+        roomOptions.CustomRoomProperties = new PhotonHashTable { { RoomProperties.GameModeNameProperty, GameModeManager.Instance.SelectedGameMode.GameModeName } };
         roomOptions.MaxPlayers = (byte)GameModeManager.Instance.MaxPlayers;
 
         PhotonNetwork.CreateRoom(m_RoomNameInputField.text, roomOptions);
@@ -311,6 +310,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             RoomInfo room = m_RoomsList[i];
 
+
             if (m_RoomListItemPrefab == null)
             {
                 Debug.LogError("m_RoomListItemPrefab is null!");
@@ -319,7 +319,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
             if (!room.RemovedFromList)
             {
-                Instantiate(m_RoomListItemPrefab, m_RoomListContent).GetComponent<RoomListItem>().SetUp(room);
+                string gameModeName = (string)room.CustomProperties[RoomProperties.GameModeNameProperty];
+                Instantiate(m_RoomListItemPrefab, m_RoomListContent).GetComponent<RoomListItem>().SetUp(room, gameModeName);
             }
         }
     }

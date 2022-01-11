@@ -40,11 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-<<<<<<< Updated upstream
         m_Texture: {fileID: 2800000, guid: 0c7b6c5e2ee79d2469fc70cb06f2d89b, type: 3}
-=======
-        m_Texture: {fileID: 2800000, guid: 971d454ccaa1c0940b32e8750342c28d, type: 3}
->>>>>>> Stashed changes
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

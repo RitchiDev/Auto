@@ -40,19 +40,30 @@ public class RingManager : MonoBehaviour, IOnEventCallback
     public void OnEvent(EventData photonEvent)
     {
         byte eventCode = photonEvent.Code;
-        if (eventCode == EventCodes.ActivateAllRingsEventCode)
-        {
-            ActivateAllRings();
-        }
 
-        if(eventCode == EventCodes.DeactivateAllRingsEventCode)
+        switch (eventCode)
         {
-            DeactiveAllRings();
-        }
+            case PhotonEventCodes.ActivateAllRingsEventCode:
 
-        if(eventCode == EventCodes.ActivateNew500RingEventCode)
-        {
-            ActivateNew500Ring();
+                ActivateAllRings();
+
+                break;
+
+            case PhotonEventCodes.DeactivateAllRingsEventCode:
+
+                DeactiveAllRings();
+
+                break;
+
+            case PhotonEventCodes.ActivateNew500RingEventCode:
+
+                object[] ringIndexData = (object[])photonEvent.CustomData;
+
+                ActivateNew500Ring((int)ringIndexData[0]);
+
+                break;
+            default:
+                break;
         }
     }
 
@@ -75,21 +86,24 @@ public class RingManager : MonoBehaviour, IOnEventCallback
         //DeactiveAllRings();
     }
 
-    public void ActivateAllRings()
+    private void ActivateAllRings()
     {
-        Debug.Log("Activating all rings!");
+        //Debug.Log("Activating all rings!");
 
         for (int i = 0; i < m_Rings.Count; i++)
         {
             m_Rings[i].Activate();
         }
 
-        ActivateNew500Ring();
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonEvents.RaiseActivateNew500RingEvent(GetNew500RingListIndex());
+        }
     }
 
-    public void DeactiveAllRings()
+    private void DeactiveAllRings()
     {
-        Debug.Log("Deactivating all rings!");
+        //Debug.Log("Deactivating all rings!");
 
         for (int i = 0; i < m_Rings.Count; i++)
         {
@@ -102,14 +116,12 @@ public class RingManager : MonoBehaviour, IOnEventCallback
         }
     }
 
-    public void ActivateNew500Ring()
+    public int GetNew500RingListIndex()
     {
-        Debug.Log("Activating new 500 ring!");
-
         if (m_RingsWorth500.Count <= 0)
         {
-            Debug.Log("There are no rings worth 500 in the scene!");
-            return;
+            Debug.LogError("There are no rings worth 500 in the scene!");
+            return 0;
         }
 
         int index = Random.Range(0, m_RingsWorth500.Count - 1);
@@ -129,13 +141,23 @@ public class RingManager : MonoBehaviour, IOnEventCallback
 
             if (m_RingsWorth500[index] != m_PreviousRing)
             {
-                //Debug.Log("New Ring Activated Succesfully!");
-
                 newRingHasBeenActivated = true;
             }
         }
 
-        m_RingsWorth500[index].Activate();
+        return index;
     }
 
+    private void ActivateNew500Ring(int index)
+    {
+        //Debug.Log("Activating new 500 ring!");
+
+        if (m_RingsWorth500.Count <= 0)
+        {
+            Debug.Log("There are no rings worth 500 in the scene!");
+            return;
+        }
+
+        m_RingsWorth500[index].Activate();
+    }
 }

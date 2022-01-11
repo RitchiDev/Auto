@@ -39,7 +39,8 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
             byte secondaryIndex = (byte)PlayerPrefs.GetInt(SettingsProperties.SelectedSecondaryCarColorIndexProperty, SettingsProperties.DefaultCarColorIndex);
             //PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex(secondaryIndex);
 
-            //PhotonEvents.RaisePlayerEditedPrimaryCarControllerEvent(primaryIndex, secondaryIndex, player);
+            PhotonEvents.RaisePlayerEditedPrimaryCarControllerEvent(primaryIndex, player);
+            PhotonEvents.RaisePlayerEditedSecondaryCarControllerEvent(secondaryIndex, player);
         }
     }
 
@@ -49,11 +50,19 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
 
         switch (eventCode)
         {
-            case PhotonEventCodes.RaisePlayerEditedCarColorEventCode:
+            case PhotonEventCodes.RaisePlayerEditedPrimaryCarColorEventCode:
 
-                object[] currentData = (object[])photonEvent.CustomData;
+                object[] primaryData = (object[])photonEvent.CustomData;
 
-                UpdateCarSprite((byte)currentData[0], (byte)currentData[1], (Player)currentData[2]);
+                UpdateCarSpritePrimary((byte)primaryData[0], (Player)primaryData[1]);
+
+                break;
+
+            case PhotonEventCodes.RaisePlayerEditedSecondaryCarColorEventCode:
+
+                object[] secondaryData = (object[])photonEvent.CustomData;
+
+                UpdateCarSpriteSecondary((byte)secondaryData[0], (Player)secondaryData[1]);
 
                 break;
 
@@ -62,15 +71,21 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
         }
     }
 
-    private void UpdateCarSprite(int primaryIndex, int secondaryIndex, Player player)
+    private void UpdateCarSpritePrimary(int primaryIndex, Player player)
     {
         if (player == m_Player)
         {
-            m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(player.GetPrimaryMaterialIndex());
-            m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(player.GetPrimaryMaterialIndex());
+            m_PrimaryColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(primaryIndex);
+            m_PrimarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedPrimaryColor(primaryIndex);
+        }
+    }
 
-            m_SecondaryColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(player.GetSecondaryMaterialIndex());
-            m_SecondarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(player.GetSecondaryMaterialIndex());
+    private void UpdateCarSpriteSecondary(int secondaryIndex, Player player)
+    {
+        if (player == m_Player)
+        {
+            m_SecondaryColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(secondaryIndex);
+            m_SecondarySpriteColorImage.color = CarMaterialManager.Instance.GetSelectedSecondaryColor(secondaryIndex);
         }
     }
 
@@ -81,14 +96,15 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
             return;
         }
 
-        int index = PhotonNetwork.LocalPlayer.GetPrimaryMaterialIndex();
-        index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxPrimaryIndex);
+        //int index = PhotonNetwork.LocalPlayer.GetPrimaryMaterialIndex();
+        int index = PlayerPrefs.GetInt(SettingsProperties.SelectedPrimaryCarColorIndexProperty, SettingsProperties.DefaultCarColorIndex);
+        index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxSecondaryIndex);
 
         //PhotonNetwork.LocalPlayer.SetPrimaryMaterialIndex((byte)index);
 
         PlayerPrefs.SetInt(SettingsProperties.SelectedPrimaryCarColorIndexProperty, index);
 
-        //PhotonEvents.RaisePlayerEditedCarControllerEvent(primaryIndex, secondaryIndex, player);
+        PhotonEvents.RaisePlayerEditedPrimaryCarControllerEvent((byte)index, PhotonNetwork.LocalPlayer);
     }
 
     public void ChangeSecondaryCarMaterial(int amount)
@@ -98,10 +114,13 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
             return;
         }
 
-        int index = PhotonNetwork.LocalPlayer.GetSecondaryMaterialIndex();
+        //int index = PhotonNetwork.LocalPlayer.GetSecondaryMaterialIndex();
+        int index = PlayerPrefs.GetInt(SettingsProperties.SelectedSecondaryCarColorIndexProperty, SettingsProperties.DefaultCarColorIndex);
         index = Mathf.Clamp(index + amount, 0, CarMaterialManager.Instance.MaxSecondaryIndex);
 
         //PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex((byte)index);
         PlayerPrefs.SetInt(SettingsProperties.SelectedSecondaryCarColorIndexProperty, index);
+
+        PhotonEvents.RaisePlayerEditedSecondaryCarControllerEvent((byte)index, PhotonNetwork.LocalPlayer);
     }
 }

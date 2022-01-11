@@ -39,7 +39,11 @@ public class Ring : MonoBehaviour
 
             if(m_ScoreToAdd >= 500)
             {
-                RaiseActivateNew500RingEvent();
+                if(PhotonNetwork.IsMasterClient)
+                {
+                    PhotonEvents.RaiseActivateNew500RingEvent(RingManager.Instance.GetNew500RingListIndex());
+                }
+                //RaiseActivateNew500RingEvent();
                 Deactivate(false);
             }
             else
@@ -49,11 +53,6 @@ public class Ring : MonoBehaviour
         }
     }
 
-    private void RaiseActivateNew500RingEvent()
-    {
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(EventCodes.DeactivateAllItemBoxesEventCode, null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-    }
 
     public void Activate()
     {

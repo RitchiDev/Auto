@@ -50,21 +50,29 @@ public class CarMaterialManager : MonoBehaviour
 
     public Material GetSelectedPrimaryMaterial(int index)
     {
+        index = Mathf.Clamp(index, 0, m_MaxPrimaryIndex);
+
         return m_PrimaryMaterials[index].Material;
     }
 
     public Material GetSelectedSecondaryMaterial(int index)
     {
+        index = Mathf.Clamp(index, 0, m_MaxSecondaryIndex);
+
         return m_SecondaryMaterials[index].Material;
     }
 
     public Color GetSelectedPrimaryColor(int index)
     {
+        index = Mathf.Clamp(index, 0, m_MaxPrimaryIndex);
+
         return m_PrimaryMaterials[index].Color;
     }
 
     public Color GetSelectedSecondaryColor(int index)
     {
+        index = Mathf.Clamp(index, 0, m_MaxSecondaryIndex);
+
         return m_SecondaryMaterials[index].Color;
     }
 }

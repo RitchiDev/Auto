@@ -48,8 +48,15 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     [Header("UI")]
     [SerializeField] private GameObject m_UsernameText;
 
+    [Header("UI Effect")]
+    [SerializeField] private float m_TimeBeforeInDanger = 10f;
+    [SerializeField] private GameObject m_UIEffectCamera;
+    [SerializeField] private GameObject m_InDangerEffect;
+    private bool m_IsInDanger;
+
     [Header("Misc")]
     private bool m_GameHasBeenWon;
+    public bool GameHasBeenWon => m_GameHasBeenWon;
 
     private void Awake()
     {
@@ -64,9 +71,12 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             m_DisableRespawning = false;
             m_RespawnTimer = m_MaxRespawnTime;
             m_PhotonView.RPC("RPC_AddPlayerToAliveList", RpcTarget.All, PhotonNetwork.LocalPlayer);
+            m_InDangerEffect.SetActive(false);
         }
         else
         {
+            //m_UIEffectCamera.SetActive(false);
+            Destroy(m_UIEffectCamera);
             Destroy(GetComponent<AudioListener>());
         }
     }
@@ -96,17 +106,42 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             return;
         }
 
+        CheckIfInDanger();
         CheckForRespawn();
     }
 
-    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+
+    public void SetInDanger(bool isInDanger)
     {
-        if(propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
+        m_IsInDanger = isInDanger;
+    }
+
+    private void CheckIfInDanger()
+    {
+        if (!m_UIEffectCamera)
         {
-            m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
+            //Debug.Log("No Camera");
+            return;
         }
 
-        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+        if (!m_IsInDanger || GameModeManager.Instance.SelectedGameMode.GameModeName != "Elimination" || PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+        {
+            //Debug.Log("Can't be put in danger");
+
+            m_InDangerEffect.SetActive(false);
+            return;
+        }
+
+        //Debug.Log((float)PhotonNetwork.CurrentRoom.GetTime());
+        if(m_IsInDanger)
+        {
+            if ((float)PhotonNetwork.CurrentRoom.GetTime() <= m_TimeBeforeInDanger && !PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+            {
+                //Debug.Log("Effect active");
+
+                m_InDangerEffect.SetActive(true);
+            }
+        }
     }
 
     private void CheckForRespawn()
@@ -144,12 +179,18 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     private IEnumerator RespawnDelay(string deathCause, bool afterKO)
     {
+        if(m_PhotonView.IsMine)
+        {
+            m_Player.AddScore(-ScoreProperties.ScoreReductionOnRespawn);
+        }
+
         Vector3 freezePoisition = transform.position;
 
         m_DisableRespawning = true;
         m_CarController.Disable(true);
 
-        RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
+        PhotonEvents.RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
+        //RaiseAddRespawnToUIEvent(m_Player.NickName, deathCause, afterKO);
 
         //m_PhotonView.RPC("RPC_AddRespawnToUI", RpcTarget.All, name, deathCause, afterKO);
         //m_InGameUI.AddRespawnToUI(m_Player.NickName, deathCause, afterKO);
@@ -244,7 +285,9 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     private IEnumerator EliminateDelay()
     {
-        RaiseAddEliminateToUIEvent(m_Player.NickName);
+        PhotonEvents.RaiseAddEliminateToUIEvent(m_Player.NickName);
+        //RaiseAddEliminateToUIEvent(m_Player.NickName);
+
         //m_PhotonView.RPC("RPC_AddEliminateToUI", RpcTarget.All, name);
         //m_InGameUI.AddEliminateToUI(m_Player.NickName);
 
@@ -285,22 +328,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         m_PhotonView.RPC("RPC_RemovePlayerFromAliveList", RpcTarget.All);
     }
 
-    private void RaiseAddEliminateToUIEvent(string name)
-    {
-        object[] content = new object[] { name };
-
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerGotEliminatedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-    }
-
-    private void RaiseAddRespawnToUIEvent(string name, string deathCause, bool afterKO)
-    {
-        object[] content = new object[] { name, deathCause, afterKO };
-
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(EventCodes.AddPlayerRespawnedToUIEventCode, content, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-    }
-
     [PunRPC]
     private void RPC_SetActiveObjects(bool value)
     {
@@ -311,7 +338,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
         if (m_UsernameText)
         {
-            if (m_PhotonView.IsMine && m_Player != PhotonNetwork.LocalPlayer)
+            if (!m_PhotonView.IsMine)
             {
                 m_UsernameText.SetActive(value);
             }
