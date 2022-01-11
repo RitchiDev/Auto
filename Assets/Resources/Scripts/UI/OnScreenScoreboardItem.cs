@@ -42,4 +42,11 @@ public class OnScreenScoreboardItem : MonoBehaviour
         m_ScoreText.text = score.ToString();
         m_Score = score;
     }
+
+    public void SetEliminated(bool isEliminated)
+    {
+        m_PlacementText.color = isEliminated ? Color.red : Color.white;
+        m_UsernameText.color = isEliminated ? Color.red : Color.white;
+        m_ScoreText.color = isEliminated ? Color.red : Color.white;
+    }
 }

@@ -1228,7 +1228,7 @@ MonoBehaviour:
   m_StaticEffect: {fileID: 6027220523039457617}
   m_OnScreenStaticEffect: {fileID: 8251669190442556554}
   m_MaxStunnedTime: 6
-  m_MaxIgnoreExplosionAreaTime: 0.3
+  m_MaxIgnoreExplosionAreaTime: 0.5
   m_ItemHolder: {fileID: 1560232228512719106}
 --- !u!114 &2868265449088974522
 MonoBehaviour:
@@ -7679,6 +7679,15 @@ PrefabInstance:
     - target: {fileID: 4622598348882566, guid: 3023143f80410e345aef19db1f82c9ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981185827229966, guid: 3023143f80410e345aef19db1f82c9ea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 96580947845389234, guid: 3023143f80410e345aef19db1f82c9ea,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 114984856473557396, guid: 3023143f80410e345aef19db1f82c9ea,
         type: 3}

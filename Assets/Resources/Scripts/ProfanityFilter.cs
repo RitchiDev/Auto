@@ -94,6 +94,8 @@ public static class ProfanityFilter
         "niger",
         "niggerish",
         "niggers",
+        "nigguh",
+        "niguh",
         "niglet",
         "nignog",
         "nutsack",
@@ -159,6 +161,8 @@ public static class ProfanityFilter
         "wetback",
         "whore",
         "wop",
+        "nword",
+        "n-word",
 
         //Dutch
         "kut",
@@ -186,9 +190,28 @@ public static class ProfanityFilter
         "natzi",
         "kkr",
         "k_k_r",
+        "k-k-r",
+        "seks",
+        "tyfus",
+        "pijpen",
+        "godverdomme",
+        "godverdorrie",
+        "schaamhaar",
+        "baviaanbek",
+        "blafkikker",
+        "bavkikker",
+        "n-woord",
+        "nwoord",
+        "hoer",
+        "nword",
+        "trut",
+        "kontvingeraar",
+        "batsen",
+        "pik",
+        "graftak",
 
         //Meme
-        "car",
+        //"car",
     };
 
     public static string ReplaceCurseWords(this string value)

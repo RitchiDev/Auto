@@ -11,17 +11,17 @@ public class GameModeSettings : ScriptableObject
     [SerializeField] private string m_GameModeDescription = "Description of this mode";
     public string GameModeDescription => m_GameModeDescription;
 
-    [SerializeField] private string m_PhotonPrefabsFolder = "PhotonPrefabs";
-    public string PhotonPrefabsFolder => m_PhotonPrefabsFolder;
+    [Tooltip("Prefab with the exact same name/path is not allowed to exist!")]
+    [SerializeField] private GameObject m_PlayerManagerPrefab = null;
+    public string PlayerManagerString => m_PlayerManagerPrefab.name;
 
-    [SerializeField] private string m_PlayerManagerString = "PlayerManager";
-    public string PlayerManagerString => m_PlayerManagerString;
+    [Tooltip("Prefab with the exact same name/path is not allowed to exist!")]
+    [SerializeField] private GameObject m_PlayerControllerPrefab = null;
+    public string PlayerControllerString => m_PlayerControllerPrefab.name;
 
-    [SerializeField] private string m_PlayerControllerString = "PlayerController";
-    public string PlayerControllerString => m_PlayerControllerString;
-
-    [SerializeField] private string m_PlayerSpectatorString = "PlayerSpectator";
-    public string PlayerSpectatorString => m_PlayerSpectatorString;
+    [Tooltip("Prefab with the exact same name/path is nowt allowed to exist!")]
+    [SerializeField] private GameObject m_PlayerSpectatorPrefab = null;
+    public string PlayerSpectatorString => m_PlayerSpectatorPrefab.name;
 
     [SerializeField] private int m_MinimumPlayers = 2;
     public int MinimumPlayers => m_MinimumPlayers;

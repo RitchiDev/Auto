@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Andrich.UtilityScripts;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -52,11 +53,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        //Debug.Log(GameModeSettings.PhotonPrefabsFolder);
-        //Debug.Log(Path.Combine(path1, path2));
-
-        string path1 = GameModeSettings.PhotonPrefabsFolder;
-        string path2 = GameModeSettings.PlayerManagerString;
-        PhotonNetwork.Instantiate(Path.Combine(path1, path2), Vector3.zero, Quaternion.identity);
+        string prefabName = GameModeSettings.PlayerManagerString;
+        PhotonPool.Instantiate(prefabName, Vector3.zero, Quaternion.identity);
     }
 }

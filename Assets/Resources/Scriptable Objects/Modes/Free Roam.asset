@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameModeName: Free Roam
   m_GameModeDescription: 
-  m_PhotonPrefabsFolder: Photon Prefabs
-  m_PlayerManagerString: PlayerManager (Elimination)
-  m_PlayerControllerString: EliminationCarController (ACC)
-  m_PlayerSpectatorString: SpectateCameraController
+  m_PlayerManagerPrefab: {fileID: 8374214441363495508, guid: c9b3dfb50c6408b4399c1f1bbe0ad57b,
+    type: 3}
+  m_PlayerControllerPrefab: {fileID: 5544605212539157626, guid: 6f3e521ba655c964986be4fdec300ee8,
+    type: 3}
+  m_PlayerSpectatorPrefab: {fileID: 4461610069916562489, guid: c982773aa9f4e7e4587a0dbae6a6ea76,
+    type: 3}
   m_MinimumPlayers: 1
   m_MaximumPlayers: 20
   m_DefaultSceneIndex: 1

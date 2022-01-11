@@ -48,6 +48,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
     private void Start()
     {
         m_GameModeName = (string)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperties.GameModeNameProperty];
+        //m_GameModeName = RoomManager.Instance.GameModeSettings.GameModeName; // Players who join later on get null
         Restart();
     }
 
@@ -63,7 +64,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        if (m_GameModeName != "Elimination")
+        if (m_GameModeName != RoomProperties.EliminationGameModeString)
         {
             PhotonEvents.RaiseActivateAllItemBoxesEvent();
             Stop();
@@ -74,7 +75,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        if (m_GameModeName != "Elimination")
+        if (m_GameModeName != RoomProperties.EliminationGameModeString)
         {
             Stop();
         }
@@ -86,8 +87,11 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
     {
         if(PhotonNetwork.IsMasterClient)
         {
+            PhotonEvents.RaiseCheckIfGameHasBeenWonEvent(false);
+            PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
+
             PhotonEvents.RaiseDeactivateAllRingsEvent();
-            //RaiseDeactivateAllRingsEvent();
+            PhotonEvents.RaiseActivateAllItemBoxesEvent();
         }
 
         if (m_CountDownImage)
@@ -111,25 +115,21 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
         m_AlivePlayers.Clear();
 
+        if (m_GameModeName != RoomProperties.EliminationGameModeString)
+        {
+            Stop();
+
+            return;
+        }
+
         if (PhotonNetwork.IsMasterClient)
         {
-            //StopAllCoroutines();
-            //PhotonNetwork.CurrentRoom.SetIfGameHasBeenWon(false);
             PhotonEvents.RaiseCheckIfGameHasBeenWonEvent(false);
 
             PhotonNetwork.CurrentRoom.SetIfEliminateTimerPaused(true);
 
             PhotonEvents.RaiseActivateAllItemBoxesEvent();
             PhotonEvents.RaiseDeactivateAllRingsEvent();
-            //RaiseActivateAllItemBoxesEvent();
-            //RaiseDeactivateAllRingsEvent();
-        }
-
-        if (m_GameModeName != "Elimination")
-        {
-            Stop();
-
-            return;
         }
 
         if (m_CountDownImage)
@@ -176,13 +176,13 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
     public override void OnRoomPropertiesUpdate(PhotonHashtable propertiesThatChanged)
     {
+        if (m_GameModeName != "Elimination")
+        {
+            return;
+        }
+
         if(propertiesThatChanged.ContainsKey(RoomProperties.TimeProperty))
         {
-            if (m_GameModeName != "Elimination")
-            {
-                return;
-            }
-
             m_CountDownText.color = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? Color.white : Color.red;
 
             float maxTime = PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused() ? m_TimeBeforeNextElimination : m_MaxEliminationTime;
@@ -190,14 +190,12 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
             m_CountDownText.text = PhotonNetwork.CurrentRoom.GetTime().ToString("0");
         }
 
-            
-
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, PhotonHashtable changedProps)
     {
-        if (m_GameModeName != "Elimination")
+        if (m_GameModeName != RoomProperties.EliminationGameModeString)
         {
             return;
         }
@@ -231,7 +229,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
         if (PhotonNetwork.LocalPlayer == newMasterClient)
         {
-            if (m_GameModeName != "Elimination")
+            if (m_GameModeName != RoomProperties.EliminationGameModeString)
             {
                 Stop();
                 return;

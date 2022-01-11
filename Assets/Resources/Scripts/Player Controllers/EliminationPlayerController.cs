@@ -113,6 +113,12 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     public void SetInDanger(bool isInDanger)
     {
+        if(PhotonNetwork.CountOfPlayers <= 1)
+        {
+            m_IsInDanger = false;
+            return;
+        }
+
         m_IsInDanger = isInDanger;
     }
 
@@ -124,7 +130,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             return;
         }
 
-        if (!m_IsInDanger || GameModeManager.Instance.SelectedGameMode.GameModeName != "Elimination" || PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
+        if (!m_IsInDanger || RoomManager.Instance.GameModeSettings.GameModeName != RoomProperties.EliminationGameModeString || PhotonNetwork.CurrentRoom.GetIfEliminateTimerPaused())
         {
             //Debug.Log("Can't be put in danger");
 
@@ -372,8 +378,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     private void RPC_Eliminate()
     {
         EliminationGameManager.Instance.RemoveAlivePlayer(this);
-        //Debug.Log("Eliminate Called");
-
         
         m_PlayerManager.RespawnPlayerAsSpectator();
     }
@@ -395,7 +399,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_RemovePlayerFromAliveList()
     {
-        //Debug.Log(EliminationGameManager.Instance);
         EliminationGameManager.Instance.RemoveAlivePlayer(this);
     }
 }

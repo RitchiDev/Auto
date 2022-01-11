@@ -23,9 +23,11 @@ public class OnScreenScoreboard : MonoBehaviourPunCallbacks
     {
         InGameStatsManager.Instance.AddOnScreenScoreboard(this);
 
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        Player[] playersInRoom = PhotonNetwork.PlayerList;
+        for (int i = 0; i < playersInRoom.Length; i++)
         {
-            AddScoreboardItem(PhotonNetwork.PlayerList[i]);
+            AddScoreboardItem(playersInRoom[i]);
+            UpdateScoreboardItemsColor(playersInRoom[i]);
         }
 
         UpdateScoreboardItemsPlacement();
@@ -53,6 +55,16 @@ public class OnScreenScoreboard : MonoBehaviourPunCallbacks
         }
 
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if(changedProps.ContainsKey(PlayerProperties.IsEliminatedProperty))
+        {
+            UpdateScoreboardItemsColor(targetPlayer);
+        }
+
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -83,12 +95,12 @@ public class OnScreenScoreboard : MonoBehaviourPunCallbacks
     private void UpdateScoreboardItemsPlacement()
     {
         OnScreenScoreboardItem[] scoreboards = m_ScoreboardItems.OrderByDescending(item => item.Player.GetScore()).ToArray();
-        //OnScreenScoreboardItem[] temp = m_ScoreboardItems.ToArray();
+        //CleanScoreboardItemsList(scoreboards);
+
         for (int i = 0; i < scoreboards.Length; i++)
         {
             scoreboards[i].transform.SetSiblingIndex(i);
-            scoreboards[i].SetPlacement(i + 1); //+1 because index starts at 0
-
+            scoreboards[i].SetPlacement(i + 1); // +1 because index starts at 0
 
             if (EliminationGameManager.Instance)
             {
@@ -100,11 +112,19 @@ public class OnScreenScoreboard : MonoBehaviourPunCallbacks
                     EliminationGameManager.Instance.UpdatePlayerWhoIsInDanger(player);
                 }
             }
-            //player.SetIfInDangerZone(i >= scoreboards.Length);
         }
     }
 
-
+    private void UpdateScoreboardItemsColor(Player player)
+    {
+        for (int i = 0; i < m_ScoreboardItems.Count; i++)
+        {
+            if(m_ScoreboardItems[i].Player == player)
+            {
+                m_ScoreboardItems[i].SetEliminated(player.GetIfEliminated());
+            }
+        }
+    }
 
     private void RemoveScoreboardItem(Player player)
     {

@@ -63,6 +63,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     {
         InstantiateItems();
         SetStunned(false);
+        SetShielded(false);
     }
 
     private void Update()
@@ -205,7 +206,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     {
         m_IsShielded = isShielded;
 
-        //m_PhotonView.RPC("RPC_SetShielded", RpcTarget.All, isShielded);
+        m_PhotonView.RPC("RPC_SetShielded", RpcTarget.AllBuffered, isShielded);
     }
 
     [PunRPC]
