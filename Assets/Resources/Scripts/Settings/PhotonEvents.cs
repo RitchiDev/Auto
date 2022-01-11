@@ -21,6 +21,7 @@ namespace Andrich.UtilityScripts
         public const byte AddPlayerRespawnedToUIEventCode = 7;
 
         public const byte CheckIfGameHasBeenWonEventCode = 8;
+        public const byte RaisePlayerEditedCarColorEventCode = 9;
     }
 
     public static class PhotonEvents
@@ -28,8 +29,8 @@ namespace Andrich.UtilityScripts
         public static void RaiseCheckIfGameHasBeenWonEvent(bool gameHasBeenWon, Player playerWhoWon = null)
         {
             object[] eventContent = new object[] { gameHasBeenWon, playerWhoWon };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
 
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(PhotonEventCodes.CheckIfGameHasBeenWonEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
         }
 
@@ -83,6 +84,22 @@ namespace Andrich.UtilityScripts
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(PhotonEventCodes.AddPlayerRespawnedToUIEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
+        }
+
+        public static void RaisePlayerEditedPrimaryCarControllerEvent(byte primaryIndex, Player playerWhoEdited)
+        {
+            //object[] eventContent = new object[] { primaryIndex, secondaryIndex, playerWhoEdited };
+
+            //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            //PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
+        }
+
+        public static void RaisePlayerEditedSecondaryCarControllerEvent(byte secondaryIndex, Player playerWhoEdited)
+        {
+            //object[] eventContent = new object[] { primaryIndex, secondaryIndex, playerWhoEdited };
+
+            //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            //PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 }
