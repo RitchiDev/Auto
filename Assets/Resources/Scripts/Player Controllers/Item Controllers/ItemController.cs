@@ -174,10 +174,6 @@ public class ItemController : MonoBehaviourPunCallbacks
             {
                 // Set New Image Sprite
                 m_InGameUI.SetItemImageSprite(m_Items[i].ItemData.ItemSprite);
-                Debug.Log(m_InGameUI);
-                Debug.Log(m_Items[i]);
-                Debug.Log(m_Items[i].ItemData);
-                Debug.Log(m_Items[i].ItemData.ItemSprite);
                 yield return new WaitForSeconds(time / count);
             }
 

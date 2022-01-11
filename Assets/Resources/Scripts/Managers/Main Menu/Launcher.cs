@@ -250,7 +250,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
             if(selector)
             {
-                //selector.UpdateCarSprite(targetPlayer);
+                selector.UpdateCarSprite(targetPlayer);
             }
         }
 

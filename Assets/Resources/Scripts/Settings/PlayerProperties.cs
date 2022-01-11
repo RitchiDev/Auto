@@ -12,6 +12,8 @@ namespace Andrich.UtilityScripts
         public const string IsReadyProperty = "PlayerIsReady";
         public const string LoadedLevelProperty = "PlayerLoadedLevel";
         public const string IsEliminatedProperty = "PlayerIsEliminated";
+        public const string SelectedPrimaryMaterialProperty = "PlayerSelectedPrimaryMaterial";
+        public const string SelectedSecondaryMaterialProperty = "PlayerSelectedSecondaryMaterial";
     }
 
     public static class ScoreExtensions
@@ -176,6 +178,70 @@ namespace Andrich.UtilityScripts
             }
 
             return false;
+        }
+    }
+
+    public static class CarMaterialExtensions
+    {
+        public static void SetPrimaryMaterialIndex(this Player player, byte index)
+        {
+            PhotonHashtable primaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            primaryIndex[PlayerProperties.SelectedPrimaryMaterialProperty] = index;
+
+            player.SetCustomProperties(primaryIndex);  // this locally sets the primary material index and will sync it in-game asap.
+        }
+
+        public static void ChangePrimaryMaterialIndex(this Player player, byte amount)
+        {
+            byte current = player.GetPrimaryMaterialIndex();
+            current = (byte)(current + amount);
+
+            PhotonHashtable primaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            primaryIndex[PlayerProperties.SelectedPrimaryMaterialProperty] = current;
+
+            player.SetCustomProperties(primaryIndex);  // this locally sets the primary index and will sync it in-game asap.
+        }
+
+        public static byte GetPrimaryMaterialIndex(this Player player)
+        {
+            object primaryIndex;
+            if (player.CustomProperties.TryGetValue(PlayerProperties.SelectedPrimaryMaterialProperty, out primaryIndex))
+            {
+                return (byte)primaryIndex;
+            }
+
+            return 0;
+        }
+
+        public static void SetSecondaryMaterialIndex(this Player player, byte index)
+        {
+            PhotonHashtable secondaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            secondaryIndex[PlayerProperties.SelectedSecondaryMaterialProperty] = index;
+
+            player.SetCustomProperties(secondaryIndex);  // this locally sets the secondary material index and will sync it in-game asap.
+        }
+
+        public static void ChangeSecondaryMaterialIndex(this Player player, byte amount)
+        {
+            byte current = player.GetSecondaryMaterialIndex();
+            current = (byte)(current + amount);
+
+            PhotonHashtable secondaryIndex = new PhotonHashtable();  // using PUN's implementation of Hashtable
+            secondaryIndex[PlayerProperties.SelectedSecondaryMaterialProperty] = current;
+
+            player.SetCustomProperties(secondaryIndex);  // this locally sets the secondary index and will sync it in-game asap.
+
+        }
+
+        public static byte GetSecondaryMaterialIndex(this Player player)
+        {
+            object secondaryIndex;
+            if (player.CustomProperties.TryGetValue(PlayerProperties.SelectedSecondaryMaterialProperty, out secondaryIndex))
+            {
+                return (byte)secondaryIndex;
+            }
+
+            return 0;
         }
     }
 }
