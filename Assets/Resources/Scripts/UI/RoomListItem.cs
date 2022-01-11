@@ -11,11 +11,11 @@ public class RoomListItem : MonoBehaviour
     private RoomInfo m_RoomInfo;
     public RoomInfo Info => m_RoomInfo;
 
-    public void SetUp(RoomInfo info, string gameModeName = null)
+    public void SetUp(RoomInfo info)
     {
         m_RoomInfo = info;
         m_RoomNameText.text = info.Name;
-        m_GameModeText.text = gameModeName;
+        //m_GameModeText.text = info.
         m_PlayersInRoomText.text = info.PlayerCount + " / " + info.MaxPlayers;
     }
 

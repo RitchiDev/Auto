@@ -10,10 +10,9 @@ public abstract class Item : MonoBehaviour
     {
         notSet = 0,
         rocket = 1,
-        shieldAura = 2,
+        shield = 2,
         demolitionAura = 3,
         fakeItemBox = 4,
-        stunAura = 5,
     }
 
     [SerializeField] private ItemData m_ItemData;

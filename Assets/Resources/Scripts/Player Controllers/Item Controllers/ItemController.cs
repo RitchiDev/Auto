@@ -35,7 +35,6 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     [Header("Effects")]
     [SerializeField] private GameObject m_StaticEffect;
-    [SerializeField] private GameObject m_OnScreenStaticEffect;
 
     [Header("Stunned")]
     [SerializeField] private float m_MaxStunnedTime;
@@ -50,9 +49,9 @@ public class ItemController : MonoBehaviourPunCallbacks
     [Header("Misc")]
     [SerializeField] private GameObject m_ItemHolder;
     private bool m_IsShielded;
+    private bool m_GameHasBeenWon;
     private bool m_Stunned;
     private bool m_Disable;
-    private bool m_GameHasBeenWon => m_PlayerController.GameHasBeenWon;
 
     private void Awake()
     {
@@ -83,6 +82,16 @@ public class ItemController : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey(RoomProperties.GameHasBeenWonProperty))
+        {
+            m_GameHasBeenWon = PhotonNetwork.CurrentRoom.GetIfGameHasBeenWon();
+        }
+
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
     public void Disabled(bool isDisabled)
     {
         m_Disable = isDisabled;
@@ -95,17 +104,12 @@ public class ItemController : MonoBehaviourPunCallbacks
             return;
         }
 
-        m_PhotonView.RPC("RPC_SetStunned", RpcTarget.AllBuffered, isStunned);
+        m_PhotonView.RPC("RPC_SetStunned", RpcTarget.All, isStunned);
     }
 
     [PunRPC]
     private void RPC_SetStunned(bool isStunned)
     {
-        if(m_PhotonView.IsMine)
-        {
-            m_OnScreenStaticEffect.SetActive(isStunned);
-        }
-
         m_StaticEffect.SetActive(isStunned);
         m_Stunned = isStunned;
         m_PlayerController.SetStunned(isStunned);
@@ -180,7 +184,7 @@ public class ItemController : MonoBehaviourPunCallbacks
         m_CurrentItemData = GetRandomItemData();
         m_InGameUI.SetItemImageSprite(m_CurrentItemData.ItemSprite);
 
-        //Debug.Log("Item Set: " + m_CurrentItemData.ItemType);
+        Debug.Log("Item Set: " + m_CurrentItemData.ItemType);
         // Item Image = m_CurrentItem Image
 
     }
@@ -217,7 +221,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_UseItem(Item.Type itemType)
     {
-        //Debug.Log("Used: " + itemType);
+        Debug.Log("Used: " + itemType);
 
         SetFirepoint(itemType);
 
@@ -249,7 +253,7 @@ public class ItemController : MonoBehaviourPunCallbacks
                 m_CurrentFirepoint = m_FrontFirepoint;
 
                 break;
-            case Item.Type.shieldAura:
+            case Item.Type.shield:
                 m_CurrentFirepoint = m_MiddleFirepoint;
 
                 break;
@@ -285,8 +289,6 @@ public class ItemController : MonoBehaviourPunCallbacks
 
         CheckIfEnteredDemolitionAura(other);
 
-        CheckIfEnteredStunAura(other);
-
         CheckIfHitByExplosionArea(other);
     }
 
@@ -315,7 +317,7 @@ public class ItemController : MonoBehaviourPunCallbacks
         //    return;
         //}
 
-        //Debug.Log("Projectile Hit");
+        Debug.Log("Projectile Hit");
 
         if (m_IsShielded)
         {
@@ -342,9 +344,15 @@ public class ItemController : MonoBehaviourPunCallbacks
             case Item.Type.notSet:
                 break;
             case Item.Type.rocket:
-                //Debug.Log("Projectile Killed");
+                Debug.Log("Projectile Killed");
 
                 KO(projectile.Owner.NickName);
+
+                break;
+            case Item.Type.shield:
+
+                break;
+            case Item.Type.demolitionAura:
 
                 break;
             case Item.Type.fakeItemBox:
@@ -358,7 +366,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
         if (projectile.Owner != Owner)
         {
-            projectile.Owner.AddScore(ScoreProperties.KOWorth);
+            projectile.Owner.AddScore(250);
         }
     }
 
@@ -367,7 +375,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < m_Items.Count; i++)
         {
-            if (m_Items[i].ItemData.ItemType == Item.Type.shieldAura)
+            if (m_Items[i].ItemData.ItemType == Item.Type.shield)
             {
                 m_Items[i].SetActive(false);
                 m_IsShielded = false;
@@ -396,33 +404,25 @@ public class ItemController : MonoBehaviourPunCallbacks
             }
 
             aura.Owner.AddKO(1);
-            aura.Owner.AddScore(ScoreProperties.KOWorth);
+            aura.Owner.AddScore(250);
 
             KO(aura.Owner.NickName);
         }
     }
 
-    private void CheckIfEnteredStunAura(Collider other)
+    private bool CheckIfShieldGotHit()
     {
-        if (!m_PhotonView.IsMine || m_IsShielded)
+        if (m_IsShielded)
         {
-            return;
+            //Debug.Log("Is Shielded");
+            m_PhotonView.RPC("RPC_ShieldGotHit", RpcTarget.All);
+
+            return true;
         }
 
-        StunAura aura = other.GetComponent<StunAura>();
+        //Debug.Log("Is NOOOT Shielded");
 
-        if (aura)
-        {
-            if (aura.Owner == m_PlayerController.Owner)
-            {
-                return;
-            }
-
-            //aura.Owner.AddKO(1);
-            //aura.Owner.AddScore(ScoreProperties.KOWorth);
-
-            SetStunned(true);
-        }
+        return false;
     }
 
     private void CheckIfHitByExplosionArea(Collider other)
@@ -443,7 +443,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             {
                 for (int i = 0; i < m_Items.Count; i++)
                 {
-                    if (m_Items[i].ItemData.ItemType == Item.Type.shieldAura)
+                    if (m_Items[i].ItemData.ItemType == Item.Type.shield)
                     {
                         m_Items[i].SetActive(false);
                         m_IsShielded = false;
@@ -456,7 +456,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
             if (explosionArea.Owner != m_PlayerController.Owner)
             {
-                explosionArea.Owner.AddScore(ScoreProperties.KOWorth);
+                explosionArea.Owner.AddScore(250);
                 explosionArea.Owner.AddKO(1);
             }
 
