@@ -1,6 +1,10 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<< Updated upstream
 --- !u!1 &2945856713729202501
+=======
+--- !u!1 &2250599672104180712
+>>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +12,16 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< Updated upstream
   - component: {fileID: 2569894842808599551}
   - component: {fileID: 1442772746012986458}
   - component: {fileID: 3738327864805226640}
   - component: {fileID: 831532379509902209}
+=======
+  - component: {fileID: 1472796748183306578}
+  - component: {fileID: 2584986212206776055}
+  - component: {fileID: 304907813447989821}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: rechttunnelmet
   m_TagString: Untagged
@@ -19,35 +29,59 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< Updated upstream
 --- !u!4 &2569894842808599551
+=======
+--- !u!4 &1472796748183306578
+>>>>>>> Stashed changes
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
   m_GameObject: {fileID: 2945856713729202501}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 189.1, y: 65.2, z: -155.4}
+=======
+  m_GameObject: {fileID: 2250599672104180712}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 157.67084, y: 39.568115, z: -168.20401}
+>>>>>>> Stashed changes
   m_LocalScale: {x: 150, y: 150, z: 150}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!33 &1442772746012986458
+=======
+--- !u!33 &2584986212206776055
+>>>>>>> Stashed changes
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
   m_GameObject: {fileID: 2945856713729202501}
   m_Mesh: {fileID: 3109905477383604245, guid: 9e612ac7bdf35a04cbe035ec2a154713, type: 3}
 --- !u!23 &3738327864805226640
+=======
+  m_GameObject: {fileID: 2250599672104180712}
+  m_Mesh: {fileID: 3109905477383604245, guid: 9e612ac7bdf35a04cbe035ec2a154713, type: 3}
+--- !u!23 &304907813447989821
+>>>>>>> Stashed changes
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
   m_GameObject: {fileID: 2945856713729202501}
+=======
+  m_GameObject: {fileID: 2250599672104180712}
+>>>>>>> Stashed changes
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -60,7 +94,11 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+<<<<<<< Updated upstream
   - {fileID: 2100000, guid: cd5f79a08b55d7b40b21dda93dd63066, type: 2}
+=======
+  - {fileID: 2100000, guid: fb1e8d5deff8db749b6cbfd4bb7b4a45, type: 2}
+>>>>>>> Stashed changes
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,6 +120,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+<<<<<<< Updated upstream
 --- !u!64 &831532379509902209
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -96,3 +135,5 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3109905477383604245, guid: 9e612ac7bdf35a04cbe035ec2a154713, type: 3}
+=======
+>>>>>>> Stashed changes
