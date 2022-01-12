@@ -384,7 +384,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     private void RPC_Eliminate()
     {
         EliminationGameManager.Instance.RemoveAlivePlayer(this);
-        
+        MiniMap.Instance.RemovePlayerTransform(transform);
         m_PlayerManager.RespawnPlayerAsSpectator();
     }
 
@@ -404,11 +404,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     {
         //Debug.Log(EliminationGameManager.Instance);
         EliminationGameManager.Instance.AddAlivePlayer(this, player);
-    }
-
-    [PunRPC]
-    private void RPC_RemovePlayerFromAliveList()
-    {
-        EliminationGameManager.Instance.RemoveAlivePlayer(this);
+        MiniMap.Instance.AddPlayerTransform(transform, player);
     }
 }

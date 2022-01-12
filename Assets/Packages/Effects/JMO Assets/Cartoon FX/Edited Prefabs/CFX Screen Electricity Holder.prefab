@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4467927035441834629}
   - component: {fileID: 6943796014488304154}
   - component: {fileID: 8297595674043966663}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Static On Screen (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4796,7 +4796,7 @@ GameObject:
   - component: {fileID: 5358777107826786068}
   - component: {fileID: 7526180522907404414}
   - component: {fileID: 8032099625261097025}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9580,7 +9580,7 @@ GameObject:
   - component: {fileID: 8544022368187561117}
   - component: {fileID: 7587936618054284073}
   - component: {fileID: 2294308223495432638}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Static On Screen (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14365,7 +14365,7 @@ GameObject:
   - component: {fileID: 752454374542464824}
   - component: {fileID: 1654365103513511430}
   - component: {fileID: 5771233747961166848}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19149,7 +19149,7 @@ GameObject:
   - component: {fileID: 7038298191457275038}
   - component: {fileID: 5962611841280256813}
   - component: {fileID: 7460950452035786514}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Static On Screen (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23934,7 +23934,7 @@ GameObject:
   - component: {fileID: 2398359704573171533}
   - component: {fileID: 899968993545822156}
   - component: {fileID: 6784708499781011441}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Static On Screen (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28717,7 +28717,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8259786972489550210}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX Screen Electricity Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28753,7 +28753,7 @@ GameObject:
   - component: {fileID: 5376596133979993462}
   - component: {fileID: 8289662107268436242}
   - component: {fileID: 1018931826508436231}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33537,7 +33537,7 @@ GameObject:
   - component: {fileID: 351643079779317270}
   - component: {fileID: 2207734776540163970}
   - component: {fileID: 3748402819007598712}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX_ElectricityBall White
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -55,6 +55,8 @@ public class RematchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         BackgroundMusicStarter.Instance.Restart();
 
+        MiniMap.Instance.Restart();
+
         if (PhotonNetwork.IsMasterClient)
         {
             Player[] playersInroom = PhotonNetwork.PlayerList;

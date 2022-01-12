@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5913021014008656736}
   - component: {fileID: 5818651280737901266}
   - component: {fileID: 5819308437265520070}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Skulls Outside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4746,7 +4746,7 @@ GameObject:
   - component: {fileID: 5913616380596276628}
   - component: {fileID: 5818963034010802576}
   - component: {fileID: 5819839768401317234}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Skulls Inside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9482,7 +9482,7 @@ GameObject:
   - component: {fileID: 7824880230047032209}
   - component: {fileID: 7824880230047128113}
   - component: {fileID: 7824880230021844753}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14279,7 +14279,7 @@ GameObject:
   - component: {fileID: 7824880230027634389}
   - component: {fileID: 7824880230047032211}
   - component: {fileID: 7824880230047128115}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19215,7 +19215,7 @@ GameObject:
   - component: {fileID: 8652282132162945027}
   - component: {fileID: 8853565347376946969}
   - component: {fileID: 8853947428263515435}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Demolition Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}

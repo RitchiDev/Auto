@@ -32,7 +32,7 @@ public class FloatyText : MonoBehaviour
 
         transform.localScale = m_OriginalSize;
 
-        Debug.Log(transform.position);
+        //Debug.Log(transform.position);
         m_Transform.localPosition += m_Offset;
         m_Transform.localPosition += new Vector3(Random.Range(-m_Randomize.x, m_Randomize.x), Random.Range(-m_Randomize.y, m_Randomize.y), Random.Range(-m_Randomize.z, m_Randomize.z));
     }

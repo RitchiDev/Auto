@@ -40,7 +40,7 @@ public class Ring : MonoBehaviour
 
             FloatyText floatyText = floatyTextHolder.GetComponentInChildren<FloatyText>();
             floatyText.SetUp(m_ScoreToAdd.ToString(), m_MeshRenderer.materials[0]);
-            Debug.Log(transform.position);
+            //Debug.Log(transform.position);
 
             playerController.Owner.AddScore(m_ScoreToAdd);
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8186758375310159502}
   - component: {fileID: 8308379992406391434}
   - component: {fileID: 8307011519758937704}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Stars Inside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4746,7 +4746,7 @@ GameObject:
   - component: {fileID: 8179244019103970082}
   - component: {fileID: 8309063376290073656}
   - component: {fileID: 8308610930749949450}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Shield Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9550,7 +9550,7 @@ GameObject:
   - component: {fileID: 8179402038709866618}
   - component: {fileID: 8308111186693372360}
   - component: {fileID: 8308580187112126172}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Stars Outside
   m_TagString: Untagged
   m_Icon: {fileID: 0}

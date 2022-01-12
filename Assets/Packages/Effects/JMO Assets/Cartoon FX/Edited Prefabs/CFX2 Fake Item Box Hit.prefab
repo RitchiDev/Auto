@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1381898603259654096}
   - component: {fileID: 1381898603274857104}
   - component: {fileID: 1381898603274949424}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Outlines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4899,7 +4899,7 @@ GameObject:
   - component: {fileID: 1381898603274857106}
   - component: {fileID: 1381898603274949426}
   - component: {fileID: -3605097741542389437}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX2 Fake Item Box Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

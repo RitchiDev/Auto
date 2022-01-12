@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6888970113242711610}
   - component: {fileID: 6722364833389620028}
   - component: {fileID: 6723740752353581786}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4831,7 +4831,7 @@ GameObject:
   - component: {fileID: 6889222217367270714}
   - component: {fileID: 6721993381385092068}
   - component: {fileID: 6723422274380985474}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Lines
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
@@ -9571,7 +9571,7 @@ GameObject:
   - component: {fileID: 6722655856345238270}
   - component: {fileID: 6721684864869842962}
   - component: {fileID: 6781450632385995978}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX Eliminated Effect
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
@@ -14291,7 +14291,7 @@ GameObject:
   - component: {fileID: 6889120397512283246}
   - component: {fileID: 6722204181456514912}
   - component: {fileID: 6723265657700763336}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Text Boom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19093,7 +19093,7 @@ GameObject:
   - component: {fileID: 6883046384170994308}
   - component: {fileID: 6722537820158433974}
   - component: {fileID: 6721684509055247548}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}

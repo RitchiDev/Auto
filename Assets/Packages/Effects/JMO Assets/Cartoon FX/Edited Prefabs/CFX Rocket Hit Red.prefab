@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 421918935595489720}
   - component: {fileID: 421918935595589656}
   - component: {fileID: 421918935620646206}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX Rocket Hit Red
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
@@ -4757,7 +4757,7 @@ GameObject:
   - component: {fileID: 421918935609646334}
   - component: {fileID: 421918935595489726}
   - component: {fileID: 421918935595589662}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Traits
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
@@ -9524,7 +9524,7 @@ GameObject:
   - component: {fileID: 3043005664491198221}
   - component: {fileID: 5671607914731634058}
   - component: {fileID: 3167424733084682703}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX Hit Red
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
@@ -14270,7 +14270,7 @@ GameObject:
   - component: {fileID: 1699861149906239353}
   - component: {fileID: 2028182371385591188}
   - component: {fileID: 6154185191775436080}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Traits
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
@@ -19036,7 +19036,7 @@ GameObject:
   - component: {fileID: 4848874175316156179}
   - component: {fileID: 1068944818879497011}
   - component: {fileID: 2583048051192113067}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Traits (2)
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
@@ -23802,7 +23802,7 @@ GameObject:
   - component: {fileID: 3176648294246647684}
   - component: {fileID: 8462005706470782868}
   - component: {fileID: 4347876961056731942}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Traits (1)
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}

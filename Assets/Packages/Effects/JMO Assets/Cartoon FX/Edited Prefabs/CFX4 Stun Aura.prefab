@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8505013269139257844}
   - component: {fileID: 233710439834278499}
   - component: {fileID: 7734287330765945118}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Yellow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4810,7 +4810,7 @@ GameObject:
   - component: {fileID: 1284469701235716653}
   - component: {fileID: 1960534497249665338}
   - component: {fileID: 7925349998790594845}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Yellow (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9607,7 +9607,7 @@ GameObject:
   - component: {fileID: 5913616380596276628}
   - component: {fileID: 5818963034010802576}
   - component: {fileID: 5819839768401317234}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Bolt Inside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14343,7 +14343,7 @@ GameObject:
   - component: {fileID: 7824880230047032209}
   - component: {fileID: 7824880230047128113}
   - component: {fileID: 7824880230021844753}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19140,7 +19140,7 @@ GameObject:
   - component: {fileID: 7824880230027634389}
   - component: {fileID: 7824880230047032211}
   - component: {fileID: 7824880230047128115}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24077,7 +24077,7 @@ GameObject:
   - component: {fileID: 4172182489247657603}
   - component: {fileID: 3206143373987067224}
   - component: {fileID: 7250146448703445486}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28874,7 +28874,7 @@ GameObject:
   - component: {fileID: 8652282132162945027}
   - component: {fileID: 8853565347376946969}
   - component: {fileID: 8853947428263515435}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX4 Stun Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}

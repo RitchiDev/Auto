@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 514687662247219729}
   - component: {fileID: 514687662247127985}
   - component: {fileID: 514687662255668881}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX3 Respawn Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4721,7 +4721,7 @@ GameObject:
   - component: {fileID: 1343504593822099242}
   - component: {fileID: 5090016428539720811}
   - component: {fileID: 9128310230019853122}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Poof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9415,7 +9415,7 @@ GameObject:
   - component: {fileID: 3492748918376048912}
   - component: {fileID: 5176543171919979310}
   - component: {fileID: 7758437688905826868}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Poof (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4923600441052777600}
   - component: {fileID: 6139516865451091040}
   - component: {fileID: 2376290094043280650}
-  m_Layer: 3
+  m_Layer: 16
   m_Name: UI Effect Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 8608991807892768164}
   - component: {fileID: 4948394938750446281}
   - component: {fileID: 5040475612956876948}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: UI Effect Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7799839447793614690}
   - component: {fileID: 7994952767246018086}
   - component: {fileID: 7995371589721572344}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX3 Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4813,7 +4813,7 @@ GameObject:
   - component: {fileID: 7791517832765225570}
   - component: {fileID: 7993977923243844080}
   - component: {fileID: 7995138757620541146}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_Cloud Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9468,7 +9468,7 @@ GameObject:
   - component: {fileID: 7994109935814165684}
   - component: {fileID: 7995922396680511052}
   - component: {fileID: 7901452867812325236}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX3 KO Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14328,7 +14328,7 @@ GameObject:
   - component: {fileID: 7800221544468085446}
   - component: {fileID: 7994256947059453078}
   - component: {fileID: 7995505989034928332}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX3 Sparkles No Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19058,7 +19058,7 @@ GameObject:
   - component: {fileID: 7800038400941424260}
   - component: {fileID: 7993900807899300742}
   - component: {fileID: 7994636028489235328}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_Cloud Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23770,7 +23770,7 @@ GameObject:
   - component: {fileID: 7791431560532397422}
   - component: {fileID: 7994097792541611278}
   - component: {fileID: 7995397333703796190}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX3 Sparkles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28501,7 +28501,7 @@ GameObject:
   - component: {fileID: 7799909517093922904}
   - component: {fileID: 7994780326056444830}
   - component: {fileID: 7995263752501699338}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX3 Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}

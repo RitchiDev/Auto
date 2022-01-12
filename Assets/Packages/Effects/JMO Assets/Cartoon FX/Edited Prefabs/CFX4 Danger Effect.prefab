@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2072550418195703775}
   - component: {fileID: 2165694413516314821}
   - component: {fileID: 2166146864369177335}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX4 Danger Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4814,7 +4814,7 @@ GameObject:
   - component: {fileID: 4978796895754735825}
   - component: {fileID: 4978796895754735827}
   - component: {fileID: 4978796895754735824}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: CFX4 Danger Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}

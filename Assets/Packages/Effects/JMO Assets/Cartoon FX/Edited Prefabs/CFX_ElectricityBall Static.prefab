@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1653337260308464792}
   - component: {fileID: 3371156648790067508}
   - component: {fileID: 1221670165862255718}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4795,7 +4795,7 @@ GameObject:
   - component: {fileID: 3653183701970387592}
   - component: {fileID: 166827056264433155}
   - component: {fileID: 4916996476559081843}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Cyan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9579,7 +9579,7 @@ GameObject:
   - component: {fileID: 3240184215569453404}
   - component: {fileID: 3739588359553291727}
   - component: {fileID: 4309240729544409383}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Cyan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14363,7 +14363,7 @@ GameObject:
   - component: {fileID: 4698275640159426700}
   - component: {fileID: 948318097139901951}
   - component: {fileID: 3382421821858786643}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Cyan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19147,7 +19147,7 @@ GameObject:
   - component: {fileID: 8142050587461492373}
   - component: {fileID: 8142050587476696021}
   - component: {fileID: 8142050587476664949}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX_ElectricityBall Static
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4735283763385905660}
   - component: {fileID: 4822014879590988322}
   - component: {fileID: 453813575073949821}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CFX Gold Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4776,7 +4776,7 @@ GameObject:
   - component: {fileID: 4863310963460061798}
   - component: {fileID: 4733772397117204512}
   - component: {fileID: 4733331002288780238}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9484,7 +9484,7 @@ GameObject:
   - component: {fileID: 4855571620276950462}
   - component: {fileID: 4733883677430376938}
   - component: {fileID: 4735376414376197574}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Waves
   m_TagString: Untagged
   m_Icon: {fileID: 0}

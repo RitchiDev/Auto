@@ -18,14 +18,14 @@ TagManager:
   - Spectator
   - UI Effect
   - Pointer
-  - Not In Minimap
-  - Minimap Layer
+  - In MiniMap
+  - Not In Minimap Layer
   - Placeholder Ring
   - Ring
   - Item Box
   - Item
   - Projectile
-  - 
+  - Effect
   - 
   - 
   - 

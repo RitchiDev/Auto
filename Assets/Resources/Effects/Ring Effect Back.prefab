@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1864154017560228570}
   - component: {fileID: 1864154017560228569}
   - component: {fileID: 1864154017560228568}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Ring Effect Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}

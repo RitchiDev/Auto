@@ -7678,15 +7678,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4981185827229966, guid: 3023143f80410e345aef19db1f82c9ea, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 96580947845389234, guid: 3023143f80410e345aef19db1f82c9ea,
-        type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0.19
-      objectReference: {fileID: 0}
     - target: {fileID: 114984856473557396, guid: 3023143f80410e345aef19db1f82c9ea,
         type: 3}
       propertyPath: m_PhotonView
@@ -7970,26 +7961,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Controller (ACC)
       objectReference: {fileID: 0}
-    - target: {fileID: 8954876382814824385, guid: dee550c520d95334e84e4c4437f67df3,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 65407
-      objectReference: {fileID: 0}
-    - target: {fileID: 8955112858294565321, guid: dee550c520d95334e84e4c4437f67df3,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 65407
-      objectReference: {fileID: 0}
-    - target: {fileID: 8955799197814874691, guid: dee550c520d95334e84e4c4437f67df3,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 65407
-      objectReference: {fileID: 0}
-    - target: {fileID: 8955896411926533715, guid: dee550c520d95334e84e4c4437f67df3,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 65407
-      objectReference: {fileID: 0}
     - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
         type: 3}
       propertyPath: m_CarSetUp
@@ -8005,11 +7976,6 @@ PrefabInstance:
       propertyPath: m_PhotonView
       value: 
       objectReference: {fileID: 5544605212539157620}
-    - target: {fileID: 9049997429586516709, guid: dee550c520d95334e84e4c4437f67df3,
-        type: 3}
-      propertyPath: CamerasPreset.Array.data[0].MinDistanceForRotation
-      value: 0.01
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee550c520d95334e84e4c4437f67df3, type: 3}
 --- !u!114 &2942358309829206517 stripped
