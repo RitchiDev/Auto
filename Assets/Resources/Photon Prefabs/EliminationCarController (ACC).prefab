@@ -1179,19 +1179,17 @@ MonoBehaviour:
   m_MaxRespawnDelay: 1.1
   m_RespawnTimeText: {fileID: 2879030092125732835}
   m_RespawnImage: {fileID: 7453721072242874959}
-  m_RespawnEffect: {fileID: 514687662266387313, guid: 197f356ff9c28e1478b7cf311e5673ab,
-    type: 3}
+  m_RespawnEffect: {fileID: 11400000, guid: f4d9dd60021b47e46ad2ed2734cf0df6, type: 2}
   m_ObjectsToHideDuringRespawn:
   - {fileID: 7937315350786449102}
   - {fileID: 5544425165969220508}
   - {fileID: 349422105473056889}
   - {fileID: 5544928894150296712}
   m_MaxRespawnDelayAfterKO: 4
-  m_RespawnAfterKOEffect: {fileID: 7797339704055949968, guid: e42fa317ee9a7a24780da6d98b4e3b53,
-    type: 3}
+  m_RespawnAfterKOEffect: {fileID: 11400000, guid: 58306ddbcd5032146960c64f0c4c82fd,
+    type: 2}
   m_MaxEliminateDelay: 1.1
-  m_EliminateEffect: {fileID: 6885216261473019790, guid: 42734c1fac82c394ab64bad94c6842fb,
-    type: 3}
+  m_EliminateEffect: {fileID: 11400000, guid: 1e09feb0a18231245967c431b9f9af17, type: 2}
   m_UsernameText: {fileID: 8852227836394858574}
   m_TimeBeforeInDanger: 15
   m_UIEffectCamera: {fileID: 1827600444192364002}

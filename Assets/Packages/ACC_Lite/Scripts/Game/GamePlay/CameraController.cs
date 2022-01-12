@@ -32,6 +32,12 @@ public class CameraController : MonoBehaviour
 		if (!m_PhotonView.IsMine)
 		{
 			gameObject.SetActive(false);
+
+			for (int i = 0; i < CamerasPreset.Count; i++)
+			{
+				CamerasPreset[i].CameraHolder.GetComponentInChildren<Camera>().gameObject.AddComponent<IgnoreCamera>();
+			}
+
 			return;
 		}
 

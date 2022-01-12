@@ -8,10 +8,10 @@ using Photon.Pun;
 public class RocketProjectile : Projectile
 {
     [Header("Prefabs")]
-    [SerializeField] private GameObject m_ExplosionAreaPrefab;
+    [SerializeField] private PoolAbleObject m_SmallExplosionArea;
 
     [Header("Effects")]
-    [SerializeField] private GameObject m_HitEffectPrefab;
+    [SerializeField] private PoolAbleObject m_HitEffect;
 
     private Rigidbody m_Rigidbody;
 
@@ -65,9 +65,13 @@ public class RocketProjectile : Projectile
     [PunRPC]
     private void RPC_Deactivate()
     {
-        Instantiate(m_HitEffectPrefab, transform.position, transform.rotation);
+        GameObject hitEffect = PoolManager.Instance.GetObjectFromPool(m_HitEffect);
+        hitEffect.transform.position = transform.position;
+        hitEffect.transform.rotation = transform.rotation;
 
-        ExplosionArea explosionArea = Instantiate(m_ExplosionAreaPrefab, transform.position, transform.rotation).GetComponent<ExplosionArea>();
+        ExplosionArea explosionArea = PoolManager.Instance.GetObjectFromPool(m_SmallExplosionArea).GetComponent<ExplosionArea>();
+        explosionArea.transform.position = transform.position;
+        explosionArea.transform.rotation = transform.rotation;
         explosionArea.SetOwner(m_Owner);
 
         if (m_PhotonView.IsMine)

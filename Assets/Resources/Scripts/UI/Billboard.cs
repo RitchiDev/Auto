@@ -14,7 +14,7 @@ public class Billboard : MonoBehaviour
             Camera cameraToFind = FindObjectOfType<Camera>();
             if(cameraToFind)
             {
-                if(!cameraToFind.GetComponent<IgnoreCamera>())
+                if(!cameraToFind.GetComponent<IgnoreCamera>() && cameraToFind.gameObject.activeInHierarchy)
                 {
                     m_Camera = cameraToFind;
                 }

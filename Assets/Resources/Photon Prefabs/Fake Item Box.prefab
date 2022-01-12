@@ -183,5 +183,4 @@ MonoBehaviour:
   m_IgnoreOwnerDelay: 0.2
   m_PhotonView: {fileID: 8360218224040861692}
   m_ItemType: 4
-  m_HitEffectPrefab: {fileID: 1381898603259360242, guid: b25361789c8c50845be6360b307dfaf3,
-    type: 3}
+  m_HitEffect: {fileID: 11400000, guid: d47dab16e41b23c4284a76b222cba22a, type: 2}

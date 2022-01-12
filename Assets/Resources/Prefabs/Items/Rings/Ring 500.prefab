@@ -50,8 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TimeBeforeReActivation: 60
   m_PickUpNoise: {fileID: 9011265847399079661}
-  m_FloatingTextPrefab: {fileID: 1604178887143834385, guid: 3e6cee9e37c50e74d8cd46f7091ddb86,
-    type: 3}
+  m_FloatyTextHolder: {fileID: 11400000, guid: c1c0dce13d63095499e2875939a858e3, type: 2}
   m_ScoreToAdd: 500
   m_Effects: {fileID: 2284749287091600392}
 --- !u!23 &3594818328391281048

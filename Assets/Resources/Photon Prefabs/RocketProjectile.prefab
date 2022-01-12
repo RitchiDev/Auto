@@ -77,10 +77,9 @@ MonoBehaviour:
   m_IgnoreOwnerDelay: 0.2
   m_PhotonView: {fileID: 5968270407577750972}
   m_ItemType: 1
-  m_ExplosionAreaPrefab: {fileID: 5129232849599381089, guid: d9bf03f5e23fdc94bb5986e0113e5171,
-    type: 3}
-  m_HitEffectPrefab: {fileID: 421918935609344216, guid: 65d1c2619c3ce784a85df66fd9c3ca95,
-    type: 3}
+  m_SmallExplosionArea: {fileID: 11400000, guid: ecda2c207bf2dac47b1a0c4d2132edc5,
+    type: 2}
+  m_HitEffect: {fileID: 11400000, guid: 2af397d79f128c94c908a173e4abac4b, type: 2}
 --- !u!114 &1504839926163210849
 MonoBehaviour:
   m_ObjectHideFlags: 0

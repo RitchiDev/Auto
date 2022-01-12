@@ -6124,7 +6124,7 @@ GameObject:
   - component: {fileID: 698367930}
   - component: {fileID: 698367929}
   m_Layer: 0
-  m_Name: PoolManager
+  m_Name: LocalPoolManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

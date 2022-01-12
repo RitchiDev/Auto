@@ -141,5 +141,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MeshRenderer: {fileID: 3858023558405328361}
   m_TimeBeforeReActivation: 20
-  m_PickUpEffect: {fileID: 1381898603259360242, guid: 1df3fb0515403f24e8c5a0cbe750f1fa,
-    type: 3}
+  m_PickUpEffect: {fileID: 11400000, guid: b566576e39ff38543953245c5825ab25, type: 2}

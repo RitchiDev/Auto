@@ -17,7 +17,8 @@ public class ItemBox : MonoBehaviour, IOnEventCallback
     [SerializeField] private float m_TimeBeforeReActivation = 20f;
 
     [Header("Effects")]
-    [SerializeField] private GameObject m_PickUpEffect;
+    [SerializeField] private PoolAbleObject m_PickUpEffect;
+    //[SerializeField] private GameObject m_PickUpEffect;
 
     //private PhotonView m_PhotonView;
     private bool m_GameHasBeenWon;
@@ -45,7 +46,11 @@ public class ItemBox : MonoBehaviour, IOnEventCallback
         if(itemController)
         {
             itemController.StartItemRoulette();
-            Instantiate(m_PickUpEffect, transform.position, transform.rotation);
+
+            GameObject pickUpEffect = PoolManager.Instance.GetObjectFromPool(m_PickUpEffect);
+            pickUpEffect.transform.position = transform.position;
+            pickUpEffect.transform.rotation = transform.rotation;
+
             Deactivate();
         }
     }

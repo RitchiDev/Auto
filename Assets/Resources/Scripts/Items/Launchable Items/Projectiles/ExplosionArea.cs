@@ -34,7 +34,7 @@ public class ExplosionArea : MonoBehaviour
 
         //Debug.Log("Deactivated Explosion");
 
-        Destroy(gameObject);
-        //gameObject.SetActive(false);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

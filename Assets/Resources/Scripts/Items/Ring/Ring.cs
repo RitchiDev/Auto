@@ -12,7 +12,7 @@ public class Ring : MonoBehaviour
 
     [SerializeField] private float m_TimeBeforeReActivation = 20f;
     [SerializeField] private AudioSource m_PickUpNoise;
-    [SerializeField] private GameObject m_FloatingTextPrefab;
+    [SerializeField] private PoolAbleObject m_FloatyTextHolder;
     [SerializeField] private int m_ScoreToAdd = 50;
     [SerializeField] private GameObject m_Effects;
 
@@ -32,8 +32,15 @@ public class Ring : MonoBehaviour
         if (playerController)
         {
             m_PickUpNoise.Play();
-            FloatyText floatyText = Instantiate(m_FloatingTextPrefab, transform.position, Quaternion.identity).GetComponentInChildren<FloatyText>();
+
+            //FloatyText floatyText = Instantiate(m_FloatingTextPrefab, transform.position, Quaternion.identity).GetComponentInChildren<FloatyText>();
+            GameObject floatyTextHolder = PoolManager.Instance.GetObjectFromPool(m_FloatyTextHolder);
+            floatyTextHolder.transform.position = transform.position;
+            floatyTextHolder.transform.rotation = Quaternion.identity;
+
+            FloatyText floatyText = floatyTextHolder.GetComponentInChildren<FloatyText>();
             floatyText.SetUp(m_ScoreToAdd.ToString(), m_MeshRenderer.materials[0]);
+            Debug.Log(transform.position);
 
             playerController.Owner.AddScore(m_ScoreToAdd);
 

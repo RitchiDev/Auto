@@ -7,8 +7,8 @@ using Photon.Pun;
 public class FakeItemBox : Projectile
 {
     [Header("Effects")]
-    [SerializeField] private GameObject m_HitEffectPrefab;
-
+    [SerializeField] private PoolAbleObject m_HitEffect;
+    //[SerializeField] private GameObject m_HitEffectPrefab;
 
     private void Deactivate()
     {
@@ -18,7 +18,9 @@ public class FakeItemBox : Projectile
     [PunRPC]
     private void RPC_Deactivate()
     {
-        Instantiate(m_HitEffectPrefab, transform.position, transform.rotation);
+        GameObject hitEffect = PoolManager.Instance.GetObjectFromPool(m_HitEffect);
+        hitEffect.transform.position = transform.position;
+        hitEffect.transform.rotation = transform.rotation;
 
         if (m_PhotonView.IsMine)
         {

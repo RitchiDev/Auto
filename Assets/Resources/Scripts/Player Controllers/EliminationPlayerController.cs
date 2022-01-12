@@ -30,7 +30,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private float m_MaxRespawnDelay = 1.1f;
     [SerializeField] private TMP_Text m_RespawnTimeText;
     [SerializeField] private Image m_RespawnImage;
-    [SerializeField] private GameObject m_RespawnEffect;
+    [SerializeField] private PoolAbleObject m_RespawnEffect;
     [SerializeField] private List<GameObject> m_ObjectsToHideDuringRespawn = new List<GameObject>();
     private IEnumerator m_Respawn;
     private bool m_DisableRespawning;
@@ -38,11 +38,11 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
     [Header("Respawn After KO")]
     [SerializeField] private float m_MaxRespawnDelayAfterKO = 3f;
-    [SerializeField] private GameObject m_RespawnAfterKOEffect;
+    [SerializeField] private PoolAbleObject m_RespawnAfterKOEffect;
 
     [Header("Eliminated")]
     [SerializeField] private float m_MaxEliminateDelay = 1.1f;
-    [SerializeField] private GameObject m_EliminateEffect;
+    [SerializeField] private PoolAbleObject m_EliminateEffect;
     private IEnumerator m_Eliminate;
 
     [Header("UI")]
@@ -366,11 +366,17 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     {
         if(afterKO)
         {
-            Instantiate(m_RespawnAfterKOEffect, transform.position, Quaternion.identity);
+            //Instantiate(m_RespawnAfterKOEffect, transform.position, Quaternion.identity);
+            GameObject respawnAfterKoEffect = PoolManager.Instance.GetObjectFromPool(m_RespawnAfterKOEffect);
+            respawnAfterKoEffect.transform.position = transform.position;
+            respawnAfterKoEffect.transform.rotation = Quaternion.identity;
         }
         else
         {
-            Instantiate(m_RespawnEffect, transform.position, Quaternion.identity);
+            //Instantiate(m_RespawnEffect, transform.position, Quaternion.identity);
+            GameObject respawnEffect = PoolManager.Instance.GetObjectFromPool(m_RespawnEffect);
+            respawnEffect.transform.position = transform.position;
+            respawnEffect.transform.rotation = Quaternion.identity;
         }
     }
 
@@ -385,8 +391,12 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_InstantiateEliminateEffect()
     {
-        Vector3 position = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z);
-        Instantiate(m_EliminateEffect, position, Quaternion.identity);
+        Vector3 instantiatePosition = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z);
+        GameObject eliminateEffect = PoolManager.Instance.GetObjectFromPool(m_EliminateEffect);
+        eliminateEffect.transform.position = instantiatePosition;
+        eliminateEffect.transform.rotation = Quaternion.identity;
+
+        //Instantiate(m_EliminateEffect, instantiatePosition, Quaternion.identity);
     }
 
     [PunRPC]

@@ -15,10 +15,12 @@ public class FloatyText : MonoBehaviour
     private RectTransform m_Transform;
     private IEnumerator m_Grow;
     private IEnumerator m_Shrink;
+    private Vector3 m_OriginalSize;
 
     private void Awake()
     {
         m_Transform = GetComponent<RectTransform>();
+        m_OriginalSize = transform.localScale;
     }
 
     private void OnEnable()
@@ -28,6 +30,9 @@ public class FloatyText : MonoBehaviour
             return;
         }
 
+        transform.localScale = m_OriginalSize;
+
+        Debug.Log(transform.position);
         m_Transform.localPosition += m_Offset;
         m_Transform.localPosition += new Vector3(Random.Range(-m_Randomize.x, m_Randomize.x), Random.Range(-m_Randomize.y, m_Randomize.y), Random.Range(-m_Randomize.z, m_Randomize.z));
     }
@@ -82,11 +87,11 @@ public class FloatyText : MonoBehaviour
     {
         if(m_Transform.parent)
         {
-            Destroy(m_Transform.parent.gameObject);
+            m_Transform.parent.gameObject.SetActive(false);
         }
         else
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

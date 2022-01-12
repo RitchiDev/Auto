@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 421918935595589656}
   - component: {fileID: 421918935620646206}
   m_Layer: 0
-  m_Name: CFX Hit Red
+  m_Name: CFX Rocket Hit Red
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4745,7 +4745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnlyDeactivate: 0
+  OnlyDeactivate: 1
 --- !u!1 &421918935609344222
 GameObject:
   m_ObjectHideFlags: 0
