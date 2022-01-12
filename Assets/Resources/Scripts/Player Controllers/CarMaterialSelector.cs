@@ -31,7 +31,12 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
     {
         m_Player = player;
 
-        if(player == PhotonNetwork.LocalPlayer)
+        //UpdateSprite(player);
+    }
+
+    public void UpdateSprite(Player player)
+    {
+        if (player == PhotonNetwork.LocalPlayer)
         {
             byte primaryIndex = (byte)PlayerPrefs.GetInt(SettingsProperties.SelectedPrimaryCarColorIndexProperty, SettingsProperties.DefaultCarColorIndex);
             //PhotonNetwork.LocalPlayer.SetPrimaryMaterialIndex(primaryIndex);
@@ -104,6 +109,7 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
 
         PlayerPrefs.SetInt(SettingsProperties.SelectedPrimaryCarColorIndexProperty, index);
 
+        PhotonNetwork.LocalPlayer.SetReadyState(false);
         PhotonEvents.RaisePlayerEditedPrimaryCarControllerEvent((byte)index, PhotonNetwork.LocalPlayer);
     }
 
@@ -121,6 +127,7 @@ public class CarMaterialSelector : MonoBehaviour, IOnEventCallback
         //PhotonNetwork.LocalPlayer.SetSecondaryMaterialIndex((byte)index);
         PlayerPrefs.SetInt(SettingsProperties.SelectedSecondaryCarColorIndexProperty, index);
 
+        PhotonNetwork.LocalPlayer.SetReadyState(false);
         PhotonEvents.RaisePlayerEditedSecondaryCarControllerEvent((byte)index, PhotonNetwork.LocalPlayer);
     }
 }

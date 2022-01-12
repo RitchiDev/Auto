@@ -25,7 +25,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject m_StartGameButton;
     [SerializeField] private GameObject m_ChooseMapBlocker;
     private List<ReadyToggle> m_TogglesInRoom = new List<ReadyToggle>();
-    private List<CarMaterialSelector> m_CarMaterialSelectorInRoom = new List<CarMaterialSelector>();
+    private List<CarMaterialSelector> m_CarMaterialSelectorsInRoom = new List<CarMaterialSelector>();
 
     [Header("Find Room")]
     [SerializeField] private Transform m_RoomListContent;
@@ -178,7 +178,6 @@ public class Launcher : MonoBehaviourPunCallbacks
             m_RoomNameInputField.text = PhotonNetwork.NickName + "'s Room";
         }
 
-
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.CustomRoomPropertiesForLobby = new string[] { RoomProperties.GameModeNameProperty};
         roomOptions.CustomRoomProperties = new PhotonHashTable { { RoomProperties.GameModeNameProperty, GameModeManager.Instance.SelectedGameMode.GameModeName } };
@@ -198,22 +197,38 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.Instance.OpenMenu(MenuName.inRoomMenu);
         m_RoomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
-        Player[] playerList = PhotonNetwork.PlayerList;
+        Player[] playersInRoom = PhotonNetwork.PlayerList;
         foreach (Transform transform in m_PlayerListContent)
         {
             Destroy(transform.gameObject);
         }
 
-        foreach (Player player in playerList)
+        // Locally changes duplicate username +1
+        int addedNumber = 0;
+        for (int i = 0; i < playersInRoom.Length; i++)
         {
-            //Debug.Log("Created Item");
+            if (PhotonNetwork.LocalPlayer.NickName == playersInRoom[i].NickName)
+            {
+                if (PhotonNetwork.LocalPlayer == playersInRoom[i])
+                {
+                    continue;
+                }
+
+                addedNumber++;
+                PhotonNetwork.LocalPlayer.NickName = PhotonNetwork.LocalPlayer.NickName + addedNumber.ToString();
+            }
+        }
+
+        for (int i = 0; i < playersInRoom.Length; i++)
+        {
+            Player player = playersInRoom[i];
 
             GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
             item.transform.SetParent(m_PlayerListContent, false);
             item.GetComponent<PlayerInRoomItem>().SetUp(player, player.NickName);
 
             ReadyToggle toggle = item.GetComponentInChildren<ReadyToggle>();
-            if(toggle)
+            if (toggle)
             {
                 toggle.SetUp(player);
                 m_TogglesInRoom.Add(toggle);
@@ -223,7 +238,8 @@ public class Launcher : MonoBehaviourPunCallbacks
             if (selector)
             {
                 selector.SetUp(player);
-                m_CarMaterialSelectorInRoom.Add(selector);
+                selector.UpdateSprite(player);
+                m_CarMaterialSelectorsInRoom.Add(selector);
             }
         }
 
@@ -240,16 +256,6 @@ public class Launcher : MonoBehaviourPunCallbacks
             if(readyToggle)
             {
                 readyToggle.UpdateToggleState(targetPlayer);
-            }
-        }
-
-        for (int i = 0; i < m_CarMaterialSelectorInRoom.Count; i++)
-        {
-            CarMaterialSelector selector = m_CarMaterialSelectorInRoom[i];
-
-            if(selector)
-            {
-                //selector.UpdateCarSprite(targetPlayer);
             }
         }
 
@@ -310,7 +316,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             RoomInfo room = m_RoomsList[i];
 
-
             if (m_RoomListItemPrefab == null)
             {
                 Debug.LogError("m_RoomListItemPrefab is null!");
@@ -329,6 +334,22 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Player Entered Room");
 
+        int addedNumber = 0;
+        Player[] playersInRoom = PhotonNetwork.PlayerList;
+        for (int i = 0; i < playersInRoom.Length; i++)
+        {
+            if(newPlayer.NickName == playersInRoom[i].NickName)
+            {
+                if(newPlayer == playersInRoom[i])
+                {
+                    continue;
+                }
+
+                addedNumber++;
+                newPlayer.NickName = newPlayer.NickName + addedNumber.ToString();
+            }
+        }
+
         GameObject item = Instantiate(m_PlayerListItemPrefab, Vector3.zero, Quaternion.identity);
         item.transform.SetParent(m_PlayerListContent, false);
         item.GetComponent<PlayerInRoomItem>().SetUp(newPlayer, newPlayer.NickName);
@@ -344,7 +365,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         if(selector)
         {
             selector.SetUp(newPlayer);
-            m_CarMaterialSelectorInRoom.Add(selector);
+            m_CarMaterialSelectorsInRoom.Add(selector);
+        }
+
+        for (int i = 0; i < m_CarMaterialSelectorsInRoom.Count; i++)
+        {
+            m_CarMaterialSelectorsInRoom[i].UpdateSprite(PhotonNetwork.LocalPlayer);
         }
     }
 }

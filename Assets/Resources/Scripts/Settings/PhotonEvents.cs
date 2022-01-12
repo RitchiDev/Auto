@@ -100,7 +100,7 @@ namespace Andrich.UtilityScripts
             object[] eventContent = new object[] { secondaryIndex, playerWhoEdited };
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedSecondaryCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent(PhotonEventCodes.RaisePlayerEditedSecondaryCarColorEventCode, eventContent, raiseEventOptions, SendOptions.SendUnreliable);
         }
     }
 }
