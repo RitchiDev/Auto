@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 768994299163079936}
   - component: {fileID: 768994299143680070}
   - component: {fileID: 768994299143768550}
-  m_Layer: 15
+  m_Layer: 16
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5004,7 +5004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3119425683259553907}
-  m_Layer: 15
+  m_Layer: 16
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4923600441052777600}
   - component: {fileID: 6139516865451091040}
   - component: {fileID: 2376290094043280650}
-  m_Layer: 16
+  m_Layer: 7
   m_Name: UI Effect Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: 1
+  m_Depth: 3
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 128
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 8608991807892768164}
   - component: {fileID: 4948394938750446281}
   - component: {fileID: 5040475612956876948}
-  m_Layer: 16
+  m_Layer: 7
   m_Name: UI Effect Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,6 +196,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4923600441052777600}
     m_Modifications:
+    - target: {fileID: 199449966073140562, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2179301168562676701, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698768647226097847, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934840314690276345, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3525925597356565615, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037375227946234713, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5406772045217137921, guid: d9e5193b3886d534180cdf5f8f24cf1f,
         type: 3}
       propertyPath: m_Name
@@ -203,8 +233,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5406772045217137921, guid: d9e5193b3886d534180cdf5f8f24cf1f,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406772045217137921, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6297067455956960394, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6813197376735275520, guid: d9e5193b3886d534180cdf5f8f24cf1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8259786972489550210, guid: d9e5193b3886d534180cdf5f8f24cf1f,
         type: 3}
@@ -338,8 +383,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2074723600147347647, guid: dcfbf3b451bf7304cb176bd0b4fed44f,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074723600147347647, guid: dcfbf3b451bf7304cb176bd0b4fed44f,
+        type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2165694413516314821, guid: dcfbf3b451bf7304cb176bd0b4fed44f,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 2165694413516314821, guid: dcfbf3b451bf7304cb176bd0b4fed44f,
         type: 3}
@@ -350,6 +405,16 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
       value: 0.8679245
+      objectReference: {fileID: 0}
+    - target: {fileID: 4978796895754735827, guid: dcfbf3b451bf7304cb176bd0b4fed44f,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4978796895754735838, guid: dcfbf3b451bf7304cb176bd0b4fed44f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcfbf3b451bf7304cb176bd0b4fed44f, type: 3}

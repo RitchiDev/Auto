@@ -125,7 +125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5242281932777160916}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}

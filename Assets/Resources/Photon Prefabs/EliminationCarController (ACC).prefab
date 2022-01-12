@@ -637,7 +637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7024409691926325728}
-  m_Layer: 3
+  m_Layer: 16
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2092,7 +2092,7 @@ GameObject:
   - component: {fileID: 5546709280421779114}
   - component: {fileID: 5636079016763161348}
   - component: {fileID: 5634764228659129574}
-  m_Layer: 3
+  m_Layer: 16
   m_Name: Backfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7537,10 +7537,49 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5546717481853565206}
     m_Modifications:
+    - target: {fileID: 257543415, guid: f7b777e5126554547817d9225d8e4c56, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 844264670705094772, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679163491410208507, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2695292524052518854, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3282740963679518960, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529400621051425566, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3845678150425132992, guid: f7b777e5126554547817d9225d8e4c56,
         type: 3}
       propertyPath: m_Name
       value: UI Effect Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4410050240432027728, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821857252114921251, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4923600441052777600, guid: f7b777e5126554547817d9225d8e4c56,
         type: 3}
@@ -7596,6 +7635,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405540053363612073, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6472476935459464342, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809924652637468328, guid: f7b777e5126554547817d9225d8e4c56,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7b777e5126554547817d9225d8e4c56, type: 3}

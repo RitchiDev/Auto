@@ -79,6 +79,9 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             Destroy(m_UIEffectCamera);
             Destroy(GetComponent<AudioListener>());
         }
+
+        gameObject.name = m_Player.NickName;
+        MiniMapManager.Instance.AddPlayerTransform(transform, m_Player);
     }
 
     public void SetPlayer(Player player)
@@ -92,6 +95,8 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         {
             Destroy(m_Camera);
         }
+
+        MiniMapManager.Instance.RemovePlayerTransform(transform);
     }
 
     private void Update()
@@ -329,11 +334,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         m_PhotonView.RPC("RPC_Eliminate", RpcTarget.All);
     }
 
-    public void RemovePlayerFromAliveList()
-    {
-        m_PhotonView.RPC("RPC_RemovePlayerFromAliveList", RpcTarget.All);
-    }
-
     [PunRPC]
     private void RPC_SetActiveObjects(bool value)
     {
@@ -384,7 +384,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     private void RPC_Eliminate()
     {
         EliminationGameManager.Instance.RemoveAlivePlayer(this);
-        MiniMap.Instance.RemovePlayerTransform(transform);
+        //MiniMapManager.Instance.RemovePlayerTransform(transform);
         m_PlayerManager.RespawnPlayerAsSpectator();
     }
 
@@ -404,6 +404,6 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     {
         //Debug.Log(EliminationGameManager.Instance);
         EliminationGameManager.Instance.AddAlivePlayer(this, player);
-        MiniMap.Instance.AddPlayerTransform(transform, player);
+        //MiniMapManager.Instance.AddPlayerTransform(transform, player);
     }
 }
