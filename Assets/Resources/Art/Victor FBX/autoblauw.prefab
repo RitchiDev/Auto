@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705120649369059059}
-  - component: {fileID: 6435608049473995624}
+  - component: {fileID: -4210621838752685566}
   m_Layer: 0
   m_Name: autoblauw
   m_TagString: Untagged
@@ -195,8 +195,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &6435608049473995624
-MeshCollider:
+--- !u!65 &-4210621838752685566
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -205,7 +205,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.022072047, y: 0.014039822, z: 0.037096266}
+  m_Center: {x: 0, y: 0.009621077, z: -0.01793646}
