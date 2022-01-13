@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4266742132358284992}
   - component: {fileID: 907854423381215589}
   - component: {fileID: 3133853881477856687}
+  - component: {fileID: 4973806537800592534}
   m_Layer: 0
   m_Name: rechttunnel
   m_TagString: Untagged
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4973806537800592534
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3494041177808231546}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6588823398244034703, guid: f87d6a63b3251224b9535f32d4de3217, type: 3}
