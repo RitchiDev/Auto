@@ -249,7 +249,10 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
                 m_CountdownCoroutine = EliminateCountdown();
             }
 
-            StartCoroutine(m_CountdownCoroutine);
+            if(m_CountdownCoroutine != null)
+            {
+                StartCoroutine(m_CountdownCoroutine);
+            }
         }
 
         base.OnMasterClientSwitched(newMasterClient);

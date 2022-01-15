@@ -85,9 +85,9 @@ public class EliminationPlayerManager : PlayerManager
 
         int indexNumber = (PhotonNetwork.LocalPlayer.ActorNumber - 1) + numberToAdd;
 
-        Debug.Log(randomNumber);
-        Debug.Log(numberToAdd);
-        Debug.Log(indexNumber);
+        //Debug.Log(randomNumber);
+        //Debug.Log(numberToAdd);
+        //Debug.Log(indexNumber);
 
 
         return indexNumber;
