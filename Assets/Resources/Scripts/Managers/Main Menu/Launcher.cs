@@ -77,6 +77,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void PlayOnline()
     {
         //PhotonNetwork.OfflineMode = false;
+        Application.runInBackground = true;
+
         MenuManager.Instance.OpenMenu(MenuName.loadingMenu);
 
         if(PhotonNetwork.IsConnected)
@@ -96,6 +98,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         //PhotonNetwork.OfflineMode = true;
         MenuManager.Instance.OpenMenu(MenuName.titleMenu);
+
+        if(PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+
         PhotonNetwork.Disconnect();
     }
 

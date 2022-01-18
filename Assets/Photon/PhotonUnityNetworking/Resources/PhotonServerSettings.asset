@@ -52,6 +52,7 @@ MonoBehaviour:
   - RPC_SetUp
   - RPC_ShieldGotHit
   - RPC_UseItem
+  - RPC_InstantiateItems
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

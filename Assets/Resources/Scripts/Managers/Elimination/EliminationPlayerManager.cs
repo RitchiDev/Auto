@@ -10,10 +10,13 @@ public class EliminationPlayerManager : PlayerManager
     [Header("Components")]
     private GameObject m_PlayerGameObject;
     private PhotonView m_PhotonView;
+    private string m_GameModeName;
 
     private void Awake()
     {
         m_PhotonView = GetComponent<PhotonView>();
+        m_GameModeName = (string)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperties.GameModeNameProperty];
+
         //Restart();
     }
 
@@ -43,9 +46,58 @@ public class EliminationPlayerManager : PlayerManager
         }
     }
 
+    private int GetRandomNumberFromActorNumber()
+    {
+        int randomNumber = Random.Range(0, 3);
+        int numberToAdd = 0;
+
+        // 0 1 2 3 4
+        // 5 6 7 8 9
+        // 10 11 12 13 14
+        // 15 16 17 18 19 20
+
+        switch (randomNumber)
+        {
+            case 0:
+                numberToAdd = 0;
+
+                break;
+            case 1:
+                numberToAdd = 5;
+
+                break;
+            case 2:
+                numberToAdd = 10;
+
+                break;
+            case 3:
+                numberToAdd = 15;
+
+                break;
+            default:
+                break;
+        }
+
+        if(m_GameModeName != RoomProperties.EliminationGameModeString)
+        {
+            numberToAdd = 0;
+        }
+
+        int indexNumber = (PhotonNetwork.LocalPlayer.ActorNumber - 1) + numberToAdd;
+
+        //Debug.Log(randomNumber);
+        //Debug.Log(numberToAdd);
+        //Debug.Log(indexNumber);
+
+
+        return indexNumber;
+    }
+
     public override void CreatePlayerController()
     {
-        Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint(PhotonNetwork.LocalPlayer.ActorNumber - 1);
+
+        //Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint(PhotonNetwork.LocalPlayer.ActorNumber - 1);
+        Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint(GetRandomNumberFromActorNumber());
 
         object[] data = new object[] { m_PhotonView.ViewID };
         byte group = 0;
@@ -62,6 +114,11 @@ public class EliminationPlayerManager : PlayerManager
     public override void CreatePlayerSpectator()
     {
         Transform spawnPoint = SpawnManager.Instance.GetRandomSpawnPoint();
+
+        Vector3 positionWithOffset = spawnPoint.position;
+        positionWithOffset.y += 1.5f;
+
+        spawnPoint.position = positionWithOffset;
 
         object[] data = new object[] { m_PhotonView.ViewID };
         byte group = 0;

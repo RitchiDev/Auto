@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8840788ad6282f04baed28afe962c3d9, type: 3}
   m_Name: Sticky Bomb
   m_EditorClassIdentifier: 
-  m_ItemSprite: {fileID: 21300000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+  m_ItemSprite: {fileID: 21300000, guid: 092e7e9fe5368a64fa25492df5100cc9, type: 3}
   m_ItemType: 2

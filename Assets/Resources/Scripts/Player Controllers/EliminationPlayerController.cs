@@ -80,7 +80,11 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
             Destroy(GetComponent<AudioListener>());
         }
 
-        gameObject.name = m_Player.NickName;
+        if(m_Player != null)
+        {
+            gameObject.name = m_Player.NickName;
+        }
+
         MiniMapManager.Instance.AddPlayerTransform(transform, m_Player);
     }
 

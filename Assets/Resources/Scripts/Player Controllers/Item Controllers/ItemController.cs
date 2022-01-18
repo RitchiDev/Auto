@@ -53,6 +53,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     private bool m_Stunned;
     private bool m_Disable;
     private bool m_GameHasBeenWon => m_PlayerController.GameHasBeenWon;
+    private bool m_InRoulette;
 
     private void Awake()
     {
@@ -96,7 +97,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             return;
         }
 
-        m_PhotonView.RPC("RPC_SetStunned", RpcTarget.AllBuffered, isStunned);
+        m_PhotonView.RPC("RPC_SetStunned", RpcTarget.All, isStunned);
     }
 
     [PunRPC]
@@ -134,6 +135,23 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     private void InstantiateItems()
     {
+        m_PhotonView.RPC("RPC_InstantiateItems", RpcTarget.All);
+        //for (int i = 0; i < m_ItemPrefabs.Count; i++)
+        //{
+        //    Item item = Instantiate(m_ItemPrefabs[i], transform.position, transform.rotation);
+        //    //Debug.Log(m_PlayerController.Player);
+        //    item.SetOwner(m_PlayerController.Owner, this);
+
+        //    item.SetActive(false);
+        //    item.transform.SetParent(m_ItemHolder.transform);
+
+        //    m_Items.Add(item);
+        //}
+    }
+
+    [PunRPC]
+    private void RPC_InstantiateItems()
+    {
         for (int i = 0; i < m_ItemPrefabs.Count; i++)
         {
             Item item = Instantiate(m_ItemPrefabs[i], transform.position, transform.rotation);
@@ -154,7 +172,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             return;
         }
 
-        if(!m_CurrentItemData)
+        if(!m_CurrentItemData && !m_InRoulette)
         {
             StartCoroutine(ItemRoulette());
         }
@@ -162,6 +180,8 @@ public class ItemController : MonoBehaviourPunCallbacks
 
     private IEnumerator ItemRoulette()
     {
+        m_InRoulette = true;
+
         float count = m_Items.Count;
         float time = m_LoopTime;
 
@@ -183,7 +203,7 @@ public class ItemController : MonoBehaviourPunCallbacks
 
         //Debug.Log("Item Set: " + m_CurrentItemData.ItemType);
         // Item Image = m_CurrentItem Image
-
+        m_InRoulette = false;
     }
 
     private ItemData GetRandomItemData()
