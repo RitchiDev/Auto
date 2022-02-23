@@ -96,13 +96,13 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
         if (m_CountDownImage)
         {
-            m_CountDownImage.transform.parent.SetActive(false);
-            m_CountDownImage.SetActive(false);
+            m_CountDownImage.transform.parent.gameObject.SetActive(false);
+            m_CountDownImage.gameObject.SetActive(false);
         }
 
         if (m_CountDownText)
         {
-            m_CountDownText.SetActive(false);
+            m_CountDownText.gameObject.SetActive(false);
         }
     }
 
@@ -134,12 +134,12 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
 
         if (m_CountDownImage)
         {
-            m_CountDownImage.SetActive(true);
+            m_CountDownImage.gameObject.SetActive(true);
         }
 
         if (m_CountDownText)
         {
-            m_CountDownText.SetActive(true);
+            m_CountDownText.gameObject.SetActive(true);
         }
     }
 
@@ -434,7 +434,7 @@ public class EliminationGameManager : MonoBehaviourPunCallbacks, IOnEventCallbac
                     PhotonEvents.RaiseDeactivateAllItemBoxesEvent();
                     //RaiseDeactivateAllItemBoxesEvent();
 
-                    m_CountDownImage.SetActive(false);
+                    m_CountDownImage.gameObject.SetActive(false);
 
                     if (BackgroundMusicStarter.Instance)
                     {

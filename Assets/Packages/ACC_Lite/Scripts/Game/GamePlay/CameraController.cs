@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
 			return;
 		}
 
-		CamerasPreset.ForEach (c => c.CameraHolder.SetActive (false));
+		CamerasPreset.ForEach (c => c.CameraHolder.gameObject.SetActive (false));
 
 		UpdateActiveCamera();
 
@@ -93,11 +93,11 @@ public class CameraController : MonoBehaviour
 	{
 		if (ActivePreset != null)
 		{
-			ActivePreset.CameraHolder.SetActive (false);
+			ActivePreset.CameraHolder.gameObject.SetActive (false);
 		}
 
 		ActivePreset = CamerasPreset[ActivePresetIndex];
-		ActivePreset.CameraHolder.SetActive (true);
+		ActivePreset.CameraHolder.gameObject.SetActive (true);
 
 		SqrMinDistance = ActivePreset.MinDistanceForRotation;
 

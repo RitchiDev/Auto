@@ -33,7 +33,7 @@ public class MiniMapItem : MonoBehaviour
             {
                 if(!m_OutOfRangeIcon.gameObject.activeInHierarchy)
                 {
-                    m_OutOfRangeIcon.SetActive(true);
+                    m_OutOfRangeIcon.gameObject.SetActive(true);
                 }
             }
 
@@ -41,7 +41,7 @@ public class MiniMapItem : MonoBehaviour
             {
                 if(m_DefaultIcon.gameObject.activeInHierarchy)
                 {
-                    m_DefaultIcon.SetActive(false);
+                    m_DefaultIcon.gameObject.SetActive(false);
                 }
             }
         }
@@ -51,7 +51,7 @@ public class MiniMapItem : MonoBehaviour
             {
                 if(!m_DefaultIcon.gameObject.activeInHierarchy)
                 {
-                    m_DefaultIcon.SetActive(true);
+                    m_DefaultIcon.gameObject.SetActive(true);
                 }
             }
 
@@ -59,7 +59,7 @@ public class MiniMapItem : MonoBehaviour
             {
                 if (m_OutOfRangeIcon.gameObject.activeInHierarchy)
                 {
-                    m_OutOfRangeIcon.SetActive(false);
+                    m_OutOfRangeIcon.gameObject.SetActive(false);
                 }
             }
         }

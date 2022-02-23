@@ -109,7 +109,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
         {
             if(m_RespawnImage)
             {
-                m_RespawnImage.SetActive(false);
+                m_RespawnImage.gameObject.SetActive(false);
             }
 
             return;
@@ -163,7 +163,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
     {
         if (Input.GetKey(m_RespawnKey))
         {
-            m_RespawnImage.SetActive(true);
+            m_RespawnImage.gameObject.SetActive(true);
 
             m_RespawnTimer -= Time.deltaTime;
 
@@ -188,7 +188,7 @@ public class EliminationPlayerController : MonoBehaviourPunCallbacks
 
         if (m_RespawnTimer >= m_MaxRespawnTime)
         {
-            m_RespawnImage.SetActive(false);
+            m_RespawnImage.gameObject.SetActive(false);
         }
     }
 

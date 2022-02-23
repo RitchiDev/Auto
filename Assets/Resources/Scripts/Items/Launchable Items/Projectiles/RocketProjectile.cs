@@ -32,14 +32,14 @@ public class RocketProjectile : Projectile
             return;
         }
 
-        //PhotonView otherPhotonView = other.GetComponent<PhotonView>();
-        //if (otherPhotonView)
-        //{
-        //    if (!otherPhotonView.IsMine)
-        //    {
-        //        return;
-        //    }
-        //}
+        PhotonView otherPhotonView = other.GetComponent<PhotonView>();
+        if (otherPhotonView)
+        {
+            if (otherPhotonView.IsMine)
+            {
+                return;
+            }
+        }
 
         ItemController itemController = other.GetComponent<ItemController>();
         if(InteractingWithItemController(itemController))

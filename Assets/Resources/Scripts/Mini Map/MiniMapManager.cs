@@ -39,7 +39,7 @@ public class MiniMapManager : MonoBehaviour
     {
         for (int i = 0; i < m_Arrows.Count; i++)
         {
-            m_Arrows[i].SetActive(false);
+            m_Arrows[i].gameObject.SetActive(false);
         }
 
         m_Arrows.Clear();
@@ -91,8 +91,11 @@ public class MiniMapManager : MonoBehaviour
         {
             if(m_PlayerTargets[i] == playerTarget)
             {
-                m_Arrows[i].SetActive(false);
-                m_Arrows.RemoveAt(i);
+                if(m_Arrows[i] != null)
+                {
+                    m_Arrows[i].gameObject.SetActive(false);
+                    m_Arrows.RemoveAt(i);
+                }
             }
         }
 

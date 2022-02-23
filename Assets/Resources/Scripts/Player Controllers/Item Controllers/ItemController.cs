@@ -158,7 +158,7 @@ public class ItemController : MonoBehaviourPunCallbacks
             //Debug.Log(m_PlayerController.Player);
             item.SetOwner(m_PlayerController.Owner, this);
 
-            item.SetActive(false);
+            item.gameObject.SetActive(false);
             item.transform.SetParent(m_ItemHolder.transform);
 
             m_Items.Add(item);
@@ -291,7 +291,7 @@ public class ItemController : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < m_Items.Count; i++)
         {
-            m_Items[i].SetActive(false);
+            m_Items[i].gameObject.SetActive(false);
         }
 
         SetStunned(false);
@@ -390,7 +390,7 @@ public class ItemController : MonoBehaviourPunCallbacks
         {
             if (m_Items[i].ItemData.ItemType == Item.Type.shieldAura)
             {
-                m_Items[i].SetActive(false);
+                m_Items[i].gameObject.SetActive(false);
                 m_IsShielded = false;
 
                 Debug.Log("Shield removed");
@@ -466,7 +466,7 @@ public class ItemController : MonoBehaviourPunCallbacks
                 {
                     if (m_Items[i].ItemData.ItemType == Item.Type.shieldAura)
                     {
-                        m_Items[i].SetActive(false);
+                        m_Items[i].gameObject.SetActive(false);
                         m_IsShielded = false;
                         break;
                     }

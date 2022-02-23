@@ -29,11 +29,6 @@ public abstract class Item : MonoBehaviour
 
     public abstract void Use();
 
-    public virtual void SetOwner(Player owner)
-    {
-        m_Owner = owner;
-    }
-
     public virtual void SetOwner(Player owner, ItemController itemController)
     {
         m_Owner = owner;
