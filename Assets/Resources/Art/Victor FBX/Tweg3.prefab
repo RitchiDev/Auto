@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6586620342024571909}
   - component: {fileID: 7838440217055036320}
   - component: {fileID: 5414255362962585450}
+  - component: {fileID: 4883018923913608508}
   m_Layer: 0
   m_Name: Tweg3
   m_TagString: Untagged
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4883018923913608508
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774653628271613631}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8342159127421523248, guid: 20809d88eb160024bb2727e7d147b4ee, type: 3}
